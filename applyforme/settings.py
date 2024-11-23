@@ -252,3 +252,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'applyforme.pk Team <noreply@applyforme.pk>'
 ACCOUNT_UNIQUE_EMAIL = True
+
+# added some tesxt to test git 

@@ -445,13 +445,6 @@ def loginview(request):
 
 from django.shortcuts import get_object_or_404
 
-# def verify_email(request):
-#     token = request.GET.get('token')
-#     profile = get_object_or_404(Profile, bio=token)
-#     user = profile.user
-#     user.is_active = True
-#     user.save()
-    # return HttpResponse(' account is activate')
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.utils.http import urlsafe_base64_decode

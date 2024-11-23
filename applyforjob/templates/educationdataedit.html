@@ -536,7 +536,7 @@
             formData.append("duration",$("#id_duration").val());
             formData.append("docscan",document.getElementById("id_docscan").files[0]);
             var xhr=new XMLHttpRequest();
-            xhr.open("POST","https://applyforme.pk/expcertupload",true);
+            xhr.open("POST","http://127.0.0.1:8000/expcertupload",true);
             xhr.upload.addEventListener("progress",function (ev) {
                if(ev.lengthComputable){
                    var percentage=(ev.loaded/ev.total*100|0);

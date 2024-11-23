@@ -45,7 +45,7 @@
     <div class="card-body form-group" id="documentupload">
      
 
-      <a class='btn btn-primary m-1' href="https://applyforme.pk/education/">Enter data</a><p class='mb-0'>OR</p>
+      <a class='btn btn-primary m-1' href="http://127.0.0.1:8000/education/">Enter data</a><p class='mb-0'>OR</p>
      
       <p>  
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#uploadcv" aria-expanded="false" aria-controls="uploadcv">
@@ -555,7 +555,7 @@ $('#exp_pictitle , #id_duration').keydown(function (e) {
         // alert(formData.bachlor)
 
         var xhr=new XMLHttpRequest();
-        xhr.open("POST","https://applyforme.pk/ajax_file_upload_save",true);
+        xhr.open("POST","http://127.0.0.1:8000/ajax_file_upload_save",true);
         xhr.upload.addEventListener("progress",function (ev) {
            if(ev.lengthComputable){
                var percentage=(ev.loaded/ev.total*100|0);
@@ -564,7 +564,7 @@ $('#exp_pictitle , #id_duration').keydown(function (e) {
                document.getElementById("progress_bar").innerHTML=""+percentage+"%";
                document.getElementById("progress_text").innerHTML="Uploaded : "+parseInt(ev.loaded/1000000)+"/"+parseInt(ev.total/1000000)+" MB";
                if(percentage === 100) {
-                  window.location.href = "https://applyforme.pk/";  }
+                  window.location.href = "http://127.0.0.1:8000/";  }
            }
            
         });
@@ -590,7 +590,7 @@ $('#exp_pictitle , #id_duration').keydown(function (e) {
         // alert(formData.bachlor)
 
         var xhr=new XMLHttpRequest();
-        xhr.open("POST","https://applyforme.pk/ajax_file_upload_save",true);
+        xhr.open("POST","http://127.0.0.1:8000/ajax_file_upload_save",true);
         xhr.upload.addEventListener("progress",function (ev) {
            if(ev.lengthComputable){
                var percentage=(ev.loaded/ev.total*100|0);
@@ -625,7 +625,7 @@ $('#exp_pictitle , #id_duration').keydown(function (e) {
         // alert(formData.bachlor)
 
         var xhr=new XMLHttpRequest();
-        xhr.open("POST","https://applyforme.pk/expcertupload",true);
+        xhr.open("POST","http://127.0.0.1:8000/expcertupload",true);
         xhr.upload.addEventListener("progress",function (ev) {
            if(ev.lengthComputable){
                var percentage=(ev.loaded/ev.total*100|0);

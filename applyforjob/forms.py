@@ -12,8 +12,8 @@ class personalForm(forms.ModelForm):
     class Meta:
         model = personal
         
-        # fields = '__all__'
-        fields = ['full_name','qualific','Dateofbirth','gender','phone_number','get_alerts_by','domicile','address','captcha']
+        fields = '__all__'
+        # fields = ['full_name','qualific','Dateofbirth','gender','phone_number','get_alerts_by','domicile','address','captcha']
         widgets = {
             'gender': forms.RadioSelect,
             'Dateofbirth':DateInput(),

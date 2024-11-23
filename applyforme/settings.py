@@ -243,15 +243,15 @@ STATICFILES_DIRS = [
 
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'onclickapply@gmail.com'
-EMAIL_HOST_PASSWORD ='qecidaomhcavcwaq'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'onclickapply@gmail.com'
+# EMAIL_HOST_PASSWORD ='qecidaomhcavcwaq'
 
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'applyforme.pk Team <noreply@applyforme.pk>'
-ACCOUNT_UNIQUE_EMAIL = True
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = 'applyforme.pk Team <noreply@applyforme.pk>'
+# ACCOUNT_UNIQUE_EMAIL = True
 
 # added some tesxt to test git 
 # added second line 

@@ -346,10 +346,6 @@ def data_varification(request):
   
 
 
-def educationdata(request):
-   
-    return HttpResponse('this idon')
-
 def ajax_file_upload(request):
     try:
          request.user.personal
@@ -650,28 +646,42 @@ def educationdata(request):
          expform=experiencepicsForm(request.POST, request.FILES)
     return render(request,"educationdataedit.html",{'personaldata':personaldata,'matricForm':matricdata,'IntermediateForm':Intermediatedata,'BachlorForm':Bachlordata,'masterForm':masterdata,'mphilForm':mphildata,'doctorialForm':doctorialdata,'expform':expform})
     # return render(request,"education-details.html",{'personaldata':personaldata,'matricForm':matricdata,'IntermediateForm':Intermediatedata,'BachlorForm':Bachlordata,'masterForm':masterdata,'mphilForm':mphildata,'doctorialForm':doctorialdata,'expform':expform})
-def personaldata(request):
-    if request.method == 'GET':
-        try:
-            personal.objects.get(user=request.user)
-            already=personal.objects.get(user=request.user)
-            form = personalallForm(request.GET or None, instance = already)
-            if form.is_valid():
-                form.save()
-                que=strip_tags(request.GET.get('qualific'))
-                category=education_category.objects.get(id=que)
-                educationcategory=category.year_of
-                
-                return JsonResponse({'status':'personal data updated','educationcategory':educationcategory}) 
-            return JsonResponse({'status':'not valid data'}) 
-        except:
-            form=personalallForm(request.GET)
-            if form.is_valid():
-                instance = form.save(commit = False)
-                instance.user=request.user
-                instance.save()
-            return JsonResponse({'status':'saved'}) 
+from django.views.decorators.csrf import ensure_csrf_cookie
 
+@ensure_csrf_cookie  # Ensures the CSRF token is set in cookies for AJAX requests
+def personaldata(request):
+    if request.method == 'POST':  # Use POST for data submission
+        try:
+            # Check if user already has data
+            personal_instance = personal.objects.filter(user=request.user).first()
+            form = personalallForm(request.POST or None, instance=personal_instance)
+
+            if form.is_valid():
+                instance = form.save(commit=False)
+                if not personal_instance:
+                    instance.user = request.user  # Assign user for new entries
+                instance.save()
+
+                # Handle additional logic for `qualific` field
+                que = request.POST.get('qualific')
+                print('Qualific ID:', que)
+                try:
+                    category = education_category.objects.get(id=que)
+                    educationcategory = category.year_of
+                except education_category.DoesNotExist:
+                    return JsonResponse({'status': 'Invalid qualific ID', 'errors': {'qualific': 'Invalid education category'}})
+
+                return JsonResponse({'status': 'personal data updated', 'educationcategory': educationcategory})
+
+            # Return form validation errors
+            print('Form is not valid. Errors:', form.errors)
+            return JsonResponse({'status': 'not valid data', 'form_errors': form.errors})
+
+        except Exception as e:
+            print('Exception occurred:', str(e))
+            return JsonResponse({'status': 'error', 'message': 'An error occurred', 'details': str(e)})
+
+    return JsonResponse({'status': 'invalid request', 'message': 'Only POST requests are allowed'})
 
 
 def matricdata(request):

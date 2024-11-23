@@ -84,21 +84,23 @@ def filtervalue(request):
         return render(request, 'filtered.html')
 
 def jobdetail(request,slug):
+    detailjob = get_object_or_404(currentjobs.objects.prefetch_related('details'), slug=slug)
+    return render(request, 'jobdetail.html', {'detailjob': detailjob})
 
-    # jobid=currentjobs.objects.get(slug=slug).id
-    # detailjob=postdetail.objects.filter(job_title_id=jobid).values_list()
-    # default 9.97 ms (39 queries including 32 similar and 18 duplicates )
+    # # jobid=currentjobs.objects.get(slug=slug).id
+    # # detailjob=postdetail.objects.filter(job_title_id=jobid).values_list()
+    # # default 9.97 ms (39 queries including 32 similar and 18 duplicates )
 
-    # detailjob=postdetail.objects.select_related('job_title').filter(slug=slug)
-    # detailjob=currentjobs.objects.filter(slug=slug).prefetch_related()
-    detailjob=currentjobs.objects.filter(slug=slug)
-    # default 20.00 ms (39 queries including 32 similar and 18 duplicates )
-    # print(detailjob)
-    # print(dir(postdet.qualific_more.prefetch_related))
-    # print(postdet.qualific_more.all())
-    # print(dir(postdet))
-    # print(jod)
-    return render(request, 'jobdetail.html',{'detailjob':detailjob})
+    # # detailjob=postdetail.objects.select_related('job_title').filter(slug=slug)
+    # # detailjob=currentjobs.objects.filter(slug=slug).prefetch_related()
+    # detailjob=currentjobs.objects.filter(slug=slug)
+    # # default 20.00 ms (39 queries including 32 similar and 18 duplicates )
+    # # print(detailjob)
+    # # print(dir(postdet.qualific_more.prefetch_related))
+    # # print(postdet.qualific_more.all())
+    # # print(dir(postdet))
+    # # print(jod)
+    # return render(request, 'jobdetail.html',{'detailjob':detailjob})
 
 from django.contrib.auth.decorators import login_required, permission_required
 @login_required

@@ -1,0 +1,965 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} Administrators{% endblock title %}
+{% block meta %}   {% load crispy_forms_tags %}    {% endblock meta %}
+
+{% load customtags %}
+
+
+{% block content %} 
+
+<div class="container" style="text-align: center;">
+    <form action="" method=POST>
+        {% csrf_token %}
+        <label for="username">Enter user name</label><br>
+        <input type="text" id="username" name="username"><br>
+      <input type="button" value="submit">
+      </form>
+    </div>
+
+<div class="container">{% for i in person %}
+    <div class="row">
+        <div class="col">
+        
+            <div class="card" style="width: auto;">
+                <div class="card-body">
+                  <h2 class="card-title">{{i.personal.full_name}}</h2>
+                  <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+                  <p class="card-text">{{i.personal.address}}</p>
+                  {% if i.personal.phone_number %}
+                  <p style="margin-bottom:0rem;" class="card-link"><strong>Phone# </strong>{{i.personal.phone_number}}</p>
+                  {% endif  %}
+                  {% if i.email %}
+                  <p style="margin-left:0rem;margin-bottom:0rem;" class="card-link "><strong>Email:</strong>:{{i.email}}</p>
+                  {% endif %}
+                </div>
+              </div>
+            
+        </div>
+        {% if i.documentpics.picture%}
+        <div class="col">
+            <img src="{{i.documentpics.picture.url}}" alt="..."  class="rounded float-right" style="width: 200px;height: 200px;">
+        </div>
+        {% endif%}
+      </div>
+      <hr>
+
+      <!-- i.personal info -->
+
+
+ 
+
+
+   
+      <h1>Personal details</h1>
+     
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>full_name</td>
+            <td>{{i.personal.full_name}}</td>
+           
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Father name</td>
+            <td>{{i.personal.father_name}}</td>
+           
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Education</td>
+            <td>{{i.personal.qualific}}</td>
+           
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>cnic</td>
+            <td>{{i.personal.cnic_number}}</td>
+           
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>father cnic</td>
+            <td>{{i.personal.father_cnic}}</td>
+          </tr>
+          <tr>
+            <th scope="row">6</th>
+            <td>Dateofbirth</td>
+            <td>{{i.personal.Dateofbirth}}</td>
+          </tr>
+          <tr>
+            <th scope="row">7</th>
+            <td>gender</td>
+            <td>{{i.personal.gender}}</td>
+          </tr>
+          <tr>
+            <th scope="row">8</th>
+            <td>phone_number</td>
+            <td>{{i.personal.phone_number}}</td>
+          </tr>
+          
+          <tr>
+            <th scope="row">9</th>
+            <td>Religion</td>
+            <td>islam</td>
+          </tr>
+          <tr>
+            <th scope="row">10</th>
+            <td>sect</td>
+            <td>sect</td>
+          </tr>
+          <tr>
+            <th scope="row">11</th>
+            <td>Create date</td>
+            <td>{{i.personal.create_date}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    <hr>
+    <!-- education -->
+    <h1>Matric</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">board</th>
+            <th scope="col">marks</th>
+            <th scope="col">total_marks</th>
+            <th scope="col">result_date</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>{{i.matric.title}}</td>
+              <td> {{i.matric.board}}</td>
+              <td>{{i.matric.marks}}</td>
+              <td>{{i.matric.total_marks}}</td>
+              <td>{{i.matric.result_date}}</td>
+            </tr>
+           
+  
+        </tbody>
+      </table>
+     
+      <hr>
+      <h1>Intermediate</h1>
+          <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">board</th>
+            <th scope="col">marks</th>
+            <th scope="col">total_marks</th>
+            <th scope="col">result_date</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <th scope="row">#</th>
+              <td>{{i.intermediate.title}}</td>
+              <td> {{i.intermediate.board}}</td>
+              <td>{{i.intermediate.marks}}</td>
+              <td>{{i.intermediate.total_marks}}</td>
+              <td>{{i.intermediate.result_date}}</td>
+            </tr>
+           
+  
+        </tbody>
+      </table>
+
+      <hr>
+      <h1>Bachlor</h1>
+          <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">board</th>
+            <th scope="col">marks</th>
+            <th scope="col">total_marks</th>
+            <th scope="col">result_date</th>
+          </tr>
+        </thead>
+        <tbody>
+           
+          <tr>
+            <th scope="row">Bachlor</th>
+            <td>{{i.bachlor.title}}</td>
+            <td> {{i.bachlor.board}}</td>
+            <td>{{i.bachlor.marks}}</td>
+            <td>{{i.bachlor.total_marks}}</td>
+            <td>{{i.bachlor.result_date}}</td>
+          </tr>
+         
+        </tbody>
+      </table>
+
+      <hr>
+    
+   
+      <h1>Master</h1>
+          <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">University</th>
+            <th scope="col">Cgp/Marks</th>
+            <th scope="col">Total cgpa/marks</th>
+            <th scope="col">result_date</th>
+          </tr>
+        </thead>
+        <tbody>
+           
+            <tr>
+              <th scope="row">1</th>
+              <td>{{i.master.title}}</td>
+              <td> {{i.master.board}}</td>
+              <td>{{i.master.marks}}</td>
+              <td>{{i.master.total_marks}}</td>
+              <td>{{i.master.result_date}}</td>
+            </tr>
+            
+  
+        </tbody>
+      </table>
+
+      <hr>
+    
+      <h1>MPHIL</h1>
+          <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">University</th>
+            <th scope="col">Cgp/Marks</th>
+            <th scope="col">Total cgpa/marks</th>
+            <th scope="col">result_date</th>
+          </tr>
+        </thead>
+        <tbody>
+           
+            <tr>
+              <th scope="row">1</th>
+              <td>{{i.mphil.title}}</td>
+              <td> {{i.mphil.university}}</td>
+              <td>{{i.mphil.cgpa}}</td>
+              <td>{{i.mphil.total_cgpa}}</td>
+              <td>{{i.mphil.result_date}}</td>
+            </tr>
+           
+  
+        </tbody>
+      </table>
+
+      <hr>
+     
+      <h1>Phd</h1>
+          <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">doctor</th>
+            <th scope="col">title</th>
+            <th scope="col">University</th>
+            <th scope="col">Cgp/Marks</th>
+            <th scope="col">Total cgpa/marks</th>
+            <th scope="col">result_date</th>
+        </thead>
+        <tbody>
+         <tr>
+              <th scope="row">1</th>
+              <td>{{i.doctorial.title}}</td>
+              <td> {{i.doctorial.university}}</td>
+              <td>{{i.doctorial.cgpa}}</td>
+              <td>{{i.doctorial.total_cgpa}}</td>
+              <td>{{i.doctorial.result_date}}</td>
+            </tr>
+            
+  
+        </tbody>
+      </table>
+<hr>
+
+     
+
+
+</div>
+
+
+
+
+
+
+
+<!-- end form -->
+<div class="container">
+{% for i in person %}
+{{i.personal.full_name}}
+{{i.personal.Dateofbirth}}
+{{i.personal.father_name}}
+{{i.personal.address}}
+{{i.personal.qualific}}
+{{i.personal.gender}}
+{{i.personal.phone_number}}
+{{i.personal.cnic_number}}
+{{i.personal.father_cnic}}
+</div>
+<hr>
+<div class="container">
+    {{i.matric.title}}
+    {{i.matric.board}}
+    {{i.matric.marks}}
+
+    <hr>
+    {{i.matric.total_marks}}
+    {{i.matric.result_date}}
+    {{i.Intermediate.title}}
+    {{i.Intermediate.board}}
+    {{i.Intermediate.marks}}
+    {{i.Intermediate.total_marks}}
+    {{i.Intermediate.result_date}}
+    <hr>
+    {{i.Bachlor.title}}
+    {{i.Bachlor.board}}
+    {{i.Bachlor.marks}}
+    {{i.Bachlor.total_marks}}
+    {{i.Bachlor.result_date}}
+    <hr>
+    {{i.master.title}}
+    {{i.master.board}}
+    {{i.master.marks}}
+    {{i.master.total_marks}}
+    {{i.master.result_date}}
+    <hr>
+    {{i.mphil.title}}
+    {{i.mphil.university}}
+    {{i.mphil.cgpa}}
+    {{i.mphil.total_cgpa}}
+    {{i.mphil.result_date}}
+    <hr>
+    {{i.doctorial.title}}
+    {{i.doctorial.university}}
+    {{i.doctorial.cgpa}}
+    {{i.doctorial.total_cgpa}}
+    {{i.doctorial.result_date}}
+</div>
+<div class="container">
+
+  <p>
+    <a class="btn btn-primary" data-toggle="collapse" href="#userdocuments" role="button" aria-expanded="false" aria-controls="userdocuments">User Documents <i class="fas fa-chevron-circle-down"></i></a>
+     </p>
+ 
+
+
+  <div class="row">
+    <div class="col">
+      <div class="collapse multi-collapse" id="userdocuments">
+        <div class="card card-body">
+{% if i.documentpics.upload_cv %}
+<a href="{{ i.documentpics.upload_cv.url }}" style='color:blue'target="_blank"><i class="fas fa-eye"></i> CV in pdf file;</a>
+<img src="{{i.documentpics.upload_cv.url}}" alt=".." width="auto" height="auto">
+{%endif%} 
+
+    {% if i.documentpics.picture %}
+<img src="{{i.documentpics.picture.url}}" alt=".." width="500" height="600">
+{%endif%}{% if i.documentpics.matric %}
+<img src="{{i.documentpics.matric.url}}" alt=".." width="500" height="600">
+{%endif%}{% if i.documentpics.inter %}
+<img src="{{i.documentpics.inter.url}}" alt=".." width="500" height="600">
+{%endif%}{% if i.documentpics.bachlor %}
+<img src="{{i.documentpics.bachlor.url}}" alt=".." width="500" height="600">
+{%endif%}{% if i.documentpics.master %}
+<img src="{{i.documentpics.master.url}}" alt=".." width="500" height="600">
+{%endif%}{% if i.documentpics.doctor%}
+<img src="{{i.documentpics.doctor.url}}" alt=".." width="500" height="600">
+{%endif%}{% if i.documentpics.cnic_front%}
+<img src="{{i.documentpics.cnic_front.url}}" alt=".." width="500" height="600">
+{%endif%}{% if i.documentpics.cnic_back%}
+<img src="{{i.documentpics.cnic_back.url}}" alt=".." width="500" height="600">
+{%endif%}{% if i.documentpics.Father_cnic%}
+<img src="{{i.documentpics.Father_cnic.url}}" alt=".." width="500" height="600">
+{%endif%}
+
+</div></div></div></div>
+
+<hr>
+
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#experiencepics" role="button" aria-expanded="false" aria-controls="experiencepics">User Experiences <i class="fas fa-chevron-circle-down"></i></a>
+   </p>
+
+<div class="row">
+  <div class="col">
+    <div class="collapse multi-collapse" id="experiencepics">
+      <div class="card card-body">
+{% for experiencepics in i.experiencepics_set.all %}
+
+<div class="card text-left">
+  {% if experiencepics.docscan %}
+  <img class="card-img-top" src="{{experiencepics.docscan.url}}" alt="">
+  {%endif%}
+  <div class="card-body">
+    <h4 class="card-title">title: {{experiencepics.title}}</h4>
+    <p class="card-text">Duration: {{experiencepics.duration}}</p>
+    <footer>added: {{experiencepics.timestamp}}</footer>
+  </div>
+</div>
+{% endfor %}
+
+
+
+</div></div></div></div>
+<hr>
+<!-- user account -->
+
+<div class="alert alert-secondary" role="alert">
+
+<h2>{{i.username }} account status</h2>
+<button type="button" class="btn btn-primary">account management:{{i.billing.accountmanagement}}</button>
+<button type="button" class="btn btn-secondary">loan:{{i.billing.userloan}}</button>
+<button type="button" class="btn btn-success"> trust:{{i.billing.trusted}}</button>
+<button type="button" class="btn btn-success"> loan status:{{i.billing.loancleared}}</button>
+<button type="button" class="btn btn-success"> user last payed:{{i.billing.userlastpayment}}</button>
+<button type="button" class="btn btn-success">  {{i.billing.timestamp}}</button>
+<button type="button" class="btn btn-success"> current balance:{{i.billing.accountmanagement}}</button>
+</div>
+<!-- user account history -->
+
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#useraccounthistory" role="button" aria-expanded="false" aria-controls="useraccounthistory">User account history <i class="fas fa-chevron-circle-down"></i></a>
+   </p>
+  <div class="row">
+    <div class="col">
+      <div class="collapse multi-collapse" id="useraccounthistory">
+        <div class="card card-body">
+       
+
+
+
+<div class="container">
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Date</th>
+          <th scope="col">Action</th>
+          <th scope="col">dabit</th>
+          <th scope="col">Credit</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for i in result_list%}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{i.timestamp}}</td>
+          <td>{% if i.post %}{{i.appliedtojob.post_name}} applied {% endif %}  
+              {% if i.payment_adding %} Balance added {% endif %}  </td>
+          <td>{{i.appliedtojob.total_cost}}</td>
+          <td>{{i.payment_adding}}</td>
+          <td>{{i.billing.accountmanagement}}</td>
+        </tr>
+      
+       
+       {% endfor %}
+       
+
+      </tbody>
+     
+    </table>
+    <h3 >Current balance: Rs.{{i.billing.accountmanagement}}</h3>   
+</div>
+</div> 
+
+ </div>
+</div>
+</div>
+
+
+<!-- user account history -->
+
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#userweb" role="button" aria-expanded="false" aria-controls="userweb"><i class="fas fa-plus-circle"></i> Add user web records</a>
+  </p>
+<div class="row">
+  <div class="col">
+    <div class="collapse multi-collapse" id="userweb">
+      <div class="card card-body">
+     
+<div class="container">
+  <!-- user website records -->
+  <form enctype="multipart/form-data" id="id_ajax_upload_form" method="POST" novalidate="">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type='hidden' name="thisuser" value="{{i.username}}">
+  <input type="submit" />
+  </form>
+  
+  </div>  </div>
+    </div>
+  </div>
+  
+</div>
+
+<!-- show user web record -->
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#userrecord" role="button" aria-expanded="false" aria-controls="userrecord"> user website registeration records</a>
+  </p>
+<div class="collapse multi-collapse" id="userrecord">
+  <div class="card card-body">
+ 
+
+
+
+<div class="container">
+<table class="table">
+<thead>
+  <tr>
+   
+    <th scope="col">Date</th>
+    <th scope="col">Web_name</th>
+    <th scope="col">web_pass</th>
+    <th scope="col">updated</th>
+    <th scope="col">pictur</th>
+  </tr>
+</thead>
+<tbody>
+    {% for userwebrecord in i.userwebrecord_set.all %}
+  <tr>
+   
+    <td>{{userwebrecord.timestamp}}</td>
+    <td>{{userwebrecord.web_name}} </td>
+    <td>{{userwebrecord.web_pass}}</td>
+    <td>{{userwebrecord.reg_date}}</td>
+    <td>{{userwebrecord.pictur}}</td>
+  </tr>
+
+ 
+ {% endfor %}
+ 
+
+</tbody>
+
+</table>
+</div>
+</div>
+</div>
+
+
+{{appliedjobs2Form}}
+
+
+<hr>
+<!-- applied jobs -->
+{% for k in i.appliedjobs_set.all %}
+<div class="card mb-1">
+  <h5 class="card-header">Applied to :{{k.appliedtojob}}, in : {{k.appliedtojob.job_title}} , last date:{{k.appliedtojob.job_title.lastdate}} and fee:{{k.appliedtojob.total_cost}} </h5>  
+  {% if k.appliedtojob.cropedad %}
+  <img id="{{k.appliedtojob.id}}" style="z-index: auto; position: relative;width:auto; border: 2px solid #555; " class="adpic" src="{{k.appliedtojob.cropedad.url}}" alt="sans" onclick="enlargeImg(this.id)" ondblclick="maxzoom(this.id)" onmouseleave="resetImg(this.id)"  > 
+<!-- <p style='color:blue; padding-bottom:0px'>Double click on image to zoom</p> -->
+ {% endif %}
+
+
+ 
+  <div class="card-body">
+    <div class="col bill">
+      <div class="container" style='border: 3px dotted rgba(0,0,0,0.91);
+      background-color:#e1d8bd; width:fit-content;'>
+
+    <table>
+      job#:<span id="job_id">{{k.appliedtojob.id}}</span>
+      <thead>
+
+          <tr>
+              <th class="quantity">Q.</th>
+              <th class="description">Purpose</th>
+              <th class="price">Cost</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td class="quantity">1</td>
+              <td class="description">Bank slip fee</td>
+              <td class="price">{{k.appliedtojob.bankfee}}</td>
+          </tr>
+          <tr>
+              <td class="quantity">2</td>
+              <td class="description">Registeration fee</td>
+              <td class="price">{{k.appliedtojob.service_fee}}</td>
+          </tr>
+          <tr>
+              <td class="quantity">3</td>
+              <td class="description">Posting cost</td>
+              <td class="price">{{k.appliedtojob.posting_fee}}</td>
+          </tr>
+          <tr>
+              <td class="quantity">4</td>
+              <td class="description">Photocopies cost</td>
+              <td class="price">{{k.appliedtojob.photocopies}}</td>
+          </tr>
+          <tr>
+              <td class="quantity"></td>
+              <td class="description">TOTAL</td>
+              <td class="price">{{k.appliedtojob.total_cost}}</td>
+          </tr>
+      </tbody>
+  </table>
+  </div>
+    <div class="row">
+      <div class="col">
+        <h5 class="card-title">Post:{{k.post}}, Applied date:{{k.timestamp}}</h5>
+        <h5 class="card-title">Bank slip {{k.bankfeedepositslip}}</h5>
+        <p class="card-text"> <br>
+          job status:{{k.alldone}}</p>
+     
+          {% for jobsteps in k.jobstepsreplies_set.all %}
+          <p class="card-text"><i class="fas fa-check"></i>{{jobsteps.steps}} </p>
+          {% endfor %}
+
+          <!-- for steps form  -->
+          <div class="input-group mb-3">
+                <input type="text"  id='{{k.slug}}-steps' class="form-control" placeholder="update job status" aria-label="" aria-describedby="basic-addon2">
+                <div  class="input-group-append">
+                <button class="btn btn-outline-secondary" onClick="stepstatus('{{k.slug}}')" type="button">status</button>
+              </div>
+          </div>
+
+
+    </div>
+
+
+      <div class="col">
+              <button class="btn btn-primary m-1" type="button" data-toggle="collapse" data-target="#{{k.appliedtojob.id}}-f" aria-expanded="false" aria-controls="collapseExample">
+                Procedure
+              </button>
+            {% if k.appliedtojob.job_title.adpic %}
+              <a href="{{k.appliedtojob.job_title.adpic.url}}"target="_blank"><button class="btn btn-secondary m-1">see advertisement</button></a> 
+        
+              {% endif %}
+            {% if k.appliedtojob.job_title.full_add %}
+              <a href="{{k.appliedtojob.job_title.full_add.url}}"target="_blank"><button class="btn btn-secondary m-1">see full_advertisement</button></a> 
+        
+              {% endif %}
+                                    
+              <button id="{{i.id}}" onClick="reply_click(this.id,'{{k.slug}}')" class="btn btn-secondary m-1"> job status:{{i.id|applystatus:k.slug}}
+                                    
+            </button>
+          <div class="collapse" id="{{k.appliedtojob.id}}-f">
+            <div class="card card-body">
+              {{k.appliedtojob.procedure|safe}}
+            </div>
+          </div>
+
+
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{k.slug}}-form" aria-expanded="false" aria-controls="collapseExample">
+            Upload user slips 
+          </button>
+        </p>
+        <div class="collapse" id="{{k.slug}}-form">
+          <div class="card card-body">
+        
+            <form enctype="multipart/form-data"  class="userrecordform" method="POST" novalidate="">
+              {% csrf_token %}
+              {{ userrecordform.as_p }}
+              <input type='hidden' name="jobid" value="{{k.slug}}">
+              <input type="submit"/>
+              </form>
+        
+        
+          </div>
+        </div>
+
+          
+            
+
+
+
+          <!-- for more info -->
+          <div class="input-group mb-3">
+            <input type="text"  id='{{k.slug}}-moreinfo' class="form-control" placeholder="I want to ask " aria-label="" aria-describedby="basic-addon2">
+           <div  class="input-group-append">
+              <button class="btn btn-outline-secondary" onClick="asking('{{i.id}}','{{k.slug}}')" type="button">Send</button>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{k.slug}}-userreply" aria-expanded="false" aria-controls="collapseExample">
+            User replies <i class="fas fa-chevron-circle-down"></i>
+          </button>
+        </p>
+        <div class="collapse" id="{{k.slug}}-userreply">
+          <div class="card card-body">
+            {% for askingquestion in k.askingquestion_set.all %}
+            {% for userreply in askingquestion.userreply_set.all|dictsortreversed:"timestamp" %}
+            <div class="alert alert-secondary" role="alert"> {{userreply.userreply}} 
+              <footer>{{userreply.timestamp}}</footer>
+            </div>
+            {% endfor %}
+      {% endfor %} </div>
+        </div>
+
+ <p> 
+           <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{k.slug}}-askedtouser" aria-expanded="false" aria-controls="collapseExample">
+           Question asked to user 
+          </button>
+        </p>
+        <div class="collapse" id="{{k.slug}}-askedtouser">
+          <div class="card card-body">
+            {% for askingquestion in k.askingquestion_set.all|dictsortreversed:"timestamp" %}
+            <div class="alert alert-secondary" role="alert"> {{askingquestion.whattoask|safe}} 
+              {% if askingquestion.read %} <i class="fa fa-envelope-open" aria-hidden="true"></i>{%else%}<i class="fa fa-envelope" aria-hidden="true"></i>{% endif %}
+              <footer>{{askingquestion.timestamp}}</footer>
+            </div>
+          
+      {% endfor %} </div>
+        </div>
+
+        
+         
+
+
+
+
+
+
+    </div>
+    </div>
+   </div>
+ 
+</div>
+
+
+
+{% endfor %}
+
+
+
+
+
+
+<!-- <div class="container">
+    <h3>user billing </h3>
+    {{i.billing.userbalance}}
+    {{i.billing.accountmanagement}}
+    {{i.billing.userloan}}
+    {{i.billing.userlastpayment}}
+    {{i.billing.timestamp}}
+    {{i.billing.trusted}}
+    {{i.billing.loancleared}}
+  
+</div> -->
+
+<div class="container">
+    <h3>more info asked for specific job and user replied</h3>
+     {% for k in i.moreinfo_set.all %}
+    {{k.detailprovided}}:detailprovided <br>
+    {{k.extradocument}}:extradocument <br>
+    {{k.timestamp}}:timestamp <br>
+    {{k.relatedtojob}}:relatedtojob <br>
+    {{k.intertained}}:intertained <br>
+    {{k.trusted}}:trusted <br>
+    {% endfor %}
+</div>
+
+<div class="container">
+    <div class="alert alert-warning">
+  <strong>Please!</strong> My data is wrong at some point, please correct this.
+</div>
+    {% for k in i.mistakes_set.all %}
+    <p>mistake is : {{k.mistake}} <br>
+    Set to : {{k.mistake_sol}} <br>
+    reported at :{{k.timestamp}} <br>
+    </p> <h3 class='btn-primary'>Now status: {{k.solved}} <br></h3>
+    {% endfor %}
+</div>
+
+{% endfor %}
+
+{% endfor %}
+
+</div>
+
+
+
+
+   <script>
+   function reply_click(clicked_id,value)
+  {
+      var userid=clicked_id
+      var value=value
+      // alert(userid)
+
+      $.ajax(
+    {
+        type:"GET",
+        url: "/staff/startingreg",
+        data:{
+          userid: userid,
+          value: value
+        },
+        success: function( data ) 
+        {
+          if (data.status=='registeration proccess started'){
+            $("#userid").html("Registeration started");
+            alert('Registeration started');
+          }
+         
+        }
+     })
+      
+  }
+
+
+
+   function stepstatus(jobslug)
+  {
+      var jobslug=jobslug
+      var steptaken=document.getElementById(jobslug+'-steps').value 
+      
+
+      $.ajax(
+    {
+        type:"GET",
+        url: "/staff/steptaken",
+        data:{
+          jobslug: jobslug,
+          steptaken: steptaken
+        },
+        success: function( data ) 
+        {
+          if (data.status=='step saved'){
+            var steptaken=document.getElementById(jobslug+'-steps').text('');
+            alert('step updated');
+          }
+         
+        }
+     })
+      
+  }
+
+  // ask to user
+  
+   function asking(userid,jobslug)
+  {
+      var userid=userid
+      var jobslug=jobslug
+
+      var askq=document.getElementById(jobslug+'-moreinfo').value 
+      // alert(askq)
+      // type="file"
+  
+      $.ajax(
+    {
+        type:"GET",
+        url: "/staff/asking",
+        data:{
+          userid: userid,
+          jobslug: jobslug,
+          askq: askq
+        },
+        success: function( data ) 
+        {
+          if (data.status==''){
+            $("#userid").html("Registeration started");
+            alert('question asked....')
+          }
+         
+        }
+     })
+      
+  }
+  
+
+   </script>
+   <scriptsrc="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <script type="text/javascript">
+   // form upload
+   $('#id_ajax_upload_form').submit(function(e){
+        e.preventDefault();
+        $form = $(this)
+        var formData = new FormData(this);
+        // console.log(formData)
+      
+        $.ajax({
+            url: '/staff/userweb/',
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                $('.error').remove();
+                alert('userweb record done');
+                if(response.error){
+                    $.each(response.errors, function(name, error){
+                        error = '<small class="text-muted error">' + error + '</small>'
+                        $form.find('[name=' + name + ']').after(error);
+                    })
+                }
+                else{
+                    alert(response.message)
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+
+
+    $('.userrecordform').submit(function(e){
+      e.preventDefault();
+        $form = $(this)
+        var formData = new FormData(this);
+        // var job_id = $(this).find('input[name="jobid"]').val();
+        // alert(job_id)
+        console.log(formData)
+        $.ajax({
+            url: '/staff/slipsupload/',
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                $('.error').remove();
+                alert('user record updated');
+                // console.log(response)
+                if(response.error){
+                    $.each(response.errors, function(name, error){
+                        error = '<small class="text-muted error">' + error + '</small>'
+                        $form.find('[name=' + name + ']').after(error);
+                    }) 
+                }
+                else{
+                    alert(response.message);
+                  
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        }); 
+  
+   
+
+</script>
+   
+
+
+
+
+{% endblock %}
+

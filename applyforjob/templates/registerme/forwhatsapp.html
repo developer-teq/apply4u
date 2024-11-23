@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+
+
+{%block title %}forwhatsapp{% endblock title %}
+{% block meta %}      {% endblock meta %}
+
+
+
+{%block content %}
+<div class="container">
+<h1>10YEAR</h1>
+<hr>
+<ol>
+
+    {% for tenyear in tenyear %}
+    <li>{{tenyear.post_name}} in {{tenyear.job_title.jobtitle}};Education :{% for k in tenyear.qualification_req.all %}{{k.education}},{% endfor %} last date:{{tenyear.job_title.lastdate}} </li>
+    {% endfor%}
+  
+</ol>
+
+<h1>12YEAR</h1>
+<hr>
+<ol>
+    {% for towlveyear in towlveyear %}
+   <li>{{towlveyear.post_name}} in {{towlveyear.job_title.jobtitle}};
+ {% for k in towlveyear.qualification_req.all %}{{k.education}},{% endfor %} last date:{{towlveyear.job_title.lastdate}} </li>
+    {% endfor%}
+    apply at applyforme.pk wesite in one click
+</ol>
+<h1>13YEAR</h1>
+<hr>
+<ol>
+{% for therteenyear in therteenyear %}
+<li>{{therteenyear.post_name}} in {{therteenyear.job_title.jobtitle}}; {% for k in therteenyear.qualification_req.all %}{{k.education}},{% endfor %} last date:{{therteenyear.job_title.lastdate}} </li>
+{% endfor%}
+apply at applyforme.pk wesite in one click
+</ol>
+<h1>14YEAR</h1>
+<hr>
+<ol>
+{% for fourteenyear in fourteenyear %}
+<li>{{fourteenyear.post_name}} in {{fourteenyear.job_title.jobtitle}}; {% for k in fourteenyear.qualification_req.all %}{{k.education}},{% endfor %} last date:{{fourteenyear.job_title.lastdate}} </li>
+{% endfor%}
+apply at applyforme.pk wesite in one click
+</ol>
+<h1>16YEAR</h1>
+<hr>
+<ol>
+{% for sixteenyear in sixteenyear %}
+<li>{{sixteenyear.post_name}} in {{sixteenyear.job_title.jobtitle}}; {% for k in sixteenyear.qualification_req.all %}{{k.education}},{% endfor %} last date:{{sixteenyear.job_title.lastdate}} </li>
+{% endfor%}
+apply at applyforme.pk wesite in one click
+
+</ol>
+<h1>18YEAR</h1>
+<hr>
+<ol>
+{% for eighteenyear in eighteenyear %}
+<li>{{eighteenyear.post_name}} in {{eighteenyear.job_title.jobtitle}}; {% for k in eighteenyear.qualification_req.all %}{{k.education}},{% endfor %} last date:{{eighteenyear.job_title.lastdate}} </li>
+{% endfor%}
+apply at applyforme.pk wesite in one click
+
+</ol>
+<h1>21YEAR</h1>
+<hr>
+<ol>
+  {% for twntyoneyear in twntyoneyear %}
+  <li>{{twntyoneyear.post_name}} in {{twntyoneyear.job_title.jobtitle}};{% for k in twntyoneyear.qualification_req.all %}{{k.education}},{% endfor %} last date:{{twntyoneyear.job_title.lastdate}} </li>
+  {% endfor%}
+  apply at applyforme.pk wesite in one click
+</ol>
+</div> 
+
+<hr>
+<hr>
+
+{% endblock %}

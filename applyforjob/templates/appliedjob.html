@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+
+
+
+{%block title %}Applied jobs{% endblock title %}
+{% block meta %}      {% endblock meta %}
+
+{% load customtags %}
+
+{%block content %} 
+{% if detailjob %}
+{% for i in detailjob  %}
+
+<div class="container" style="margin-bottom: 1rem; " >
+    <div class="row">
+            <div class="card">
+              <div class="card-header"><strong>{{i.appliedtojob}} in {{i.appliedtojob.job_title}}</strong></div>
+                <div class="card-body">
+                  
+        <div class="col">
+          <div class="stepper-wrapper">
+            {% for item in i.jobstepsreplies_set.all %}
+            <div class="
+            {% if i.alldone %}
+            stepper-item completed 
+            {% elif forloop.last %}
+            stepper-item active2
+            {% else %}
+            stepper-item completed
+            {% endif %}
+           
+            ">
+              <div class="step-counter"> {% if i.alldone %}<i class="fas fa-check"></i>  {% elif not forloop.last %}<i class="fas fa-check"></i> {% endif %}</div>
+              <div class="step-name">{{item.steps}} </div>
+            </div>
+            {% endfor %}
+          </div>
+        
+         </div>
+                    <div class="row">
+                      
+                        <div class="col-sm-4">
+                            <h5 class="card-title">{{i.appliedtojob}} in {{i.appliedtojob.job_title}}</h5>
+                            <p class="card-text">Applied data:{{i.timestamp}}</p>
+
+                            {% if not i.user.documentpics.matric %}
+                            <p>You have not uploaded your documents pictures yet, <br>So we can not procceed to apply to jobs that require documents hard copies</p>
+                            <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                              <strong>Dear {{i.user}}!</strong> You have not uploaded you documents yet, please upload by 
+                              <a href="{% url 'applyforjob:uploadcv' %}" target="_blank" rel="">this link</a>. 
+                               These will be used only for jobs registerations and for posting purpose.
+                              
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div> -->
+                                     {% else %}
+
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <strong>Thanks for trusting us !</strong> 
+                  we never share your data to anyone, This will be used only for jobs purpose.
+                  
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+          {% endif %}
+                            <!-- <p class="card-text">status:{{i.alldone}}</p>    -->
+                        {% if  request.user|pending:i.appliedtojob.id == 'We contact you soon' %}
+                        <a href="" id="{{i.appliedtojob.id}}"  class="btn btn-secondary unapply m-3">Unapply</a>
+                        {% endif %}
+
+                            <a href="{{ i.get_absolute_url_detail}}"  class="btn btn-secondary m-3 ">Details</a>
+                        </div>
+                     
+                        <div class="col-sm-8 text-right">
+                         
+                        </div>
+                        <a class="alert alert-secondary mt-1" role="alert">{{request.user|pending:i.appliedtojob.id}}</a>
+                         <br>
+                    </div>
+                    
+                   
+
+
+                    {% for askingquestion in i.askingquestion_set.all %}
+                        
+                      {% for userreply in askingquestion.userreply_set.all %}
+                      <div class="container" style="width:50%; text-align: left;">
+                      <div class="alert alert-secondary" role="alert" >{{userreply.userreply}}
+                        <footer>{{userreply.timestamp}}</footer>
+                      </div>
+                    </div> {% endfor %}
+
+                      <div id="{{i.slug}}" class="alert alert-primary" role="alert" style="width: 50%;">
+                        {{askingquestion.whattoask|safe}}
+                        <footer>{{askingquestion.timestamp}}</footer>
+                        <input type="hidden" id="{{i.slug}}-qid" value='{{askingquestion.id}}'>
+                       
+                      </div>
+                        {% endfor %}
+                      <div class="input-group mb-3">
+                        <input id='{{i.slug}}-input' type="text" class="form-control" placeholder="reply" aria-label="" aria-describedby="basic-addon2">
+                          <div  class="input-group-append">
+                          <button class="btn btn-primary" onClick="answering('{{i.slug}}')" type="button">Reply</button>
+                        </div>
+                       </div>
+                       <div class="container m-3">
+                        <a  href="/balance/" type="button" class="btn btn-info">To add balance click here </a>
+                      
+                      </div>
+
+                   
+                    <div class="container">
+                      
+                      {% for appliedcertificates in i.appliedcertificates_set.all %}
+                      <h3>{{appliedcertificates.purpose}}</h3>
+                      {% if  appliedcertificates.depositslip %}
+                      <a href="{{appliedcertificates.depositslip.url}}" style='color:blue'target="_blank"><i class="fas fa-eye"></i> view slip
+                      
+                      <img src="{{appliedcertificates.depositslip.url}}" alt="" width="104" height="142">
+                      </a>
+                      <!-- <a href="{{appliedcertificates.depositslip.url}}" style='color:rgb(12, 12, 12)' download="{{appliedcertificates.depositslip}}"><i class="fas fa-eye"></i> Download slip</a> -->
+                        
+                      {% endif %}
+                     
+                        {% endfor %}
+
+                    </div>
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9974564044883991"
+                    crossorigin="anonymous"></script>
+               <!-- horizontal_add -->
+               <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-9974564044883991"
+                    data-ad-slot="1990655087"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+               <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+               </script>
+
+
+
+            </div>
+           </div>
+        </div>
+    </div>
+
+
+
+
+
+{% endfor%}
+{% else %}
+<div class="container">
+  <h2>You have not applied to any job yet !</h2>
+  <p>We provide step to step details on job process, You have to check our service at least one time,  </p>
+ <p><strong>Following services are provided on this page:</strong><br>
+  <ol>
+    <li>On window live chat</li>
+    <li>Each step progress bar</li>
+    <li>Online registeration slips </li>
+    <li>Applied jobs updates </li>
+    <li>Job specific documents upload, as postoffice slips, bank chalan fee vouchers etc </li>
+    <li>Complete file picture before sending to job specific address </li>
+  
+  </ol>
+</p>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9974564044883991"
+     crossorigin="anonymous"></script>
+<!-- horizontal_add -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9974564044883991"
+     data-ad-slot="1990655087"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+{% endif %}
+
+
+<script>
+      function answering(jobslug)
+  {
+    // job.appliedjobs
+    // extradocument
+    // userreply
+      
+      var jobslug=jobslug
+    //   var extradocument= $("#jobslug input[type=text]").val();
+    //   alert(userid)
+      
+      var answer=document.getElementById(jobslug+'-input').value 
+      var qid=document.getElementById(jobslug+'-qid').value 
+      // alert(job_id)
+      // var job_id = $('#'+jobslug).find('input[type="hidden"]').val();
+      // var answer = $('#'+jobslug).find('input[type="text"]').val();
+    //   var picture = $('#'+jobslug).find('input[type="file"]').val();
+    //   var file  = picture.files;
+      // alert(answer)
+      // alert(job_id)
+      $.ajax(
+    {
+        type:"GET",
+        url: "/answering",
+        data:{
+          qid: qid,
+          answer: answer,
+        
+        },
+        success: function( data ) 
+        {
+          if (data.status=='answer submitted'){
+            alert('Your reply sent, we response soon');
+            flashy('Message sent !', {
+                 type : 'flashy__success'
+                                             });
+            // $('#'+jobslug+'-input').find('input[type="text"]').val('');
+          }
+          else if (data.status="Sorry you can't ask here"){
+
+          flashy("sorry! This applied job is not varified yet, contact after an hour ", {
+                 type : 'flashy__success'
+                                             });
+          
+          }
+         
+        }
+     })
+      
+  }
+  
+
+</script>
+<!-- for step progress bar -->
+<style>
+  .stepper-wrapper {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+}
+
+.stepper-item::before {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: -50%;
+  z-index: 2;
+}
+
+.stepper-item::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 2;
+}
+
+.stepper-item .step-counter {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+  margin-bottom: 6px;
+}
+
+.stepper-item.active2 {
+  font-weight: bold;
+}
+
+.stepper-item.completed .step-counter {
+  background-color: #4bb543;
+}
+
+.stepper-item.completed::after {
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid #4bb543;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 3;
+}
+
+.stepper-item:first-child::before {
+  content: none;
+}
+.stepper-item:last-child::after {
+  content: none;
+}
+</style>
+
+{{ request.user|makeread}}
+
+{% endblock %}
+

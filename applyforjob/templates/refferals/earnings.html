@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} Earning{% endblock title %}
+{% block meta %}      {% endblock meta %}
+
+{%block content %} 
+<div class="container">
+<h3>My refferals </h3>
+<div class="container">
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">name</th>
+            <th scope="col">applied to</th>
+            <th scope="col">cost</th>
+            <th scope="col">20%</th>
+            <th scope="col">job status</th>
+            <th scope="col">balance</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for profile in my_recs %}
+            {% for appliedjobs in profile.user.appliedjobs_set.all %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{appliedjobs.timestamp.date }}</td>
+            <td>{{profile.user}}</td>
+            <td>{{appliedjobs.appliedtojob.post_name }}</td>
+            <td>{{appliedjobs.appliedtojob.service_fee }}</td>
+            <td>{{appliedjobs.appliedtojob.ref_commission }}</td>
+            <td>{{appliedjobs.get_status_display }}</td>
+            <td>{{appliedjobs.get_ref_payment_display }}</td>
+          </tr>
+         
+      
+        </tbody>
+        
+        {% endfor %}
+        {% endfor %}
+        
+      </table>
+      <hr>
+      <button class="btn btn-primary">Apply for cash out</button>
+   
+</div>
+
+
+
+</div>
+<hr>
+
+<div class="container m-3">
+  <a  href="/how_to_earn/" type="button" class="btn btn-info">How to earn ?</a>
+
+</div>
+
+{% endblock %}
+

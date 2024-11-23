@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+
+
+{% load static %}
+{%block title %} jobdetails{% endblock title %}
+{% block meta %}
+{% for i in postdetail %}
+{% if forloop.first %}
+ {% if i.job_title.sectorlogo %}
+<meta property="og:image" content="{{i.job_title.sectorlogo.url}}">
+{% endif %}
+<meta property="og:title" content="Apply {{i.post_name}}">
+<meta property="og:description" content="Don't worry! Our team will do all registerations, so just choose the job">
+<meta name="keywords"content="{{i.job_title.jobtitle}}">
+{% endif %}
+{% endfor%}
+{% endblock meta %}
+
+{%block content %} 
+
+{% load customtags %}
+<div class="container mt-3">
+  {% if alljobs %}
+        <h3>All jobs </h3><br>
+        {% elif myjobs %}
+        <h3> Jobs matching with my Qualifications ({{user.personal.qualific}})</h3>
+        {% elif detailjob %}
+        <h3>filtered jobs by {{filterbyvalue}},{{filterbysector}} and{{filterbyregion}}.</h3>
+        {% else %}
+        <h3></h3>
+        {% endif %}
+
+<hr>
+</div>
+
+{% for item in postdetail %}
+<!-- I Have to show perpost detail  -->
+<div class="container">
+<div class="row">
+  <div class="col-sm-12" style='margin-bottom: 1rem;'>
+      
+      <div class="card">
+          {% if item.cropedad %}
+          <img id="{{item.id}}" style="z-index: auto; position: relative;width:auto;border: 5px solid #555;" class="adpic" src="{{item.cropedad.url}}" alt="sans" onclick="enlargeImg(this.id)" ondblclick="maxzoom(this.id)" onmouseleave="resetImg(this.id)"  > 
+          <p style='color:blue; padding-bottom:0px'>Double click on image to zoom</p>
+          {% endif %}
+          <div class="card-body">
+              <div class="row cardbody">
+                  <div class="col">
+                      <h3 class="card-title">{{item.job_title.jobtitle}}</h3>
+                       <h5 class="card-title">{{item.post_name}}</h5>
+                      <div class="row">
+                              <div class="col">
+                                  <p class="card-text"data-toggle="tooltip" data-placement="top" title="education required for this post"><i class="fas fa-user-graduate"></i><strong> Qualifications: </strong>{% for k in item.qualification_req.all %}
+                                      <span style='font-size:10px; color: white;text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;' class="badge bg-success">{{k}} </span>
+                                     {% endfor %}</p>
+                                
+                                      
+                                        <p class="card-text"><b>Experience:</b> {{item.experience|safe}}</p>
+                                       
+                                        
+                              </div>
+                              <div class="col">
+                                <p class="card-text"><b>Sector:</b> {{item.sector}}</p>
+                                {% if item.min_age %}
+                                <p><strong>Min. Age: </strong>{{item.min_age}} years </p>
+                                {% endif %}
+                                {% if item.max_age %}
+                                  <p><strong>Max.age: </strong>{{item.max_age}}years</p>
+                                  {% endif %}
+                                  <p class="card-text"><b>Last date:</b> {{item.job_title.lastdate}}</p>       
+                                   <p class="card-text"><b>Total posts:</b>{{item.no_of_posts}}</p>
+
+                              </div>
+                              <div class="col bill">
+                                <div class="container" style='border: 3px dotted rgba(0,0,0,0.91);
+                                background-color:#e1d8bd; width:fit-content;'>
+
+
+                                <div class="ticket">   
+                                    <table>
+                                        job#:<span id="job_id">{{item.id}}</span>
+                                        <thead>
+                        
+                                            <tr>
+                                                <th class="quantity">Q.</th>
+                                                <th class="description">Purpose</th>
+                                                <th class="price">Cost</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="quantity">1</td>
+                                                <td class="description">Bank slip fee</td>
+                                                <td class="price">{{item.bankfee}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="quantity">2</td>
+                                                <td class="description">Registeration fee</td>
+                                                <td class="price">{{item.service_fee}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="quantity">3</td>
+                                                <td class="description">Posting cost</td>
+                                                <td class="price">{{item.posting_fee}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="quantity">4</td>
+                                                <td class="description">Photocopies cost</td>
+                                                <td class="price">{{item.photocopies}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="quantity"></td>
+                                                <td class="description">TOTAL</td>
+                                                <td class="price">{{item.total_cost}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                       
+                                </div>
+                            </div>
+
+
+                      </div>
+                    
+ 
+                    </div>
+                    <p class="card-text"><b>Job for male or female: </b> {{item.jobs_for}}</p>
+                                           
+                    <p class="card-text"><strong>Procedure:</strong> {{item.procedure|safe}}</p>
+                </div>
+               
+                       
+
+          <div class="container" style="text-align: center; margin-bottom: 0.5rem;">
+              {% if item.job_title.work == 0 %}
+                         <p style='color:red;'> {{item.job_title.lastdate|timeuntil}} left</p>                  
+
+                  {% if request.user|applied:item.id %}
+                          <input hidden type="text" id="jobid" value="{{item.id}}">
+                          <input hidden type="text" id="user" value="{{request.user}}">
+                          {% if  request.user|pending:item.id == 'We contact you within an hour' %}
+                          <a href="" id="{{item.id}}"  class="btn btn-secondary unapply">Unapply</a>
+                          {% endif %}
+
+
+
+                          <a class="alert alert-primary" role="alert">{{request.user|pending:item.id}}</a>
+                      
+                  {% else %}
+                  <table class="table" id="table2">
+                    <tbody>
+                  
+                      <tr>
+                         {%  if request.user|gendercheck:item.id == 'Eligible by gender' %}
+                            <td> <img style='width:2rem;height:auto;margin-bottom: 0rem;' src="{% static 'tick.gif' %}">Eligible by gender </td>
+                                {% else %}
+                            <td style='color:red;'><img style='width:2rem;height:auto;margin-bottom: 0rem; ' src="{% static 'cross.gif' %}">{{request.user|gendercheck:item.id}} </td>
+                                {% endif %}
+                      </tr>
+                      <tr>
+                         {%  if request.user|agecheck:item.id == 'eligible by age' %}
+                            <td> <img style='width:2rem;height:auto;margin-bottom: 0rem;' src="{% static 'tick.gif' %}">Eligible by age </td>
+                                {% else %}
+                               <td style='color:red;'><img style='width:2rem;height:auto;margin-bottom: 0rem; ' src="{% static 'cross.gif' %}">{{request.user|agecheck:item.id}} </td>
+                                {% endif %}
+                      </tr>
+                        {% if request.user|eligible:item.id == 'You are eligible for above Post' %}
+                                  <tr><td><img style='width:2rem;height:auto;margin-bottom: 0rem;' src="{% static 'tick.gif' %}">Eligible by qualification</td></tr>
+                                   {% if request.user|qouta:item.id == 'Your domicile Quota is available' %}
+                                  <tr><td><img style='width:2rem;height:auto;' src="{% static 'tick.gif' %}">Domicile Quota is available</td></tr>
+                                   {% elif request.user|qouta:item.id == 'Please add domicile data in personal to check domicile quota' %}
+                                  <tr> <td style='color:blue'>Please update domicile in personal data </td></tr>
+                                    {% else %}
+                                   <tr><td style='color:red'><img style='width:2rem;height:auto;' src="{% static 'cross.gif' %}">Domicile Quota is not available</td></tr>
+                                    {% endif %}
+                        
+                                    {% if item.document_scan_required == 'yes' %}
+                                    <tr><td style='color:rgb(24, 85, 165)'>{{request.user|document_check}}</td></tr>
+                                     {% endif %}
+
+
+            
+
+
+                           
+                       {% else %}
+                          <tr><td style='color:red'><img style='width:2rem;height:auto;' src="{% static 'cross.gif' %}">Qualification did't match</td></tr>
+                       {% endif %}
+            {% endif %}
+     
+                </tbody>
+                  </table>
+                  {% if request.user|allcheck:item.id %}
+                  {% if  item.total_cost == 0 %}
+                  <a href="{{item.get_absolute_url}}" class="btn btn-primary">Procceed Now it is Free</a>
+               {% else%}
+                  <a href="{{item.get_absolute_url}}" class="btn btn-primary">Procceed Now {{item.total_cost}} </a>
+              {% endif%}
+              {% endif%}
+              {% elif item.job_title.work == 1 %}
+                  <p style='color:red'> <img style='width:7rem;hieght:auto;'src="{% static 'oops.webp' %}">Last date {{item.job_title.lastdate}}; Job expired  </p>
+
+              {% elif item.job_title.work == 2 %}
+                      {{item.job_title.lastdate}}
+                  <p style='color:blue;'>We can't do this registeration within this short time interval</p>
+              {% else %}
+                  <p>Sorry! We are not doing registeration for this job</p>
+              {% endif %}
+                  {% if item.job_title.adpic %}
+                <a download='file' href="{{item.job_title.adpic.url}}">Download ad</a>
+                      {% endif %}
+                     
+              </div>
+              <div class='row' style="margin-right:0px; text-align:center;">
+                  <div class='col'>
+									  <div class="fb-share-button" data-href="{{item.job_title.get_absolute_url}}" data-layout="button_count" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fapplyforme.pk%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a>
+									</div>
+              </div>
+              <div class='col'>
+		              <div class="btn btn-success mb-1" role="">
+		                         <a href="https://api.whatsapp.com/send?text=https://applyforme.pk{{item.job_title.get_absolute_url}} " class="" target="_blank">Share with friends on Whatsapp</a>
+		              </div>
+               </div>
+              </div>
+            </div>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+{% endfor %}
+<hr>
+
+<style>
+  .adpic{
+    width: 150%;
+    
+  }
+  table{
+      margin:0px;
+  }
+  table, th, td {
+    border:1px solid black;
+  }
+  .bill{
+    line-height: 1rem;
+}
+.col{
+  line-height:1rem;
+}
+#table2  td{
+    padding: 0px;
+    display: block;
+}
+
+
+</style>
+
+
+<script>
+   $(".unapply").on('click', function () {
+     
+     var jobid = this.id
+     var user = $("#user").val()
+
+     $.ajax({
+       url: '/unapply/',
+       data: {
+        'jobid': jobid,
+         'user': user
+       },
+       dataType: 'json',
+       success: function (data) {
+         if (data.status='Unapplied to this job') {
+           flashy(' Un applied ', {
+            type : 'flashy__success'
+                                        });
+         // alert('successfull');
+         //   var url = "/";
+         //   $(location).attr('href',url);
+           // alert("ajax call success.");
+           // here you update the HTML to change the active to innactive
+         }else{
+           alert("ajax call not success.");
+         }
+       }
+     });
+
+   });
+</script>
+{% endblock %}
+

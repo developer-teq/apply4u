@@ -1,0 +1,662 @@
+ {% extends "base.html" %}
+         
+
+{%block title %}Latest Jobs In Pakistan Apply For Me online {% endblock title %}
+{% block meta %}  
+<meta name="language" content="English">
+<meta name="title" content="Latest Jobs in Pakistan Apply For Me, Today's Newspapers Jobs in Pakistan, Pakistan Job published in Nawa-i-Waqt, Dawn, Jhang, The News, Express &amp; The Nation Newspapers!">
+<meta name="keywords" content="{% for i in jobs  %}{{i.jobtitle}},{{i.posts}} {% endfor %} government jobs, resume, careerbuilder, job search, career,recruitment,part time jobs,online jobs, company jobs, private jobs,jobs bank, jobs hirings, pakistan lates jobs, newspaper jobs , jhang newspaper jobs, daily jobs,apply online, NTS jobs ots jobs,education jobs teacher jobs, punjab public service commission">
+<meta name="description" content=" {{ jobs.0.meta_discription}} apply for this job in one click ,">
+<meta name="robots" content="index">
+
+<meta name="revisit-after" content="1 day">
+<meta name="author" content="applyforme.pk">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!-- facebook comment plugin -->
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v14.0&appId=1552482221783317&autoLogAppEvents=1" nonce="MdpXA4fA"></script>
+{% endblock meta %}
+
+
+{%block content %} 
+{% load static %}
+{% load customtags %}
+<div class="container" style="text-align: center;">
+   
+   
+    <!-- <button type="button" data-sid="all" class="btn btn-primary "><form action="/filter">
+        <input hidden type="text" id="alljobs" value="1">
+        <input type="submit"></form> all jobs
+    </button> -->
+      <div class="row">
+	       <div class="col-md-auto"> 
+	        <div class="logo-container">
+            <img id="logimg" src="{% static 'logo14 (1).png' %}">
+            <h2>applyforme.pk</h2>
+          </div>
+	      </div>
+    <!-- <div class="col-sm" style='text-align:right;'>
+       
+        <form class='form-group'method='get' action='/filter'>
+           <input type="submit" class="btn btn-primary" value="All Jobs" name="alljobs" />
+{% if request.user.is_authenticated %}
+            <button type="submit" class="btn btn-primary" value="My jobs" name="myfiltered" >My jobs<span class="badge badge-pill" style=" background-color:rgb(223, 122, 75); float:right; margin-bottom:-10px;">{{request.user|eligiblecount}}</span>
+            </button>
+{% endif %}
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#filtercollaps" aria-expanded="false" aria-controls="filtercollaps">
+                Filter
+               </button>
+         </form>
+      
+    </div> -->
+
+<div class="collapse" id="filtercollaps">
+    <div class="card card-body" style="background-color:#9fd3ab;">
+   
+        <form class='form-control'action="/filter" style="background-color:#9fd3ab;">
+            <select id="educationcategory" name="educationcategory" style="margin:2px;">
+                   {% for i in educateg %}
+               <option value="{{i.education}}">{{i.education}}</option>
+               {% endfor %}
+             </select>
+           <select id="jobregions" name="jobregions" style="margin:2px;">
+                   {% for i in jobregions %}
+               <option value="{{i.regions}}">{{i.regions}}</option>
+               {% endfor %}
+             </select>
+          
+           <select id="jobsector" name="jobsector">
+                   {% for i in jobsector %}
+               <option value="{{i.sector}}">{{i.sector}}</option>
+               {% endfor %}
+             </select>
+             <input type="submit" class='btn btn-primary' value="Filter">
+           </form>
+     
+     
+          
+     </div></div>
+  </div>
+   
+{% if not jobs.has_previous %}
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-12 mt-1 left">
+            {% for post in queryset %}
+            <div class="card mb-1">
+                <div class="card-body" style="text-align: left;">
+                    <h2 class="card-title"><strong>{{ post.title }}</strong></h2>
+                    {% comment %} <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p> {% endcomment %}
+               
+
+                     <!-- <p class="half-content " id="half-{{ post.pk }}">{{post.content|safe|truncatewords:50}}
+                        <a style="color:blue" data-id="{{ post.pk }}" href="javascript:void();" class="show-hide-btn"><br>Read more</a></p> -->
+                    <p class="full-content" id="full-{{post.pk }}" >{{ post.content|safe }}<br>
+                        <!-- <a style="color:blue" data-id="{{ post.pk}}" href="javascript:void();" class="show-hide-btn">Read less</a> -->
+
+                      </p>
+                   
+
+
+
+                </div>
+            </div>
+					<div class="row">
+					  <img id="banner" src="{% static 'banner.gif' %}"> 
+            
+          </div>
+
+            {% endfor %}
+      </div>
+
+ 
+
+<!-- modal  -->
+<!-- Button trigger modal -->
+{% if request.user.is_authenticated %}
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="mymodalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><img class='checklistimg' src="{% static 'wait.gif' %}">  Wait! {{request.user}}</h5>
+
+      </div>
+      <div class="modal-body">
+        <p class="modaltext"><img  class='checklistimg' src="{% static 'checklist.gif' %}"> We've found {{request.user|eligiblecount}} jobs that you can apply for...</p>
+      </div>
+      <div class="modal-footer">
+        <a href="https://applyforme.pk/filter/?myfiltered=My+jobs" type="button" class="btn btn-primary">Click here to see</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+
+
+
+
+
+{% endif %}
+
+{% for i in jobs  %}
+
+<div class="container ">
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h5 class="card-title">{{i.jobtitle}}</h5>
+                          
+                            <p class="card-text"><i class="far fa-calendar-check"></i> <strong>Last date: </strong>{{i.lastdate}}</p>
+                              <p class="card-text"><strong>Posts:</strong> {{i.posts}}</p>
+                              {% if i.work == 0 %}
+                                <p class="card-text" style='color:red'> {{i.lastdate|timeuntil }} left.</p>
+                                  
+
+
+
+
+
+                            {% endif %}
+                            <p class="card-text"><strong>NOTE:</strong> {{i.get_work_display}}</p>
+                           
+                            <a href="{{i.get_absolute_url}}" class="btn btn-primary">  {% if i.work == 0 %} Apply {% else %} View {% endif %}</a>
+                          
+                        </div>
+                        <div class="col-sm-5 text-right">
+                            {%if i.adpic %}
+                            <img id="{{i.pk}}" style="z-index: 1000; position: static;" class="adpic" src="{{i.adpic.url}}" alt="{{i.jobtitle}}" onmouseover="enlargeImg(this.id)" ondblclick="maxzoom(this.id)" onmouseleave="resetImg(this.id)"  >
+                            {% endif %}
+                            {% if i.full_add %}
+                            <a  class='btn btn-secondary' download='file' href="{{i.full_add.url}}">View full add </a>
+                            {% endif %}
+                        </div>
+                        <div  id='google_ad' class="col-sm-4 text-right" >
+                          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9974564044883991"
+                          crossorigin="anonymous"></script>
+                     <!-- allrounder_ad -->
+                     <ins class="adsbygoogle"
+                          style="display:block; width:200px;height: auto;"
+                          data-ad-client="ca-pub-9974564044883991"
+                          data-ad-slot="1507435780"
+                          data-ad-format="auto"
+                          data-full-width-responsive="true"></ins>
+                     <script>
+                          (adsbygoogle = window.adsbygoogle || []).push({});
+                     </script>
+                                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor%}
+<div class="container p"> 
+  <div class="pagination">
+      <span class="step-links">
+          {% if jobs.has_previous %}
+              <a  class="btn btn-primary" href="?page=1">&laquo; first</a>
+              <a class="btn btn-primary"  href="?page={{ jobs.previous_page_number }}">previous</a>
+          {% endif %}
+  
+          <span class="current">
+              Page {{ jobs.number }} of {{ jobs.paginator.num_pages }}.
+          </span>
+  
+          {% if jobs.has_next %}
+              <a class="btn btn-primary" href="?page={{ jobs.next_page_number }}">next</a>
+              <a class="btn btn-primary"  href="?page={{ jobs.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+      </span>
+  </div>
+  </div>
+
+<div class="continer fluid">
+    <a href="/staff/request-a-work" class="btn btn-secondary mt-1" >Request for other services</a>
+     <a href="https://chat.whatsapp.com/DrZxfSwt7VJAKbtWtJuyUh" class="mt-1" ><img style='width: 4.5rem;' src="{% static 'whatsappgroup.png' %}" alt="join our whatsapp group"></a>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col p-0">
+      <a href="/staff/request-a-work" target="_blank"><img style="width:inherit;padding-left:2rem; cursor: pointer;" src="{% static 'request3.jpg' %}" class="img-fluid" alt="Request any Work"></a>  
+    </div>
+    <div class="col p-0">
+      <a href="https://lookranks-s3space.sgp1.digitaloceanspaces.com/applyformeweb/applyforme.apk" download="">
+        <img style="width:inherit;padding-left:2rem; cursor: pointer;"  src="{% static 'downloadapp.png' %}" alt="Download our App" >
+      </a>
+    </div>
+    <!-- <div class="col">
+      <a href="https://chat.whatsapp.com/DrZxfSwt7VJAKbtWtJuyUh" target="_blank">  <img style="width:inherit;padding-right:2rem; cursor: pointer;" src="{% static 'joinwhatsapp.png' %}" class="img-fluid" alt="...">https://chat.whatsapp.com/DrZxfSwt7VJAKbtWtJuyUh</a>  
+     </div> -->
+  </div>
+
+  <div class="padding">
+    <div class="row container d-flex justify-content-center">
+    
+    <div class="col-xl-12">
+                                            <div class="card proj-progress-card">
+                                                <div class="card-block">
+                                                    <div class="row">
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <h6>Processed jobs Applications</h6>
+                                                            <h5 class="m-b-30 f-w-700">{% jobsprocessed %}</h5>
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-c-red" style="width:40%"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <h6>In-Progress applications</h6>
+                                                            <h5 class="m-b-30 f-w-700">{% jobsinprogress %}</h5>
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-c-blue" style="width:65%"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <h6>Total jobs posted</h6>
+                                                            <h5 class="m-b-30 f-w-700">{% jobsposted %}
+                                                              <!-- <span class="text-c-green m-l-10">+0.99%</span> -->
+                                                            </h5>
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-c-green" style="width:70%"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-3 col-md-6">
+                                                            <h6>halted</h6>
+                                                            <h5 class="m-b-30 f-w-700">6
+                                                              <!-- <span class="text-c-green m-l-10">+0.99%</span> -->
+                                                            </h5>
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-c-green" style="width:5%"></div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+    
+    
+    
+    </div>
+    <style>
+       .stretch-card>.card {
+     width: 100%;
+     min-width: 100%
+ }
+
+ body {
+     background-color: #f9f9fa
+ }
+
+ .flex {
+     -webkit-box-flex: 1;
+     -ms-flex: 1 1 auto;
+     flex: 1 1 auto
+ }
+
+ @media (max-width:991.98px) {
+     .padding {
+         padding: 1.5rem
+     }
+ }
+
+ @media (max-width:767.98px) {
+     .padding {
+         padding: 1rem
+     }
+ }
+
+ .padding {
+     padding: 3rem
+ }
+ 
+ .card {
+     box-shadow: none;
+     -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+     -ms-box-shadow: none
+ }
+
+ .card {
+     position: relative;
+     display: flex;
+     flex-direction: column;
+     min-width: 0;
+     word-wrap: break-word;
+     background-color: #fff;
+     background-clip: border-box;
+     border: 1px solid #3da5f;
+     border-radius : 0;
+ }
+
+ .card .card-block {
+    padding: 1.25rem;
+}
+
+h6 {
+    font-size: 16px !important;
+}
+
+.text-c-green {
+    color: #2ed8b6;
+}
+
+.m-l-10 {
+    margin-left: 10px;
+}
+
+.proj-progress-card .progress {
+    height: 6px;
+    overflow: visible;
+    margin-bottom: 10px;
+}
+
+.proj-progress-card .progress .progress-bar {
+    position: relative;
+}
+
+.progress .progress-bar {
+    height: 100%;
+    color: inherit;
+}
+
+.bg-c-red {
+    background: #FF5370;
+}
+
+.proj-progress-card .progress .progress-bar.bg-c-red:after {
+    border: 3px solid #FF5370;
+}
+
+.proj-progress-card .progress .progress-bar:after {
+    content: "";
+    background: #fff;
+    position: absolute;
+    right: -6px;
+    top: -4px;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+}
+
+.bg-c-blue {
+    background: #4099ff;
+}
+
+.proj-progress-card .progress .progress-bar.bg-c-blue:after {
+    border: 3px solid #4099ff;
+}
+
+.proj-progress-card .progress .progress-bar.bg-c-green:after {
+    border: 3px solid #2ed8b6;
+}
+
+.bg-c-green {
+    background: #2ed8b6;
+}
+
+.bg-c-yellow {
+    background: #FFB64D;
+}
+
+.proj-progress-card .progress .progress-bar.bg-c-yellow:after {
+    border: 3px solid #FFB64D;
+}
+
+.m-b-30 {
+    margin-bottom: 30px;
+}
+
+.text-c-red {
+    color: #FF5370;
+}
+
+
+
+
+
+    </style>
+</div>
+
+
+
+<div class="fb-comments container" style="background-color:#9fd3ab;" data-href="https://applyforme.pk/" data-width="" data-numposts="5"></div>
+<hr>
+<div class="container">
+   
+
+
+<!-- 
+<div class="container">
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+         
+        <img src="{% static 'slid1.png' %}" class="responsiveimg"  alt="">
+      </div>
+      <div class="carousel-item">
+         
+        <img src="{% static 'slid2.png' %}" class="responsiveimg" alt="">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'slid3.png' %}" class="responsiveimg" alt="">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div> -->
+
+
+
+
+
+
+<style>
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+.logo-container img {
+  margin-right: 10px;
+}
+
+
+
+
+  .checklistimg{
+    max-width: 4rem;
+    height: auto;
+   
+  }
+  .modaltext{
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    line-height: 0px;
+  }
+ 
+
+    @media screen and (max-width:574px) {
+        .adsbygoogle {
+        
+            max-width: auto;
+            height: 120px;
+          }
+          #google_ad{
+            display: none;
+          }
+      }
+  
+   
+    @media screen and (min-width: 375px) {
+        .responsiveimg {
+        
+            max-width: 22rem;
+            height: auto;
+          }
+      }
+
+      @media screen and (min-width: 425px) {
+        .responsiveimg {
+        
+            max-width: 25rem;
+            height: auto;
+          }
+      }
+      @media screen and (min-width: 450px) {
+        .responsiveimg {
+        
+            max-width: 27rem;
+            height: auto;
+          }
+      }
+      @media screen and (min-width: 500px) {
+        .responsiveimg {
+        
+            max-width: 30rem;
+            height: auto;
+          }
+      }
+      @media screen and (min-width: 578px) {
+        .responsiveimg {
+        
+            max-width: 33rem;
+            height: auto;
+          }
+      }
+      @media screen and (min-width: 768px) {
+        .responsiveimg {
+        
+            max-width: 50rem;
+            height: auto;
+          }
+      }
+      @media screen and (min-width: 992px) {
+        .responsiveimg {
+        
+            max-width: 55rem;
+            height: auto;
+          }
+      }
+      @media screen and (min-width: 1216px) {
+        .responsiveimg {
+        
+            max-width: 70rem;
+            height: auto;
+          }
+      }
+   
+</style>
+
+
+
+
+
+
+</div>
+<style>
+    .container{
+        border: 1rem;
+       
+        margin-top: 15px;
+        padding:0px;
+    }
+.adpic{
+    width: 100%;
+}
+
+.guidimg img {
+
+    width:15rem;
+    height:15rem;
+    border: 0px solid black;
+    outline: #4CAF4F solid 3px;
+    margin: auto;
+    padding: 0px;
+    text-align: center;
+  }
+</style>
+</style>
+
+<script>
+    // Function to set image dimensions
+    function enlargeImg(id) {
+        img = document.getElementById(id);
+        img.style.width = "100%";
+        img.style.height = "auto";
+        img.style.transition = "width 1s ease";
+    }
+    // Function to reset image dimensions
+    function resetImg(id) {
+        img = document.getElementById(id);
+        img.style.width = "60%";
+        img.style.height = "auto";
+        img.style.transition = "width 1s ease";
+    }
+    function maxzoom(id) {
+        img = document.getElementById(id);
+        img.style.width = "200%";
+        img.style.height = "auto";
+        img.style.transition = "width 1s ease";
+    }
+
+
+</script>
+
+<script>
+    $(document).ready(function() {
+  $(".show-hide-btn").click(function() {
+    var id = $(this).data("id");
+    $("#half-"+id).toggle();//hide/show..
+    $("#full-"+id).toggle(700);
+  })
+})
+</script>
+
+<script>
+  $(document).ready(function(){
+    setTimeout(function(){
+     
+      let data = sessionStorage.getItem('key');
+      if (data !=='sessionstarted') {
+        $("#mymodal").modal('show');
+        sessionStorage.setItem('key', 'sessionstarted');
+      }
+   }, 5000);
+
+ 
+
+     
+  });
+
+</script>
+
+
+{% endblock %}
+

@@ -1,0 +1,49 @@
+User-Agent: *
+
+
+   
+Disallow: https://applyforme.pk/accounts/
+Disallow: https://applyforme.pk/registerme/
+
+
+   Disallow: https://applyfrome.pk/account_history/
+   Disallow: https://applyfrome.pk/login/
+   Disallow: https://applyfrome.pk/signup/
+   Disallow: https://applyfrome.pk/ajax/validate_username/
+   Disallow: https://applyfrome.pk/unapply/
+   Disallow: https://applyfrome.pk/answering/
+   Disallow: https://applyfrome.pk/newapply/
+   Disallow: https://applyfrome.pk/applyfinal/
+   Disallow: https://applyfrome.pk/appliedjobs/
+   Disallow: https://applyfrome.pk/appliedjobs/
+   Disallow: https://applyfrome.pk/balance/
+   Disallow: https://applyfrome.pk/mycv/
+   Disallow: https://applyfrome.pk/data_varification/
+   
+   Disallow: https://applyfrome.pk/datasaving/
+   Disallow: https://applyfrome.pk/uploadcv/
+   Disallow: https://applyfrome.pk/ajax_file_upload_save/
+   Disallow: https://applyfrome.pk/expcertupload/
+   Disallow: https://applyfrome.pk/personaldata/
+   
+   Disallow: https://applyfrome.pk/education/
+   Disallow: https://applyfrome.pk/education/matric/
+   Disallow: https://applyfrome.pk/education/inter/
+   Disallow: https://applyfrome.pk/education/bachelor/
+   Disallow: https://applyfrome.pk/education/master/
+   Disallow: https://applyfrome.pk/education/mphil/
+   Disallow: https://applyfrome.pk/education/doctor/
+   Disallow: https://applyfrome.pk/education/experience/
+   Disallow: https://applyfrome.pk/education/expe_del/
+   Disallow: https://applyfrome.pk/education/edit/
+   Disallow: https://applyfrome.pk/captcha/
+   Disallow: https://applyforme.pk/latest-jobs/
+   Disallow: https://applyforme.pk/apply/
+   Disallow: https://applyforme.pk/accounts/login/
+   Disallow: https://applyforme.pk/accounts/
+   Disallow: https://applyfrome.pk/captcha/
+
+
+
+
+Sitemap: https://applyforme.pk/sitemap.xml

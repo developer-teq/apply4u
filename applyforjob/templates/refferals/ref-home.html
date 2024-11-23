@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} Reffer{% endblock title %}
+{% block meta %}      {% endblock meta %}
+
+{%block content %} 
+<div class="container">
+<h1> My refferals</h1>
+<h2>Share this link with friends and earn credit </h2>
+<input class="form-control" type="text" value="https://applyforme.pk/{{request.user.profile.code}}">
+
+<hr>
+{% for profile in my_recs %}
+<blockquote class="blockquote">
+    <p>{{profile.user}}</p>
+    <footer>{{profile.created}}</footer>
+  </blockquote>
+  <hr>
+{% endfor %}
+
+</div>
+{% endblock %}
+

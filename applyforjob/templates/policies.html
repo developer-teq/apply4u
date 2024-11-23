@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+
+
+{%block title %}Terms and Conditions{% endblock title %}
+{% block meta %}     
+{% endblock meta %}
+
+{% block content %} 
+
+{% for policies in policies %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Our Terms and Conditions
+        </div>
+        <div class="card-body">
+            <p class="card-text urdu">{{policies.terms|safe }}</p>
+            <footer>
+              
+            </footer>
+        </div>
+    </div>
+
+   
+</div>
+{% endfor %}
+<div class="container">
+    <h2>Filtered Jobs:</h2>
+    <ol>
+      <li>Our website matches users to job opportunities based on their education, age, gender, and domicile quota.</li>
+      <li>Job opportunities are sourced from authentic newspapers and other reliable sources.</li>
+      <li>Users can refine their job search results by using filters such as location, job type, and salary range.</li>
+    </ol>
+    <h2>Dashboard Notification:</h2>
+    <ol>
+      <li>Our website provides updates on the status of job applications via the user's dashboard.</li>
+      <li>Users will receive notifications when job application materials are received, processed, and submitted.</li>
+      <li>Our website will also provide updates on any additional requirements or costs associated with the job application process.</li>
+    </ol>
+    <h2>Job Application Processing:</h2>
+    <ol>
+      <li>Our website processes job applications on behalf of users by providing assistance with preparing and submitting application materials.</li>
+      <li>Users can apply to jobs advertised on our website by clicking on the "Apply" button and following the instructions provided.</li>
+      <li>Our website will notify users of any additional requirements or costs associated with the job application process, such as photocopies, bank chalan, photo printing, and postage fees.</li>
+      <li>Users are responsible for maintaining sufficient balance in their account on our website to cover the costs of job application processing.</li>
+      <li>Our website will provide updates on the status of the job application process via the user's dashboard.</li>
+    </ol>
+    <h2>Payment:</h2>
+    <ol>
+      <li>Our website accepts payments for job application processing and related services via secure online payment methods.</li>
+      <li>Users are responsible for ensuring that their account balance is sufficient to cover the costs of job application processing and related services.</li>
+      <li>Our website charges a fee for processing payments, which will be deducted from the user's account balance.</li>
+      <li>Our website does not offer refunds for job application processing fees, except in cases where an error or mistake was made by our website.</li>
+    </ol>
+    <h2>Privacy:</h2>
+    <ol>
+      <li>Our website collects personal information from users in order to provide job application processing and related services.</li>
+      <li>We take the privacy and security of user data seriously and will never share or sell user data to third parties.</li>
+      <li>User data is stored securely and is only accessible to authorized personnel.</li>
+      <li>Users have the right to request their data be deleted or updated at any time.</li>
+    </ol>
+   
+    
+    <h2>Complaints and Dispute Resolution:</h2>
+    <ol>
+      <li>Our website strives to provide the best possible service to our users. However, if users have complaints or disputes, they can submit them through our online contact form.</li>
+      <li>Our website will respond to complaints or disputes within a reasonable timeframe and will work with users to find a satisfactory resolution.</li>
+      <li>If a resolution cannot be reached, users have the option to
+      <li>When a user decides to apply for a job through our website, they can click on the "apply" button, and we will process their job application on their behalf. The user must add the cost balance of job processing, including photocopies, bank challans, photo printing, and post office posting fees to their account on our website.</li>
+      <li>We display each step of the job processing on the user's website dashboard, and once the job procedure is complete, we notify the user of its completion.</li>
+      </ol>
+   <h2>Terms and Conditions:</h2>
+    <ol>
+      <li>By using our website, users agree to abide by these terms and conditions.</li>
+      <li>Users are responsible for ensuring that their use of our website complies with all applicable laws and regulations.</li>
+      <li>Our website reserves the right to modify or terminate our services at any time.</li>
+    </ol>
+    <p>By creating an account, making a CV, and applying to jobs through our platform, you agree to all of our terms and conditions.
+  
+    </p>
+  
+  
+  
+  
+  
+  </div>
+{% endblock %}
+

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+
+
+{%block title %}My account history{% endblock title %}
+{% block meta %}      {% endblock meta %}
+
+{%block content %} 
+
+{% for i in detailjob  %}
+
+<div class="container " style="margin-top: auto;" >
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h5 class="card-title"> job:{{i.appliedtojob}}</h5>
+                            <p class="card-text"> applied data:{{i.applieddate}}</p>
+                            <p class="card-text">  status:{{i.alldone}}</p>
+                            <a href="" class="btn btn-primary">applied</a>
+                        </div>
+                        <div class="col-sm-4">
+                            <!-- <h5 class="card-title"><i class="fas fa-check"></i>this is done </h5> -->
+                            <p class="card-text"><i class="fas fa-check"></i>Eligibility Check </p>
+                            <p class="card-text"><i class="fas fa-check"></i>Registration done </p>
+                            <p class="card-text"><i class="fas fa-check"></i>Posted to  </p>
+                            <p class="card-text"><i class="fas fa-check"></i>Roll no slip download here  </p>
+                            <p class="card-text"><i class="fas fa-check"></i>important update about test held date, vecancy increase, syllabus , paperpattern </p>
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            <img class="" src="" alt="sans" width="200px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor%}
+<hr>
+
+<div class="container">
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Action</th>
+            <th scope="col">dabit</th>
+            <th scope="col">Credit</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for i in result_list%}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{i.timestamp}}</td>
+            <td>{% if i.post %}{{i.appliedtojob.post_name}} applied {% endif %}  
+                {% if i.payment_adding %} Balance added {% endif %}  </td>
+            <td>{{i.appliedtojob.total_cost}}</td>
+            <td>{{i.payment_adding}}</td>
+            <td>{{i.billing.accountmanagement}}</td>
+          </tr>
+         
+         {% endfor %}
+        </tbody>
+        
+       
+      </table>
+      <hr>
+      <p><strong>Note:</strong> Balance is updated within hour after varifications</p>
+      <h3>Current balance: Rs.{{request.user.billing.accountmanagement}}</h3> 
+
+</div>
+
+
+
+{% endblock %}
+

@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} Todays entrries{% endblock title %}
+{% block meta %}      {% endblock meta %}
+
+
+
+{%block content %} 
+<div class="container">
+<h1>Today's report </h1>
+
+
+<p>here we have to show 
+ personal accounts created Today
+ user added matric data
+ user uploaded document pics
+ user uploaded experiencepics 
+ todays applied jobs
+
+ appliedcertificates uploaded.
+ jobstepsreplies
+    billing
+    addingbalance
+    cashout
+ asked from user askingquestion
+    userreply
+     mistakes  
+    feedbacks
+    complaints
+    requestonline
+  <br>
+    Profile
+</p>
+
+<table class="table">
+<hr>
+<h1>NEW USER</h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">user</th>
+        <th scope="col">last_login</th>
+        <th scope="col">date_joined</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for user in ten_user%}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{user.username}}</td>
+        <td>{{user.last_login}}</td>
+        <td>{{user.date_joined}}</td>
+        {% endfor %}
+      </tr>
+      
+    </tbody>
+  </table>
+<h1>User personal </h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">user</th>
+        <th scope="col">Qual.</th>
+        <th scope="col">Phon#</th>
+        <th scope="col">address</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for personel in ten_personel %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{personel.user}}</td>
+        <td>{{personel.qualific}}</td>
+        <td>{{personel.phone_number}}</td>
+        <td>{{personel.address}}</td>
+        {% endfor %}
+      </tr>
+      
+    </tbody>
+  </table>
+
+<h1>users with matric </h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">user</th>
+        <th scope="col">board</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for marticdata in ten_matric %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{marticdata.user}}</td>
+        <td>{{marticdata.board}}</td>
+        {% endfor %}
+      </tr>
+      
+    </tbody>
+  </table>
+
+
+
+
+
+<h1>New user added matric data education data</h1>
+<h1>uploaded document pictures</h1>
+<h1>uploaded experiencepics pictures</h1>
+<h1>applied jobs</h1>
+<h1>USER account  status :billing </h1>
+<h1>USER adding balance </h1>
+<h1>USER requesting for cashout </h1>
+<h1>USER replies :userreply </h1>
+<h1>USER POINTED MISTAKES :mistakes </h1>
+<h1>USER feedbacks :Feedbacks </h1>
+<h1>USER complaints :complaints </h1>
+<h1>USER requestonline :requestonline </h1>
+<hr>
+<hr>
+
+<h1>job step replies</h1>
+<h1>asked questions from user </h1>
+<h1>appliedcertificates uploaded. </h1>
+</div>
+
+
+
+
+
+{% endblock %}

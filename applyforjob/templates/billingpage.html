@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} Add Balance{% endblock title %}
+{% block meta %}   {% load crispy_forms_tags %}   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+{% endblock meta %}
+
+
+
+
+{%block content %} 
+
+<div class="container" id="personal">
+<div class="card text-center" >
+  <div class="card-header cardcol">
+    <p class='urdu'>اپنے اکاونٹ میں رقم جمع کریں </p>
+  </div>
+  <div class="card-body" >
+      <ul>
+    <li> <h5>Add Balance to your wallet via jazz cash or easypaisa</h5></li>
+    <li> <p class='urdu' >اپنے اکاونٹ میں  جاز کیش یا ایزی پیسہ کی مدد سے رقم ڈالیں</p></li>
+     <li> <h5> Balance can be refunded at any time</h5></li>
+     <li> <p class='urdu'> رقم کسی بھی وقت آپ واپس نکلوا سکتے ہیں</p></li>
+      <li><h5> Easypaisa :03463835081</h5></li>
+      
+    </ul>
+
+
+     
+      <form method="post" id="" action="/balance/" name="billignform">
+          {% csrf_token %}
+          {{form|crispy}}
+
+      
+          <button id='' class="btn btn-primary m-1" type="submit"> Submit</button>
+          <!-- <a href="" id='personaldata' type="submit" class="btn btn-primary">Next</a> -->
+      </form>
+      <hr>
+      <h3> OR </h3><br>
+      <h4>Add a Coupon code</h4><br>
+      <a href="{% url 'applyforjob:apply_coupon' %}" class="btn btn-primary m-1">Apply_coupon</a>
+      
+  </div>
+ <h3 class='urdu'>رقم ایک گھنٹے کےاندر تصدیق ہونے کے بعد آپ کے اکاؤنٹ میں جمع کر دی جائے گی </h3>
+  </div>
+  <div class="card-footer text-muted">
+      <h3>Balance will be added to your account after varification within hour</h3>
+  </div>
+</div>
+
+
+  <style>
+    .card{
+       position: auto;
+       margin: auto;
+       text-align: center;
+       background-color: rgb(247, 253, 251);
+     }
+     .cardcol{
+      background: linear-gradient(45deg, #05abe0 0%,#8200f4 100%);
+      color: cornsilk;
+     }
+   </style>
+   <script>
+
+   </script>
+
+{% endblock %}
+
+<script>
+  // Wait for the DOM to be ready
+  $(document).ready(function() {
+  // Initialize form validation on the billignform form.
+  // It has the name attribute "billignform"
+  $("form[name='billignform']").onsubmit({
+    // Specify validation rules
+    rules: {
+      // The key name on the left side is the name attribute
+      // of an input field. Validation rules are defined
+      // on the right side
+      payment_adding: "required",
+      lastname: "required",
+      email: {
+        required: true,
+        // Specify that email should be validated
+        // by the built-in "email" rule
+        email: true
+      },
+      usertrnxid: {
+        required: true,
+        minlength: 8
+      }
+    },
+    // Specify validation error messages
+    messages: {
+      payment_adding: "Please enter your payment_adding",
+      lastname: "Please enter your lastname",
+      usertrnxid: {
+        required: "Please provide a usertrnxid",
+        minlength: "Your usertrnxid must be at least 10 characters long"
+      },
+      email: "Please enter a valid email address"
+    },
+    // Make sure the form is submitted to the destination defined
+    // in the "action" attribute of the form when valid
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+});
+</script>

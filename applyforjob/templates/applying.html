@@ -1,0 +1,386 @@
+
+ {% extends "base.html" %}
+
+
+
+ {%block title %} Apply to job {% endblock title %}
+ {% block meta %}      {% endblock meta %}
+ 
+ {%block content %} 
+ {% load static %}
+
+
+ 
+
+ {% for i in jobcost  %}
+<div class="container">
+  <div class="row">
+      <div class="col">
+        <div class="container" id="lowbalance">
+        <div class="card" style="width: 22rem;background-color: azure;">
+            <div class="card-body">
+              <h3 class="card-title">Recharg your account</h3>
+              <h4 id="loan" class="card-subtitle mb-2 text-muted"></h4>
+              <p  class="card-text">Applied for this job, but it is in pending state , please recharge your account within 24hrs , after that we further proceed</p>
+              <a href="{% url 'applyforjob:add_balance' %}" class="card-link">Recharge here</a>
+              <!-- <a href="#" class="card-link">Another link</a> -->
+            </div>
+          </div>  
+      </div>
+    </div>
+      <div class="col">
+          <div class="container" id="extradatarequired">
+            <div class="card" style="width: 22rem;background-color: azure;">
+              <div class="card-body">
+                <h3 class="card-title">Some more info</h3>
+                <h4 id="datarequired" class="card-subtitle mb-2 text-muted"></h4>
+                <p  class="card-text">Applied for this job, but it is in pending state , please recharge your account within 24hrs , after that we further proceed</p>
+                <a href="" class="card-link">Form is here</a>
+                <!-- <a href="#" class="card-link">Another link</a> -->
+              </div>
+            </div>  
+        </div>
+      </div>
+  </div>
+</div>
+<div class="container">
+ 
+    
+    <h1>{{ i.job_title.oraganizational_data.name }}</h1>
+
+    {% if i.job_title.oraganizational_data.sectorlogo %}
+      <img src="{{ i.job_title.oraganizational_data.sectorlogo.url }}" alt="{{ i.job_title.oraganizational_data.name }} logo">
+    {% endif %}
+
+    <p>{{ i.job_title.oraganizational_data.description }}</p>
+
+    {% if i.job_title.oraganizational_data.website %}
+      <p>Website: <a href="{{ i.job_title.oraganizational_data.website }}">{{ i.job_title.oraganizational_data.website }}</a></p>
+    {% endif %}
+
+    {% if i.job_title.oraganizational_data.location %}
+      <p>Location: {{ i.job_title.oraganizational_data.location }}</p>
+    {% endif %}
+
+    {% if i.job_title.oraganizational_data.phone_number %}
+      <p>Phone: {{ i.job_title.oraganizational_data.phone_number }}</p>
+    {% endif %}
+
+    {% if i.job_title.oraganizational_data.email %}
+      <p>Email: <a href="mailto:{{ i.job_title.oraganizational_data.email }}">{{ i.job_title.oraganizational_data.email }}</a></p>
+    {% endif %}
+
+    <section>
+      {% for image in i.job_title.oraganizational_data.organizationimage_set.all %}
+        <img src="{{ image.image.url }}" alt="{{ i.job_title.oraganizational_data.name }} image">
+      {% endfor %}
+    </section>
+
+
+
+</div>
+ 
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+#lowbalance{
+    display: none;
+}
+#extradatarequired{
+  display: none;
+}
+/* The Modal (background) */
+.modal {
+    
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: fit-content;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+/* for spinner */
+.loading {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999999999;
+  overflow: hidden;
+  background: #fff;
+}
+#spinner2 {
+  font-size: 10px;
+  width: 5rem;
+  height: auto;
+  border-top: .8em solid rgba(218, 219, 223, 1);
+  border-right: .8em solid rgba(218, 219, 223, 1);
+  border-bottom: .8em solid rgba(218, 219, 223, 1);
+  border-left: .8em solid rgba(58, 166, 165, 1);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+  
+}
+#spinner2,
+#spinner2:after {
+  z-index: 1;
+  border-radius: 50%;
+  width: 8em;
+  height: 8em;
+  display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -4.05em;
+
+}
+
+</style>
+<div class="container">
+
+
+
+
+
+
+
+
+</div>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+<img src="{% static 'spinner2.gif' %}" id="spinner2"  style="display:none"/ >
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+  
+    <div class="container ">
+        <div class="ticket">
+            <img src="{% static 'applyforme.png' %}" alt="Logo" style="width: 3rem;"> 
+            <p class="centered">{{i.job_title}},
+                <br>{{i.post_name}}</p>
+              
+            <table>
+                job#:<span id="job_id">{{i.id}}</span> <p>, {% now "SHORT_DATETIME_FORMAT" %} </p>
+                <thead>
+                
+                    <tr>
+                        <th class="quantity">Q.</th>
+                        <th class="description">Purpose</th>
+                        <th class="price">Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="quantity">1</td>
+                        <td class="description">Bank slip fee</td>
+                        <td class="price">Rs.{{i.bankfee}}</td>
+                    </tr>
+                    <tr>
+                        <td class="quantity">2</td>
+                        <td class="description">Registeration fee</td>
+                        <td class="price">Rs.{{i.service_fee}}</td>
+                    </tr>
+                    <tr>
+                        <td class="quantity">3</td>
+                        <td class="description">Posting cost</td>
+                        <td class="price">Rs.{{i.posting_fee}}</td>
+                    </tr>
+                    <tr>
+                        <td class="quantity">4</td>
+                        <td class="description">Photocopies cost</td>
+                        <td class="price">Rs.{{i.photocopies}}</td>
+                    </tr>
+                    <tr>
+                        <td class="quantity"></td>
+                        <td class="description">TOTAL</td>
+                        <td class="price">Rs.{{i.total_cost}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <a href="/newapply/{{i.id}}" class="btn btn-primary">Apply</a> -->
+                <button id="apply" class="btn btn-primary" >Apply</button>
+                <button id="btnPrint" class="hidden-print">Print</button>
+            
+               
+
+        </div>
+
+
+  </div>{% endfor %}
+  
+
+</div>
+</div>
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+
+$( document ).ready(function() {
+    modal.style.display = "block";
+});
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+$("#apply").click(function() {
+     $('#spinner2').show();
+  
+    var jobid=$('#job_id').html();
+    $.ajax({
+          type:"POST",
+          url: '/applyfinal/', 
+          data:{'jobid':jobid, csrfmiddlewaretoken: '{{ csrf_token }}'},
+          // data:{'jobid':jobid },
+          dataType: 'json',
+          success:function(data){
+            $('#spinner2').hide();
+            if (data.status == 'applied on this post') {
+            flashy(' Applied to job, Our team member will apply for this job for you ', {
+             type : 'flashy__success'
+                                         });
+            var url = "/appliedjobs/";
+            $(location).attr('href',url);
+          } 
+            if (data.status == 'Already applied on this post') {
+            flashy('You already applied on this post ', {
+             type : 'flashy__success'
+                                         });
+            var url = "/appliedjobs/";
+            $(location).attr('href',url);
+          } 
+            if (data.status == 'you have not personal profile') {
+            flashy('You have not completed your cv on this website.please complete your cv, If you are having problem do a complain by clicking below ', {
+             type : 'flashy__success'
+                                         });
+            var url = "/uploadcv/";
+            $(location).attr('href',url);
+          } 
+
+
+          }
+        });
+    
+      });
+
+
+      
+const $btnPrint = document.querySelector("#btnPrint");
+$btnPrint.addEventListener("click", () => {
+window.print();
+});
+
+</script>
+
+
+ <style>
+     .container{
+         border: 1rem;
+        
+         margin-top: 15px;
+     }
+     /* modal  */
+td,
+th,
+tr,
+table {
+border-top: 1px solid black;
+border-collapse: collapse;
+}
+
+td.description,
+th.description {
+width: 7rem;
+max-width: 8rem;
+}
+
+td.quantity,
+th.quantity {
+width: 40px;
+max-width: 40px;
+word-break: break-all;
+}
+
+td.price,
+th.price {
+width: 58px;
+max-width: 53px;
+word-break: break-all;
+}
+
+.centered {
+text-align: center;
+align-content: center;
+}
+
+.ticket {
+width: 14rem;
+max-width: 42rem;
+margin: 1rem;
+outline: 4px dashed rgba(0,0,0,0.37);
+outline-offset: 13px;
+}
+
+img {
+max-width: inherit;
+width: inherit;
+}
+
+@media print {
+.hidden-print,
+.hidden-print * {
+display: none !important;
+}
+}
+</style>
+
+
+ {% endblock %}
+ 
+ 

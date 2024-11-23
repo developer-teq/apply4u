@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} Latest Offers {% endblock title %}
+{% block meta %}   {% load crispy_forms_tags %}    {% endblock meta %}
+
+
+
+
+{%block content %} 
+<div class="container">
+  <h3>Enter your secret code for exclusive savings.</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit"class="btn btn-primary" >Apply Coupon</button>
+  </form>
+  </div>
+{% endblock %}

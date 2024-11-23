@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} Cash out {% endblock title %}
+{% block meta %}   {% load crispy_forms_tags %}    {% endblock meta %}
+
+
+
+
+{%block content %} 
+
+<div class="container" id="personal">
+<div class="card text-center" >
+  <div class="card-header cardcol">
+   Your balance will be refunded with in hour
+  </div>
+  <div class="card-body" >
+      <h5>
+          Thank You for cooperation! <br>
+        We send balance back to you, <br>
+        so please fill the below form carefuly  </h5>
+      <label class="btn btn-danger" for="id_payemntmathod_0">JazzCash</label>
+
+      <label class="btn btn-success" for="id_payemntmathod_1">Easypaisa</label>
+      <form method="post" id="" action="">
+          {% csrf_token %}
+          {{cashoutform|crispy}}
+
+          <!-- {{ form.payemntmathod.errors }}
+          {{ form.payemntmathod.label_tag }}
+          {{ form.payemntmathod }} -->
+
+
+          <button id='' class="btn btn-primary m-1" type="submit"> Submit</button>
+          <!-- <a href="" id='personaldata' type="submit" class="btn btn-primary">Next</a> -->
+      </form>
+      
+  </div>
+  </div>
+  <div class="card-footer text-muted">
+      <h3>Balance will transefered to your account with in an hour! so be patience</h3>
+  </div>
+</div>
+
+
+  <style>
+    .card{
+       position: auto;
+       margin: auto;
+       text-align: center;
+       background-color: rgb(247, 253, 251);
+     }
+     .cardcol{
+      background: linear-gradient(45deg, #05abe0 0%,#8200f4 100%);
+      color: cornsilk;
+     }
+   </style>
+   <script>
+
+   </script>
+
+{% endblock %}
+

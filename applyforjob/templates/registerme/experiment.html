@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} experiment {% endblock title %}
+{% block meta %}     {% endblock meta %}
+
+{%block content %} 
+
+
+
+
+<div class='container'>
+<h1> here i do experiments that i want 
+</h1>
+
+<form class='form-group'action="/staff/experiment">
+    <select id="jobid" name="jobid">
+           {% for i in educateg %}
+           {% for k in i.postdetail_set.all %}
+       <option value="{{k.id}}">{{k.post_name}} in {{k.job_title.jobtitle|truncatewords:5}} last date : {{k.job_title.lastdate}} </option>
+       {% endfor %}
+       {% endfor %}
+     </select>
+     <input type="submit" class='btn btn-primary' value="Filter">
+   </form>
+
+
+
+
+</div>
+{% if item %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+        
+        <div class="card">
+            {% if item.cropedad %}
+            <img id="{{item.id}}" style="z-index: auto; position: relative;width:auto; border: 2px solid #555; " class="adpic" src="{{item.cropedad.url}}" alt="sans" onclick="enlargeImg(this.id)" ondblclick="maxzoom(this.id)" onmouseleave="resetImg(this.id)"  > 
+            <p style='color:blue; padding-bottom:0px'>Double click on image to zoom</p>
+           {% endif %}
+            <div class="card-body">
+                <div class="row cardbody" >
+                    <div class="col">
+                        <h5 class="card-title">{{item.post_name}} in {{item.job_title.jobtitle}}</h5>
+                        <div class="row">
+                                <div class="col">
+                                    <p class="card-text"data-toggle="tooltip" data-placement="top" title="education required for this post"><i class="fas fa-user-graduate"></i><strong> Qualifications: </strong>{% for k in item.qualification_req.all %}
+                                        <span style='font-size:10px; color: white;text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;' class="badge bg-success">{{k}} </span>
+                                       {% endfor %}</p>
+                                  
+   
+                                            {% comment %} <p class="card-text"data-toggle="tooltip" data-placement="top" title="education required for this post"><i class="fas fa-user-graduate"></i> whocanapply:{% for j in item.whocanapply.all %} <i class="fas fa-circle fa-xs"></i> {{j}},
+                                            {% endfor %}</p>  {% endcomment %}
+                                        <p class="card-text"><b>Experience:</b> {{item.experience|safe}}</p>
+                                       
+                                </div>
+                                <div class="col bill">
+                                    <p class="card-text"><b>Sector:</b> {{item.sector}}</p>
+                                    {% if item.min_age %}
+                                <p><strong>Min. Age: </strong>{{item.min_age}} years </p>
+                                {% endif %}
+                                {% if item.max_age %}
+                                    <p><strong>Max.age: </strong>{{item.max_age}}years</p>
+                                    {% endif %}
+                                    <p><strong>Who can apply male or female ? = </strong>{{item.jobs_for}}</p>
+                                <p class="card-text"><b>Total posts:</b> {{item.no_of_posts}}</p>
+                                <p class="card-text"><b>Last date:</b> {{item.job_title.lastdate}}</p>
+                                
+                                 
+                                </div>
+                                <div class="col bill">
+                                    <div class="container" style='border: 3px dotted rgba(0,0,0,0.91);
+                                    background-color:#e1d8bd; width:fit-content;'>
+                                   <div class="ticket">   
+                                        <table>
+                                            job#:<span id="job_id">{{item.id}}</span>
+                                            <thead>
+                                                <tr>
+                                                    <th class="quantity">Q.</th>
+                                                    <th class="description">Purpose</th>
+                                                    <th class="price">Cost</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="quantity">1</td>
+                                                    <td class="description">Bank slip fee</td>
+                                                    <td class="price">{{item.bankfee}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="quantity">2</td>
+                                                    <td class="description">Registeration fee</td>
+                                                    <td class="price">{{item.service_fee}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="quantity">3</td>
+                                                    <td class="description">Posting cost</td>
+                                                    <td class="price">{{item.posting_fee}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="quantity">4</td>
+                                                    <td class="description">Photocopies cost</td>
+                                                    <td class="price">{{item.photocopies}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="quantity"></td>
+                                                    <td class="description">TOTAL</td>
+                                                    <td class="price">{{item.total_cost}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                           
+                                    </div>
+                                </div>
+                                 
+                            </div>
+
+
+                        </div>
+                        <p class="card-text"><strong>Procedure:</strong> {{item.procedure|safe}}</p>
+                         
+                      
+                  </div>
+               
+                   
+
+            <div class="container" style="text-align: center; margin-bottom: 0.5rem;">
+                                      {% if item.job_title.adpic %}
+                  <a download='file' href="{{item.job_title.adpic.url}}">Download ad</a>
+                        {% endif %}
+                       
+                </div>
+  </div>
+  <input type="text" size="70%" height="500" id="message" value=" Dear sir, You are eligible for {{item.post_name}} in {{item.job_title.jobtitle}} as your qualification. Last date:{{item.job_title.lastdate}} Total posts: {{item.no_of_posts}} visit and apply at https://applyforme.pk{{item.job_title.get_absolute_url}} Thank you for registering on applyforme.pk">
+  <hr>
+  <p>For whatsapp</p>
+ 
+<p id="message">
+  *applyforme.pk* <br>
+Dear sir, <br>
+Your education, gender, place of residence, and age make you eligible for a *{{item.post_name|truncatewords:3}}* in *{{item.job_title.jobtitle|truncatewords:3}}* <br>
+expiry date: {{item.job_title.lastdate}}<br>
+There are a total of  {{item.no_of_posts}} vacancies offered. <br>
+visit for more details and apply at *https://applyforme.pk{{item.job_title.get_absolute_url}}* <br>
+*We appreciate your signing up at applyforme.pk* <br>
+</p>
+
+
+</div>
+<hr>
+<div class="container">
+  All user eligible to this post:
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Full name</th>
+        <th scope="col">Education</th>
+        <th scope="col">phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in personlist %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{i.personal.full_name}}</td>
+        <td>{{i.personal.qualific}}</td>
+        <td>{{i.personal.phone_number}}</td>
+      </tr>
+      {% endfor %} 
+    </tbody>
+  </table>
+
+
+
+
+
+
+
+</div>
+<input type="text" size="25%" height="50" id="abc" value="{% for i in personlist %}{% if i.personal.phone_number %}{{i.personal.phone_number}},{% endif %}{% endfor %} ">
+<div class="row">
+  <div class="col">
+    {% for i in personlist %} {% if i.personal.phone_number %}<p>{{i.personal.phone_number}}<br></p>{% endif %}{% endfor %} 
+{% endif %}
+
+  </div>
+  <div class="col">
+    {% for i in personlist %} {% if i.personal.phone_number %}<p> {{i.personal.user}}<br></p>{% endif %}{% endfor %} 
+
+  </div>
+</div>
+
+  <h3>Recent Replied</h3>
+<div class="container">
+  {% for userreply in userreplies %}
+
+  <div class="card mb-1">
+    <h5 class="card-header">at {{userreply.job.timestamp}} to {{userreply.job.job.user}} </h5>
+    <div class="card-body">
+      <h5 class="card-title">{{userreply.job.whattoask|safe}}</h5>
+      <p class="card-text">{{userreply.userreply}}</p>
+      <p class="card-text"> replied at {{userreply.timestamp}}</p>
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+
+<div class="container">
+  Users applied to jobs but with unread message
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Job_applied</th>
+        <th scope="col">Last date</th>
+        <th scope="col">Asked</th>
+        <th scope="col">time</th>
+        <th scope="col">job user</th>
+        <th scope="col"> user phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for askingquestion in unseenquestions%}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{askingquestion.job.appliedtojob.post_name}} in {{askingquestion.job.appliedtojob.job_title.jobtitle}} </td>
+        <td>{{askingquestion.job.appliedtojob.job_title.lastdate}} </td>
+        <td>{{askingquestion.whattoask}}</td>
+        <td>{{askingquestion.timestamp}}</td>
+        <td>{{askingquestion.job.user}}</td>
+        <td>{{askingquestion.job.user.personal.phone_number}}</td>
+      </tr>
+      {% endfor %} 
+    </tbody>
+  </table>
+
+<!-- <input type="text" id="phone numbers" value=" {% for askingquestion in unseenquestions%} {% if  forloop.counter >= '50' %}&&&&-------- {% endif %}{{askingquestion.job.user.personal.phone_number}}; {% endfor %} "> -->
+
+
+</div>
+
+
+
+ 
+
+
+
+<style>
+  .adpic{
+    width: 150%;
+    
+  }
+  table{
+      margin:0px;
+  }
+  table, th, td {
+    border:1px solid black;
+  }
+  .bill{
+    line-height: 1rem;
+}
+
+
+</style>
+{% endblock %}

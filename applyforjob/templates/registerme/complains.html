@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} Complaints{% endblock title %}
+{% block meta %}      {% endblock meta %}
+
+
+
+{%block content %} 
+
+<div class="container" id='compbox'style='display:none' >
+    <div class="card" >
+        <div class="card-header">
+         Your complalin is submitted, We investigate and contact you soon...
+        </div>
+        <div class="card-body">
+          <h5 class="card-title" id='comoplain'> </h5>
+        </div>
+      </div>
+</div>
+
+<div class="container">
+
+    {% comment %} <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="#complaintform" role="button" aria-expanded="false" aria-controls="complaintform">Submit a complain</a>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#feedbackform" aria-expanded="false" aria-controls="feedbackform">Submit a Feedback </button>
+      </p> {% endcomment %}
+      <div class="row">
+        <div class="col">
+          <div class="" id="complaintform">
+            <div class="card card-body">
+               <h2>Submit a complain </h2>
+                <form action=""  id='complaint_form' method='POST' %}>
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <input type="submit" class='btn btn-primary' value=submit>
+                    </form>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="" id="feedbackform">
+            <div class="card card-body">
+               <h2>Submit a feedback </h2>
+                <form action="" id='feedback_form' method='POST'>
+                    {% csrf_token %}
+                    {{feedbackform.as_p}}
+                    <input type="submit" class='btn btn-primary' value=submit>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+           
+        </div>
+        <div class="col-sm">
+           
+        </div>
+</div>
+ 
+</div>
+
+<script>
+
+    $('#complaint_form').on('submit', function(event){
+        event.preventDefault();
+        complain=$("#complaint_form").serialize()
+        $.ajax({
+            url : "/staff/complains/", 
+            type : "POST",
+            data :complain ,
+            success : function(json) {
+                $("#complaint_form")[0].reset();
+                if(json.status='form is saved'){
+                    flashy('Thanks, Your complaint is submitted, We see it  and response soon', {
+                        type : 'flashy__success' });
+                    $("#compbox").show()
+                    $( "#comoplain" ).append( "Your complain is submitted,  Our First available representative will contact you soon, Please keep your phone with you!" );
+             
+                        
+                }
+                else{
+                    
+                alert('Captcha was wrong! please try again')
+                }
+               
+                
+            },
+            
+            // handle a non-successful response
+        });
+    });
+    $('#feedback_form').on('submit', function(event){
+        event.preventDefault();
+        complain=$("#feedback_form").serialize()
+        $.ajax({
+            url : "/staff/feedback/",
+            type : "POST", 
+            data :complain , 
+            success : function(json) {
+                $("#feedback_form")[0].reset();
+                if(json.status='form is saved'){
+                    flashy('Thanks, Your feedback is submitted, We see and response soon', {
+                        type : 'flashy__success'
+                                                    });
+                        
+                 
+                }
+            },
+    
+            // handle a non-successful response
+        });
+    });
+
+
+
+</script>
+
+
+
+
+{% endblock %}

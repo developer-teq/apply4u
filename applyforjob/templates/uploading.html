@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} My cv {% endblock title %}
+{% block meta %}   {% load crispy_forms_tags %}    {% endblock meta %}
+
+
+
+
+{%block content %} 
+
+<div class="container" id="personal">
+<div class="card text-center" >
+  <div class="card-header">
+    personal detail
+  </div>
+  <div class="card-body" >
+      <form method="post" id="personalform">
+          {% csrf_token %}
+          {{personel|crispy}}
+          <button id='personaldata' type="submit"> Submit</button>
+          <!-- <a href="" id='personaldata' type="submit" class="btn btn-primary">Next</a> -->
+      </form>
+      
+  </div>
+  </div>
+  <div class="card-footer text-muted">
+    
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="card text-center">
+    <div class="card-header">
+      Document Uploads
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{documentupload|crispy}}
+            <button type="submit"> send</button>
+          </form>
+  <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+    </div>
+    <div class="card-footer text-muted">
+      2 days ago
+    </div>
+  </div>
+  
+
+  <style>
+    .card{
+       position: auto;
+       margin: auto;
+       text-align: center;
+       background-color: rgb(87, 143, 124);
+     }
+   </style>
+
+   <script>
+$('#personalform').on('submit', function(event){
+    event.preventDefault();
+    console.log($('#personalform').serialize()) 
+});
+   </script>
+
+{% endblock %}
+

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+
+
+{%block title %}Notifications{% endblock title %}
+
+{% block meta %}   
+{% for i in jobnotifications%}
+ <meta name="description" content="{{i.notice}}">
+<meta name="keywords" content="{{i.tojob}}">
+<meta name="author" content="latest notifiction about jobs in pakistan applyforme.pk website"> 
+{% endfor %}
+{% endblock meta %}
+
+{%block content %} 
+
+{% for i in jobnotifications%}
+<div class="container">
+          
+ 
+ <h1>     
+
+<strong> {{i.tojob}} job Updates  </strong></h1>
+ <hr>
+ 
+
+ <div class="card" style="width: auto;">
+    
+    <div class="card-body">
+{% if i.notice_pic%}
+    <img class="card-img-left img-thumbnail" src="{{i.notice_pic.url}}" alt="{{i.tojob}}">
+    {% endif %}
+ {% if i.job_title.sectorlogo %}
+          <img id="" style="" class="" src="{{i.tojob.sectorlogo.url}}" alt="sans" > 
+          {% endif %}   
+
+      <p class="card-text">{{i.notice|safe}}</p></div>
+        <footer>
+           Dated: {{i.timestamp}}
+        </footer>
+  </div>
+{% endfor %}
+
+
+
+ </div>
+
+{% endblock %}
+

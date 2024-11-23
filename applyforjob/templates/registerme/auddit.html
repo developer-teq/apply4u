@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} Auddit {% endblock title %}
+{% block meta %}      {% endblock meta %}
+
+
+
+{%block content %} 
+<div class="container">
+
+    <h2>Total Active balance of all users:{{alluserbalancesum}}</h2>
+    <h2>Total Earned by commission all users:{{totalearning}}</h2>
+
+
+    <h1>All users balance status </h1>
+
+<div class="row">
+  
+  <div class="col">
+    {% for userreply in userreplies %}
+    <blockquote class="blockquote">
+      <p class="mb-0"> question:{{userreply.job.whattoask|safe}}</p>
+      <footer class="blockquote-footer">{{userreply.job.timestamp}}<cite title="Source Title">{{userreply.job.read}}</cite></footer>
+   
+      <p class="mb-0" style="background-color:#26857d ;">user Reply{{userreply.userreply}}</p>
+      <footer class="blockquote-footer">{{userreply.timestamp}}<cite title="Source Title">{{userreply.read}}</cite></footer>
+    </blockquote>
+    {% endfor %}
+
+  </div>
+  <div class="col">
+
+  </div>
+</div>
+
+
+
+
+    <!-- user user trusted earnings -->
+    <table class="table">
+        
+        <thead>
+          <tr>   
+            <th scope="col">#</th>
+            <th scope="col">user</th>
+            <th scope="col">trusted</th>
+            <th scope="col">balance</th>
+            <th scope="col">earnings</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for stockmarket in stockmarket %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{stockmarket.user}}</td>
+            <td>{{stockmarket.trusted}}</td>
+            <td>{{stockmarket.accountmanagement}}</td>
+            <td>{{stockmarket.earning}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+<hr>
+    <h1>User requested for online other </h1>
+
+    <!-- user user trusted earnings -->
+    <table class="table">
+        
+        <thead>
+          <tr>   
+            <th scope="col">#</th>
+            <th scope="col">user</th>
+            <th scope="col">I_want_to</th>
+            <th scope="col">discription</th>
+            <th scope="col">timestamp</th>
+            <th scope="col">screenshot_of_ad</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for requestonline in reqeustingonline %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{requestonline.user}}</td>
+            <td>{{requestonline.I_want_to}}</td>
+            <td>{{requestonline.discription}}</td>
+            <td>{{requestonline.timestamp}}</td>
+            {% if requestonline.screenshot_of_ad %}
+            <td><img src="{{requestonline.screenshot_of_ad.url}}" alt=""></td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+<hr>
+<h2>Total jobs applied </h2>
+
+<table class="table">
+        <!-- user
+appliedtojob
+applieddate
+pending
+alldone
+status -->
+    <thead>
+      <tr>   
+        <th scope="col">#</th>
+        <th scope="col">user</th>
+        <th scope="col">appliedtojob</th>
+        <th scope="col">applieddate</th>
+        <th scope="col">last date</th>
+        <th scope="col">Total cost</th>
+        <th scope="col">ref com</th>
+        <th scope="col">alldone</th>
+        <th scope="col">status</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for appliedj in appliedj %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{appliedj.user}}</td>
+        <td>{{appliedj.appliedtojob}}</td>
+        <td>{{appliedj.timestamp}}</td>
+        <td>{{appliedj.appliedtojob.job_title.lastdate}}</td>
+        <td>{{appliedj.appliedtojob.total_cost}}</td>
+        <td>{{appliedj.appliedtojob.ref_commission}}</td>
+        <td>{{appliedj.alldone}}</td>
+        <td>{{appliedj.status}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+<hr>
+<h3>User who added balance </h3>
+
+<table class="table">
+    <!-- user
+payment_adding
+paymentdate
+payemntmathod
+usertrnxid
+comment -->
+<thead>
+  <tr>   
+    <th scope="col">#</th>
+    <th scope="col">user</th>
+    <th scope="col">payment_adding</th>
+    <th scope="col">payemntmathod</th>
+    <th scope="col">paymentdate</th>
+    <th scope="col">usertrnxid</th>
+    <th scope="col">comment</th>
+  </tr>
+</thead>
+<tbody>
+    {% for balanadded in balanadded %}
+  <tr>
+    <th scope="row">{{forloop.counter}}</th>
+    <td>{{balanadded.user}}</td>
+    <td>{{balanadded.payment_adding}}</td>
+    <td>{{balanadded.payemntmathod}}</td>
+    <td>{{balanadded.paymentdate}}</td>
+    <td>{{balanadded.usertrnxid}}</td>
+    <td>{{balanadded.comment}}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+
+<h3>Users who want to cashout money</h3>
+<table class="table">
+<!-- 
+    user
+cashout
+payemntmathod
+usertrnxid
+cashout_done
+fraudingperson
+comment
+ -->
+<thead>
+  <tr>   
+    <th scope="col">#</th>
+    <th scope="col">user</th>
+    <th scope="col">cashout</th>
+    <th scope="col">payemntmathod</th>
+    <th scope="col">cashout_done</th>
+    <th scope="col">usertrnxid</th>
+    <th scope="col">comment</th>
+  </tr>
+</thead>
+<tbody>
+    {% for balancereq in balancereq %}
+  <tr>
+    <th scope="row">{{forloop.counter}}</th>
+    <td>{{balancereq.user}}</td>
+    <td>{{balancereq.payment_adding}}</td>
+    <td>{{balancereq.payemntmathod}}</td>
+    <td>{{balancereq.cashout_done}}</td>
+    <td>{{balancereq.usertrnxid}}</td>
+    <td>{{balancereq.comment}}</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+
+
+
+</div>
+
+
+{% endblock %}

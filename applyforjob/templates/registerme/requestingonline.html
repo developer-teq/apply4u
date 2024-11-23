@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+
+
+{%block title %}Request{% endblock title %}
+{% block meta %}      {% endblock meta %}
+
+
+
+{%block content %} 
+<div class="container">
+
+<div class="container">
+  
+     <p><b>Please tell us where you want to apply or register? </b></p>
+     <hr>
+    <form action="" enctype='multipart/form-data' method="post">
+{% csrf_token %}
+        {{requestonlineform.as_p}}
+        <input type="submit" class="btn btn-primary" value=submit>
+    </form>
+</div>
+<h3>How it works ?</h3>
+<p class='urdu' style="text-align: right;">اگر کسی جاب پر آپ اپلائی کرنا چاہتے ہیں اور اس ویب سائٹ پر موجود نہیں ، تو آپ  درج بالا باکس فارم  کے زریعے ہمیں ریکویسٹ کر سکتے ہیں اور اگر کوئی اشتہار وغیرہ ہے تو اس کا سکرین شاٹ بھی اوپر فارم کے زریعےبھیج دیں   ، ہمارا نمائندہ آپ سے جلد رابطہ کریگا<br />اس طرح آپ یونیورسٹیز میں داخلہ وغیرہ کے لیے بھی ریکویسٹ کر سکتے ہیں بشرطیکہ آپ تعلیمی معلومات کا اندراج اس ویب سائٹ پر ہو چکا ہو</p>
+<p>After submitting above data, our representative'll call you <br>
+and ask for more details. After that we do what you want.</p>
+
+</div>
+
+{% endblock %}

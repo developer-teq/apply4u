@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} Accountant {% endblock title %}
+{% block meta %}      {% endblock meta %}
+
+
+
+{%block content %} 
+<div class="container">
+
+  <p>
+    {% for addingbalance in balance_added %}
+    <p class="card-header btn-primary" type="button" data-toggle="collapse" data-target="#{{addingbalance.id}}" aria-expanded="false" aria-controls="{{addingbalance.user}}">
+      {{addingbalance.user}} current balance:{{addingbalance.user.billing.accountmanagement}}         {% if addingbalance.varified %} <strong>Payment Varified</strong>{% endif %} </p>
+    </p>
+  </p>
+  <div class="collapse" id="{{addingbalance.id}}">
+    <div class="card card-body">
+      <p> Payment adding:{{addingbalance.payment_adding}}</p>
+      <p>Dated:{{addingbalance.paymentdate}}</p>
+      <p>Pyment Method: {{addingbalance.payemntmathod}}</p>
+      <p>Trx id: {{addingbalance.usertrnxid}}</p>
+      <p>Deposit slip:{{addingbalance.depositslip}}</p>
+      <p>Entery to This web:{{addingbalance.timestamp}}</p>
+      {% if addingbalance.varified %}
+      <div class="alert alert-primary" role="alert">
+       Payment added {{addingbalance.payment_adding}} 
+      </div>
+{% else%}
+
+<div class="container " style="background-color: rgb(194, 245, 215);">
+  <form class="addingbalance" action="" method="POST">
+    {% csrf_token %}
+    <input type="checkbox" name="balancevarified" value="varified">
+    <label for="balancevarified">Balance fully varified</label><br>
+    <input type="checkbox" name="wecantrust" value="wecantrust">
+    <input type="hidden" name="balanceid" value="{{addingbalance.id}}">
+    <input type="hidden" name="payment_adding" value="{{addingbalance.payment_adding}}">
+    <label for="wecantrust"> We can trust this user</label><br>
+    <input type="text" class="form-control" name="comment" placeholder="write some feedback about this user with id {{addingbalance.id}}" >
+   <br><br>
+    <input type="submit" value="Submit">
+  </form>
+  </div>
+
+{% endif  %}
+    
+    </div>
+  </div>
+
+<p></p>
+ 
+
+
+
+
+
+
+
+<hr>
+{% endfor %}
+
+
+
+
+
+
+</div>
+<script>
+   
+
+    $('.addingbalance').submit(function(e){
+      e.preventDefault();
+      $.ajax({
+            url: '/staff/accounting/',
+            type: 'POST',
+            data: $( this ).serialize(),
+            success: function (response) {
+              if (response.status=='saved'){
+                alert('balance added succusfully and usernew balance is '+response.usernewbalance)
+              }
+              if (response.status=='Already added this'){
+                    alert('Already added this payment')
+                    $(this).hide();
+              }
+              if (response.status=='Created a new account and added balance'){
+                    alert('Created a new account and added balance with new balance is' +response.usernewbalance)
+              }
+              
+            }
+                
+                   
+        });
+      });
+    
+  
+</script>
+
+
+{% endblock %}

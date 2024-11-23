@@ -1,0 +1,659 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} My cv {% endblock title %}
+{% block meta %}   
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+{% load crispy_forms_tags %}    {% endblock meta %}
+
+{% load static %}
+
+
+{%block content %} 
+
+<div class="container" id="personal">
+<div class="card text-center" >
+  <div class="card-header">
+    Step 1
+  </div>
+  <div class="card-body" id="personalformbody" >
+      <form method="" id="personalform">
+         
+          {{personel|crispy}}
+         
+          <button id='personaldata' class='btn btn-primary m-1'type="submit"> Submit</button>
+          <!-- <a href="" id='personaldata' type="submit" class="btn btn-primary ahrefwhite">Next</a> -->
+      </form>
+      
+          
+            <div class="alert alert-dark" role="alert">
+          <p class='urdu'> نوٹ :آپ کی  یہ تمام معلومات ہرگز کسی سے شیئر نہیں کی جائیں گی. یہ صرف اور صرف جابز کی رجسٹریشن میں اور متعلقہ جاب کے پتہ پر بھیجنے کے لیے ہے.  </p>
+
+              <strong> Note:</strong> This data is required for online jobs registrations and for posting purpose we never share to any one,
+            </div>
+  </div>
+  </div>
+</div>
+
+
+<div class="container" >
+  <div class="card text-center">
+    <div class="card-header">
+      Step 2
+    </div>
+    <div class="card-body form-group" id="documentupload">
+     
+
+      <a class='btn btn-primary m-1' href="https://applyforme.pk/education/">Enter data</a><p class='mb-0'>OR</p>
+     
+      <p>  
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#uploadcv" aria-expanded="false" aria-controls="uploadcv">
+          Upload Cv
+        </button>
+      </p>
+      <div class="collapse" id="uploadcv">
+       
+          <form enctype="multipart/form-data" method="post" id="uploadcvform">
+            {% csrf_token %}
+          
+            <div class="col">
+              <div class="row">
+                  
+                {{ documentupload.upload_cv.status }}
+                <label class='label' for="id_upload_cv">Upload Complete CV<i class="fas fa-upload"></i></label>
+              
+                <span >{{ documentupload.upload_cv }}</span><label id="id_upload_cv"></label>
+              </div>
+            </div>
+      
+        <hr>
+        <div class="alert alert-dark" role="alert">
+          <strong> Note:</strong> This data is required for online jobs registrations and for posting purpose we never share to any one,
+         </div>
+                <button class="btn btn-primary" type="submit">Upload</button>
+                <div class="form-group mt-4"  id="progress_div_cv">
+                  <div class="progress">
+                      <div class="progress-bar" id="progress_bar_cv" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                  </div>
+                  <div class="row">
+                    <p id="progress_text_cv"></p>
+                </div>
+              </div> 
+              </form>
+        
+       
+      </div>
+      <p class='mb-0'>OR</p>
+      <p> 
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#uploaddocscan" aria-expanded="false" aria-controls="uploaddocscan">
+         Upload documents
+        </button>
+      </p>
+      <div class="collapse" id="uploaddocscan">
+        
+          <form enctype="multipart/form-data" method="post" id="docupload">
+            {% csrf_token %}
+          
+            {% comment %} <div class="col">
+              <div class="row">
+                  
+                {{ documentupload.upload_cv.status }}
+                <label class='label' for="id_upload_cv">Upload Complete CV<i class="fas fa-upload"></i></label>
+              
+                <span >{{ documentupload.upload_cv }}</span><label id="id_upload_cv"></label>
+              </div>
+            </div> {% endcomment %}
+  
+    
+            
+            <div class="col">
+              
+              {{ documentupload.picture.errors }}
+              <img style="width: 100px;" class='label' for="id_picture" src="{% static 'men.jpg' %}" alt="">
+              <label   class='label' for="id_picture">Picture <i class="fas fa-upload"></i></label>
+             <span >{{ documentupload.picture }}</span><label id="id_pic"></label>
+    
+             
+            </div>
+            <div class="col">
+              {{ documentupload.cnic_front.errors }}
+             <label class='label' for="id_cnic_front"> <img style="width: 100px;" src="{% static 'cnic-front.jpg' %}" alt="">Cnic front <i class="fas fa-upload"></i></label>
+             
+              <span >{{ documentupload.cnic_front }}</span><label id="id_front"></label>
+    
+            </div>
+            <div class="col">
+              {{ documentupload.cnic_back.errors }}
+            <label class='label' for="id_cnic_back"> <img style="width: 100px;" src="{% static 'cnic-back.jpg' %}" alt="">cnic back <i class="fas fa-upload"></i></label>
+             
+              <span >{{ documentupload.cnic_back }}</span><label id="id_back"></label>
+    
+            </div>
+         
+          <hr>
+            <div class="row">
+              <label class='label' for="id_Father_cnic"><img style="width: 100px;" src="{% static 'cnic-front.jpg' %}" alt="">Father cnic <i class="fas fa-upload"></i></label>
+              {{ documentupload.Father_cnic.errors }}
+           
+             <span > {{ documentupload.Father_cnic }}</span><label id="id_Father"></label>
+            </div>
+            <hr>
+          <div class="row">
+          <div class="col">
+            
+            {{ documentupload.matric.status }}
+            <label class='label' for="id_matric">Matric <img style="width: 3rem;" for="id_matric" src="{% static 'uploaddata.gif' %}" alt=""></label>
+             
+            <span >{{ documentupload.matric }}</span><label id="id_mat"></label>
+        
+          </div>
+          
+          <div class="col" id="intercol">
+           
+            {{ documentupload.inter.errors }}
+           <label class='label' for="id_inter">Intermediate/DAE  <img style="width: 3rem;" for="id_inter" src="{% static 'uploaddata.gif' %}" alt=""></label>
+            <span >{{ documentupload.inter }}</span><label id="id_int"></label>
+          </div>
+    
+          <div class="col" id="bachlorcol">
+            {{ documentupload.bachlor.errors }}
+             <label class='label' for="id_bachlor">BA,BSc etc degree <img style="width: 3rem;" for="id_bachlor" src="{% static 'uploaddata.gif' %}" alt=""></label>
+             
+            <span >{{ documentupload.bachlor }}</span><label id="id_bach"></label>
+        
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col" id="mastercol" >
+            {{ documentupload.master.errors }}
+           <label class='label' for="id_master">Master degree <img style="width: 3rem;" for="id_master" src="{% static 'uploaddata.gif' %}" alt=""></label>
+           {{ documentupload.master.errors }}
+            <span >{{ documentupload.master }}</span><label id="id_mast"></label>
+          </div>
+          <div class="col" id="mphilcol" >
+            
+            {{ documentupload.mphil.errors }}
+            <label class='label' for="id_mphil">Mphil degree <img style="width: 3rem;" for="id_mphil" src="{% static 'uploaddata.gif' %}" alt=""></label>
+             
+            <span >{{ documentupload.mphil }}</span><label id="id_mph"></label>
+        
+            
+          </div>
+          <div class="col" id="doctorcol">
+          {{ documentupload.doctor.errors }}
+          <label class='label' for="id_doctor">Phd degree <img style="width: 3rem;" for="id_doctor" src="{% static 'uploaddata.gif' %}" alt=""></label>
+             
+          <span >{{ documentupload.doctor }}</span><label id="id_doc"></label>
+        </div>
+      </div>        
+        <hr>
+        <div class="alert alert-dark" role="alert">
+          <strong> Note:</strong> This data is required for online jobs registrations and for posting purpose we never share to any one,
+         </div>
+                <button class="btn btn-primary" type="submit">Upload</button>
+                <div class="form-group mt-4"  id="progress_div">
+                  <div class="progress">
+                      <div class="progress-bar" id="progress_bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                  </div>
+                  <div class="row">
+                    <p id="progress_text"></p>
+                </div>
+              </div>
+              </form>
+        
+        
+      </div>
+
+
+      <p class='urdu'> اوپر دیئے گئے آپشنز میں سے کسی ایک پر کلک کریں   </p>
+
+      <p><strong>Enter Data :&nbsp;</strong>By clicking on "Enter data" , You will have to enter all your educational data by your own</p>
+
+<p><strong>Upload CV :&nbsp;</strong>By clicking on "Upload CV" button you will have to upload your CV in jpg/pdf file only</p>
+
+<p><strong>Upload documents :&nbsp;</strong>By clicking on "Upload documents" you have to upload all of your educational documents pictures</p>
+
+<p><strong>You have to choose at least one of above options.&nbsp;</strong></p>
+
+
+      </div>
+      
+    </div>
+
+
+
+
+
+    <div class="card text-center">
+      <div class="card-header">
+        Step 3
+      </div>
+      <div class="card-body form-group" id="experiencedata">
+       
+
+        <p>
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addexperience" aria-expanded="false" aria-controls="addexperience">
+           Add Experience
+          </button> OR 
+          <a href="/"  class="btn btn-primary ahrefwhite">Skip for now, We add this later</a>
+        </p>
+        <!-- <div class="collapse" id="addexperience">
+          <div class="card card-body">
+            <div class="container">
+              <h2> <strong>Add Experience certificates:</strong></h2>
+                <h3>You can upload extra courses, Experiences, certificates, driving license and etc </h3>
+              <hr>
+              
+              <table id="gallery" class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Experience Title</th>
+                    <th scope="col">picture</th>
+                    <th scope="col">time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for photo in request.user.experiencepics_set.all %}
+                    <tr>
+                      <td>{{ forloop.counter }}</a></td>
+                      <td>{{ photo.title }}</td>
+                      {% if photo.docscan %}
+                  <td>
+                    <img src="{{ photo.docscan.url }}" alt="" width="400" height="auto"></td>
+                  {% endif %}
+                  <td>{{ photo.timestamp }}</td>
+                    </tr>
+                    
+                  {% endfor %}
+                </tbody>
+              </table>
+              <form enctype="multipart/form-data" method="post" id="experpic">
+                {% csrf_token %}
+                {{expform.as_p}} 
+            
+                <div class="form-controle m-2 mb-1" id="">
+                  {{ expform.title.errors }}
+                  <label class='label mb-1' for="id_title">Title</label> 
+                  <span >{{ expform.title }}</span><label id="id_title"></label>
+                </div>
+                <div class="form-controle m-2 mb-1" id="">
+                  {{ expform.duration.errors }}
+                  <label class='label mb-1' for="id_duration">Duration</label> 
+                  <span >{{ expform.duration }}</span><label id="id_duration"></label>
+                </div>
+                <div class="form-controle m-2 mb-1" id="">
+                  {{ expform.docscan.errors }}
+                  <label class='label mt-1' for="id_docscan">Document scan <i class="fas fa-upload"></i></label> 
+                  <span >{{ expform.docscan }}</span>
+                  <label id="id_docscan"></label>
+                </div>
+                <div class="form-group mt-4"  id="progexpform" style="display: none;">
+                  <div class="progress">
+                      <div class="progress-bar" id="expform_bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                  </div>
+                  <div class="row">
+                    <p style="padding-left: 1rem;" id="expform_text"></p>
+                </div>
+              </div>
+                <div class="" role="alert">
+                  <p id='expformstatus'></p>
+                </div>
+            
+                <input id="expeuploadbtn" class='btn btn-primary' type="submit" value="upload">
+               
+              </form>
+            
+            
+            
+            </div>
+            
+            
+       
+          </div>
+        </div> -->
+  
+       
+
+  
+      </div>
+  
+     </div>
+
+    
+
+
+
+
+
+
+    <div class="card-footer text-muted">
+      <div id="gohome" class="container" style="text-align: center;">
+        <a href="/" class="btn btn-primary ahrefwhite"  >Go Home</a>
+         </div>
+    </div>
+  </div>
+  
+
+
+  <style>
+/* ajax file upload css */
+
+    .label {
+  background-color: rgb(207, 201, 211);
+  color: rgb(27, 26, 26);
+  padding: 0.5rem;
+  font-family: sans-serif;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+    .form-check-label{
+      background-color: aqua;
+      border: black;
+      box-shadow: 4rem;
+    }
+    .form-check-label:hover{
+      background-color: blueviolet;
+    }
+    /* input[type=checkbox] {
+            visibility: hidden;
+    } */
+    .form-check-label:hover input ~.form-check-input  {
+            background-color: yellow;
+        }
+          
+    .card{
+       position: auto;
+       margin: auto;
+       text-align: center;
+       background-color:azure;
+     }
+     .card-header{
+      background: linear-gradient(45deg, #05abe0 0%,#8200f4 100%);
+      color: rgb(247, 243, 243);
+     }
+     .card-body{
+       box-shadow: 2rem;
+     }
+     #intercol ,#bachlorcol ,#mastercol ,#mphilcol, #doctorcol,#gohome{
+       display: none;
+     }
+   
+    #id_cnic_front,#id_picture,#id_cnic_front,#id_cnic_back,#id_Father_cnic,#id_matric,#id_inter,#id_bachlor,#id_master,#id_mphil,#id_doctor, #id_upload_cv
+    {
+      display: none;
+    }
+    #docscanupload{
+      display:none;
+
+    }
+   .ahrefwhite {
+      color: rgb(252, 255, 252);
+      background-color: transparent;
+      text-decoration: none;
+    }
+    #documentupload, #experiencedata{
+      display: none;
+    }
+    
+   </style>
+   <script>
+      
+      $(function() {
+
+$('#exp_pictitle , #id_duration').keydown(function (e) {
+
+  if (e.shiftKey || e.ctrlKey || e.altKey) {
+  
+    e.preventDefault();
+    
+  } else {
+  
+    var key = e.keyCode;
+    
+    if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90))) {
+    
+      e.preventDefault();
+      
+    }
+
+  }
+  
+});
+
+});
+
+
+
+
+        
+    $('#personalform').on('submit', function(event){
+      event.preventDefault();
+  
+      $.ajax({
+            type:"GET",
+            url: '/personaldata/',
+            data:$('#personalform').serialize(),
+            dataType: 'json',
+            
+            success:function(data){
+              // console.log(data)
+              if (data.status=='saved'){
+                  $('#personalform').hide(1000);
+                  $('#documentupload').css('display','block');
+               
+              } 
+              if (data.status=='updated'){
+                $('#personalformbody').hide(1000);    
+                $('#documentupload').css('display','block');
+              }
+              if (data.status=='not valid data'){
+                alert('Captcha was wrong! Please try again')
+                location.reload()
+              }
+  
+              if (data.educationcategory==12){
+                $('#intercol').css('display','block');
+               
+              }
+              if (data.educationcategory==13){
+                $('#intercol').css('display','block');
+               
+              }
+              if (data.educationcategory==14){
+                 $('#intercol').css('display','block');
+                $('#bachlorcol').css('display','block');
+               
+              }
+              if (data.educationcategory==16){
+                 $('#intercol').css('display','block');
+                $('#bachlorcol').css('display','block');
+                $('#mastercol').css('display','block');
+              }
+              if (data.educationcategory==18){
+                 $('#intercol').css('display','block');
+                $('#bachlorcol').css('display','block');
+                $('#mastercol').css('display','block');
+                $('#mphilcol').css('display','block');
+              }
+              if (data.educationcategory==21){
+                 $('#intercol').css('display','block');
+                $('#bachlorcol').css('display','block');
+                $('#mastercol').css('display','block');
+                $('#mphilcol').css('display','block');
+                $('#doctorcol').css('display','block');
+              }
+  
+  
+            }
+          });
+         
+        });
+        // var idpicture=document.getElementById("id_picture").files[0]
+    //   $(document).ready(function(){
+    //     $('#id_picture[type="file"]').change(function(e){
+    //         var fileName = e.target.files[0].name;
+    //         alert('The file "' + fileName +  '" has been selected.');
+    //     });
+    // });
+
+    $("#id_picture").change(function(){
+    $("#id_pic").text(this.files[0].name);});
+
+    $("#id_cnic_front").change(function(){
+    $("#id_front").text(this.files[0].name);});
+
+    $("#id_cnic_back").change(function(){
+    $("#id_back").text(this.files[0].name);});
+
+    $("#id_Father_cnic").change(function(){
+    $("#id_Father").text(this.files[0].name);});
+
+    $("#id_matric").change(function(){
+    $("#id_mat").text(this.files[0].name);});
+
+    $("#id_inter").change(function(){
+    $("#id_int").text(this.files[0].name);});
+
+    $("#id_bachlor").change(function(){
+    $("#id_bach").text(this.files[0].name);});
+
+    $("#id_master").change(function(){
+    $("#id_mast").text(this.files[0].name);});
+
+    $("#id_mphil").change(function(){
+    $("#id_mph").text(this.files[0].name);});
+
+    $("#id_doctor").change(function(){
+    $("#id_doc").text(this.files[0].name);
+  });
+
+
+
+
+
+    $('#docupload').on('submit', function(event){
+        event.preventDefault();
+        // doc=$('#docupload').serialize();
+        // console.log(doc)
+        var formData=new FormData();
+        var csrftoken = document.getElementsByName('csrfmiddlewaretoken')
+        formData.append("picture",document.getElementById("id_picture").files[0]);
+        formData.append("matric",document.getElementById("id_matric").files[0]);
+        formData.append("inter",document.getElementById("id_inter").files[0]);
+        formData.append("bachlor",document.getElementById("id_bachlor").files[0]);
+        formData.append("master",document.getElementById("id_master").files[0]);
+        formData.append("mphil",document.getElementById("id_mphil").files[0]);
+        formData.append("doctor",document.getElementById("id_doctor").files[0]);
+        formData.append("cnic_front",document.getElementById("id_cnic_front").files[0]);
+        formData.append("cnic_back",document.getElementById("id_cnic_back").files[0]);
+        formData.append("Father_cnic",document.getElementById("id_Father_cnic").files[0]);
+        
+        // alert(formData.bachlor)
+
+        var xhr=new XMLHttpRequest();
+        xhr.open("POST","https://applyforme.pk/ajax_file_upload_save",true);
+        xhr.upload.addEventListener("progress",function (ev) {
+           if(ev.lengthComputable){
+               var percentage=(ev.loaded/ev.total*100|0);
+               document.getElementById("progress_div").style["display"]="block";
+               document.getElementById("progress_bar").style["width"]=""+percentage+"%";
+               document.getElementById("progress_bar").innerHTML=""+percentage+"%";
+               document.getElementById("progress_text").innerHTML="Uploaded : "+parseInt(ev.loaded/1000000)+"/"+parseInt(ev.total/1000000)+" MB";
+               if(percentage === 100) {
+                  window.location.href = "https://applyforme.pk/";  }
+           }
+           
+        });
+
+        xhr.send(formData);
+        flashy('documents uploaded ', {
+        type : 'flashy__success' });
+        
+                         
+       
+      });
+
+      
+
+    $('#uploadcvform').on('submit', function(event){
+        event.preventDefault();
+        // doc=$('#docupload').serialize();
+        // console.log(doc)
+        var formData=new FormData();
+        var csrftoken = document.getElementsByName('csrfmiddlewaretoken')
+        formData.append("upload_cv",document.getElementById("id_upload_cv").files[0]);
+        console.log(formData);
+        // alert(formData.bachlor)
+
+        var xhr=new XMLHttpRequest();
+        xhr.open("POST","https://applyforme.pk/ajax_file_upload_save",true);
+        xhr.upload.addEventListener("progress",function (ev) {
+           if(ev.lengthComputable){
+               var percentage=(ev.loaded/ev.total*100|0);
+               
+               document.getElementById("progress_div_cv").style["display"]="block";
+               document.getElementById("progress_bar_cv").style["width"]=""+percentage+"%";
+               document.getElementById("progress_bar_cv").innerHTML=""+percentage+"%";
+               document.getElementById("progress_text_cv").innerHTML="Uploaded : "+parseInt(ev.loaded/1000000)+"/"+parseInt(ev.total/1000000)+" MB";
+            
+              
+             
+           }
+        });
+
+        xhr.send(formData); 
+        flashy('Please wait while uploading cv on server', {
+        type : 'flashy__success' });
+          });
+        $('#experiencedata').css('display','block');
+        
+        
+    $('#experpic').on('submit', function(event){
+        event.preventDefault();
+        // doc=$('#docupload').serialize();
+        // console.log(doc)
+        var formData=new FormData();
+        var csrftoken = document.getElementsByName('csrfmiddlewaretoken')
+        formData.append("title",$("#id_title").val());
+        formData.append("duration",$("#id_duration").val());
+        formData.append("docscan",document.getElementById("id_docscan").files[0]);
+        
+        // alert(formData.bachlor)
+
+        var xhr=new XMLHttpRequest();
+        xhr.open("POST","https://applyforme.pk/expcertupload",true);
+        xhr.upload.addEventListener("progress",function (ev) {
+           if(ev.lengthComputable){
+               var percentage=(ev.loaded/ev.total*100|0);
+               document.getElementById("progexpform").style["display"]="block";
+               document.getElementById("expform_bar").style["width"]=""+percentage+"%";
+               document.getElementById("expform_bar").innerHTML=""+percentage+"%";
+               document.getElementById("expform_text").innerHTML="Uploaded";
+              
+
+           }
+           
+        });
+        xhr.send(formData);
+        
+       
+        alert('Your data is added');
+        $("#expeuploadbtn").val("Add an other One ");
+        $("#experpic")[0].reset();
+       
+        $('#gohome').css('display','block');
+
+            
+    
+      });
+  
+   
+    
+   
+</script>
+{% endblock %}
+

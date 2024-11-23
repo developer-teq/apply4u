@@ -1,0 +1,596 @@
+
+
+    {% extends "base.html" %}
+
+
+
+    {%block title %} Add your Qualifications{% endblock title %}
+    {% block meta %}    {% load crispy_forms_tags %}   {% endblock meta %}
+    
+    {%block content %} 
+    <div class="container">
+        <h3>Basic Data</h3>
+        <input type="hidden" value="{{request.user.personal.qualific.year_of}}" id='qual' class=''>
+        <hr>
+        <div class="card-body" id="personalformbody" >
+            <form method="" id="personalform">
+             <div class="row" style='line-height: normal;'>
+                  
+                   <div class="col border"> 
+                    
+                    <label>{{ personaldata.full_name.label_tag }}</label>
+                    {{personaldata.full_name}}</div>
+                   <div class="col border">
+                      <label>{{ personaldata.father_name.label_tag }}</label>
+                       {{personaldata.father_name}}</div>
+                   <div class="col border"> 
+                      <label>{{ personaldata.gender.label_tag }}</label>
+                      {{personaldata.gender}}</div>
+                   <div class="col border">
+                      <label>{{ personaldata.cnic_number.label_tag }}</label>
+                       {{personaldata.cnic_number}}</div>
+                   <div class="col border">
+                      <label>{{ personaldata.Dateofbirth.label_tag }}</label>
+                       {{personaldata.Dateofbirth}}</div>
+                   </div>
+                   <div class="row">
+
+                   <div class="col border">
+                     <label>{{ personaldata.qualific.label_tag }}</label> 
+                    {{personaldata.qualific}}</div>
+                   <div class="col border">
+                     <label>{{ personaldata.phone_number.label_tag }}</label> 
+                    {{personaldata.phone_number}}</div>
+                   <div class="col border">
+                     <label>{{ personaldata.father_cnic.label_tag }}</label> 
+                    {{personaldata.father_cnic}}</div>
+                   <div class="col border">
+                     <label>{{ personaldata.My_Father_is.label_tag }}</label> 
+                    {{personaldata.My_Father_is}}</div>
+                   <div class="col border ">
+                     <label>{{ personaldata.address.label_tag }}</label> 
+                    {{personaldata.address}}</div>
+                   <div class="col border ">
+                     <label>{{ personaldata.domicile.label_tag }}</label> 
+                    {{personaldata.domicile}}</div>
+                  </div>
+
+                <button id='personaldata' class='btn btn-primary m-1'type="submit"> Update</button>
+                <!-- <a href="" id='personaldata' type="submit" class="btn btn-primary">Next</a> -->
+            </form>    
+        </div>
+<div id="mat">
+        <h3>Matric</h3>
+        <hr>
+        <form id='matric_form' method="get"> 
+          <div class="row"> 
+          <div class="col border">
+            <label>{{ matricForm.title.label_tag }}</label> 
+            {{matricForm.title}}
+          </div>
+          <div class="col border">
+            <label>{{ matricForm.board.label_tag }}</label> 
+            {{matricForm.board}}
+          </div>
+          <div class="col border">
+            <label>{{ matricForm.marks.label_tag }}</label> 
+            {{matricForm.marks}}
+          </div>
+          <div class="col border">
+            <label>{{ matricForm.total_marks.label_tag }}</label> 
+            {{matricForm.total_marks}}
+          </div>
+          <div class="col border">
+            <label>{{ matricForm.result_date.label_tag }}</label> 
+            {{matricForm.result_date}}
+          </div>
+      <button  class='btn btn-primary m-1' type="submit"> Update</button>
+ 
+    </div>
+      </form>
+    </div>
+
+
+
+
+<div id="inter">
+<h3>Intermediate</h3>
+<hr>
+
+<form id='interform' method="get">
+  <div class="row"> 
+  <div class="col border">
+    <label>{{ IntermediateForm.title.label_tag }}</label> 
+    {{IntermediateForm.title}}
+  </div>
+  <div class="col border">
+    <label>{{ IntermediateForm.board.label_tag }}</label> 
+    {{IntermediateForm.board}}
+  </div>
+  <div class="col border">
+    <label>{{ IntermediateForm.marks.label_tag }}</label> 
+    {{IntermediateForm.marks}}
+  </div>
+  <div class="col border">
+    <label>{{ IntermediateForm.total_marks.label_tag }}</label> 
+    {{IntermediateForm.total_marks}}
+  </div>
+  <div class="col border">
+    <label>{{ IntermediateForm.result_date.label_tag }}</label> 
+    {{IntermediateForm.result_date}}
+  </div>
+<button  class='btn btn-primary m-1' type="submit"> Update</button>
+
+  </div>
+</form>
+</div>
+<div id="bachlor">
+    <hr>
+    <h3>Bachelor</h3>
+    <hr>
+
+
+    <form id='bachelorform' method="get">
+      <div class="row"> 
+      <div class="col border">
+        <label>{{ BachlorForm.title.label_tag }}</label> 
+        {{BachlorForm.title}}
+      </div>
+      <div class="col border">
+        <label>{{ BachlorForm.board.label_tag }}</label> 
+        {{BachlorForm.board}}
+      </div>
+      <div class="col border">
+        <label>{{ BachlorForm.marks.label_tag }}</label> 
+        {{BachlorForm.marks}}
+      </div>
+      <div class="col border">
+        <label>{{ BachlorForm.total_marks.label_tag }}</label> 
+        {{BachlorForm.total_marks}}
+      </div>
+      <div class="col border">
+        <label>{{ BachlorForm.result_date.label_tag }}</label> 
+        {{BachlorForm.result_date}}
+      </div>
+    <button  class='btn btn-primary m-1' type="submit"> Update</button>
+    
+    </div>
+    </form>
+  </div>
+  <div id="master">
+    <hr>
+    <h3>Master</h3>
+    <hr>
+
+
+    <form id='masterform' method="get">
+      <div class="row"> 
+      <div class="col border">
+        <label>{{ masterForm.title.label_tag }}</label> 
+        {{masterForm.title}}
+      </div>
+      <div class="col border">
+        <label>{{ masterForm.board.label_tag }}</label> 
+        {{masterForm.board}}
+      </div>
+      <div class="col border">
+        <label>{{ masterForm.marks.label_tag }}</label> 
+        {{masterForm.marks}}
+      </div>
+      <div class="col border">
+        <label>{{ masterForm.total_marks.label_tag }}</label> 
+        {{masterForm.total_marks}}
+      </div>
+      <div class="col border">
+        <label>{{ masterForm.result_date.label_tag }}</label> 
+        {{masterForm.result_date}}
+      </div>
+    <button  class='btn btn-primary m-1' type="submit"> Update</button>
+    
+    </div>
+    </form>
+    </div>
+<div id="mphil">
+    <hr>
+    <h3>Mphil</h3>
+    <hr>
+
+    <form id='mphilform' method="get">
+      <div class="row"> 
+      <div class="col border">
+        <label>{{mphilForm.title.label_tag }}</label> 
+        {{mphilForm.title}}
+      </div>
+      <div class="col border">
+        <label>{{ mphilForm.university.label_tag }}</label> 
+        {{mphilForm.university}}
+      </div>
+      <div class="col border">
+        <label>{{ mphilForm.cgpa.label_tag }}</label> 
+        {{mphilForm.cgpa}}
+      </div>
+      <div class="col border">
+        <label>{{ mphilForm.total_cgpa.label_tag }}</label> 
+        {{mphilForm.total_cgpa}}
+      </div>
+      <div class="col border">
+        <label>{{ mphilForm.result_date.label_tag }}</label> 
+        {{mphilForm.result_date}}
+      </div>
+    <button  class='btn btn-primary m-1' type="submit"> Update</button>
+    
+    </div>
+  </form>
+</div>
+<div id="doctor">
+ <hr>
+    <h3>Doctor</h3>
+    <hr>
+
+    <form id='doctorform' method="get">
+      <div class="row"> 
+      <div class="col border">
+        <label>{{doctorialForm.title.label_tag }}</label> 
+        {{doctorialForm.title}}
+      </div>
+      <div class="col border">
+        <label>{{ doctorialForm.university.label_tag }}</label> 
+        {{doctorialForm.university}}
+      </div>
+      <div class="col border">
+        <label>{{ doctorialForm.cgpa.label_tag }}</label> 
+        {{doctorialForm.cgpa}}
+      </div>
+      
+      <div class="col border">
+        <label>{{ doctorialForm.total_cgpa.label_tag }}</label> 
+        {{doctorialForm.total_cgpa}}
+      </div>
+      <div class="col border">
+        <label>{{ doctorialForm.result_date.label_tag }}</label> 
+        {{doctorialForm.result_date}}
+      </div>
+    <button  class='btn btn-primary m-1' type="submit"> Update</button>
+    
+    </div>
+  </form>
+
+</div>
+
+
+    <hr>
+
+    <h3>Experience Certificates</h3>
+    <form enctype="multipart/form-data" method="post" id="experpic">
+      <div class="row">
+
+      {% csrf_token %}
+      <!-- {{expform|crispy}} -->
+      <div class="col border">
+        {{ expform.title.errors }}
+        <label>{{ expform.title.label_tag }}</label> 
+        {{expform.title}}
+      </div>
+      <div class="col border">
+        {{ expform.duration.errors }}
+        <label>{{ expform.duration.label_tag }}</label> 
+        {{expform.duration}}
+      </div>
+      <div class="col border">
+        {{ expform.docscan.errors }}
+        <label>{{ expform.docscan.label_tag }}</label> 
+        {{expform.docscan}}</i>
+      </div>
+        <input class='btn btn-primary' type="submit" value="upload">
+      </div>
+    </form>
+      <div class="form-group mt-4"  id="progexpform" style="display: none;">
+        <div class="progress">
+            <div class="progress-bar" id="expform_bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        </div>
+        <div class="row">
+          <p style="padding-left: 1rem;" id="expform_text"></p>
+      </div>
+    </div>
+      <div class="" role="alert">
+        <p id='expformstatus'></p>
+     
+  
+    
+  </div>
+  <hr>
+
+
+    <div class="table-responsive">
+<table id='exp_table' class="table table-sm table-hover  ">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">title</th>
+        <th scope="col">duration</th>
+        <th scope="col">docscan</th>
+        <th scope="col">id</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for i in request.user.experiencepics_set.all %}
+
+      <tr>
+        <th scope="row">{{forloop.counter}}.</th>
+        <td>{{i.title}}</td>
+        <td>{{i.duration}}</td>
+        {% if i.docscan %}
+        <td><img  style='width:200px; height:auto;'src="{{i.docscan.url}}" alt=""></td>
+        {% endif %}
+        <td><button id="{{i.id}}" class="btn btn-danger btn-sm delete" type="">Delete</button></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+<a href='/'class='btn btn-primary'>Go home</a>
+
+
+</div>
+    
+   
+   <div>
+
+    <style>
+
+      button, input, optgroup, select, textarea {
+        margin: 3px;
+
+    }
+    .col{
+      boarder:3rem;
+    }
+  #inter,#bachlor,#master,#mphil,#doctor{
+    display: none;
+  }
+    </style>
+
+    <script>
+     var qualification_y = $('#qual').val();
+      if (qualification_y==12){
+               $('#inter').css('display','block');
+            }
+      if (qualification_y==13){
+               $('#inter').css('display','block');
+            }
+      if (qualification_y==14){
+               $('#inter').css('display','block');
+               $('#bachlor').css('display','block');
+            }
+      if (qualification_y==16){
+               $('#inter').css('display','block');
+               $('#bachlor').css('display','block');
+               $('#master').css('display','block');
+            }
+      if (qualification_y==18){
+        $('#inter').css('display','block');
+               $('#bachlor').css('display','block');
+               $('#master').css('display','block');
+               $('#mphil').css('display','block');
+            }
+      if (qualification_y==21){
+               $('#inter').css('display','block');
+               $('#bachlor').css('display','block');
+               $('#master').css('display','block');
+               $('#mphil').css('display','block');
+               $('#doctor').css('display','block');
+
+            }
+
+   
+        
+        $('#personalform').on('submit', function(event){
+            event.preventDefault();
+            $.ajax({
+                  type:"GET",
+                  url: '/education/edit/',
+                  data:$('#personalform').serialize(),
+                  dataType: 'json',
+                  
+                  success:function(data){
+                    // console.log(data)
+                    if (data.status=='saved'){
+                        flashy('personal record saved', {
+                            type : 'flashy__success' });
+                            location.reload(true);
+                          
+                    }
+                    if (data.status=='personal data updated'){
+                        flashy('personal record updated', {
+                            type : 'flashy__success' });
+                            location.reload(true);
+                          
+                    }
+                 
+                  } 
+                  
+                });
+               
+              });
+
+
+
+
+
+        $('#matric_form').on('submit', function(event){
+            event.preventDefault();
+            complain=$("#matric_form").serialize()
+            $.ajax({
+                url : "/education/matric", 
+                type : "GET",
+                data :complain ,
+                success : function(json) {
+                    if(json.status='Metric data updated'){
+                        flashy('Matric record updated', {
+                            type : 'flashy__success' });
+                          
+                    }
+                },
+        
+                // handle a non-successful response
+            });
+        });
+        $('#interform').on('submit', function(event){
+            event.preventDefault();
+            complain=$("#interform").serialize()
+            $.ajax({
+                url : "/education/inter", 
+                type : "GET",
+                data :complain ,
+                success : function(json) {
+                    if(json.status='Intermediate data updated'){
+                        flashy('Intermediate record updated', {
+                            type : 'flashy__success' });
+                          
+                    }
+                },
+        
+                // handle a non-successful response
+            });
+        });
+        $('#bachelorform').on('submit', function(event){
+            event.preventDefault();
+            complain=$("#bachelorform").serialize()
+            $.ajax({
+                url : "/education/bachelor", 
+                type : "GET",
+                data :complain ,
+                success : function(json) {
+                    if(json.status='Bachelor data updated'){
+                        flashy('Bachelor record updated', {
+                            type : 'flashy__success' });
+                          
+                    }
+                },
+        
+                // handle a non-successful response
+            });
+        });
+        $('#masterform').on('submit', function(event){
+            event.preventDefault();
+            complain=$("#masterform").serialize()
+            $.ajax({
+                url : "/education/master", 
+                type : "GET",
+                data :complain ,
+                success : function(json) {
+                    if(json.status='Master data updated'){
+                        flashy('Master record updated', {
+                            type : 'flashy__success' });
+                          
+                    }
+                },
+        
+                // handle a non-successful response
+            });
+        });
+        $('#mphilform').on('submit', function(event){
+            event.preventDefault();
+            complain=$("#mphilform").serialize()
+            $.ajax({
+                url : "/education/mphil", 
+                type : "GET",
+                data :complain ,
+                success : function(json) {
+                    if(json.status='Mphil data updated'){
+                        flashy('Mphil record updated', {
+                            type : 'flashy__success' });
+                          
+                    }
+                },
+        
+                // handle a non-successful response
+            });
+        });
+        $('#doctorform').on('submit', function(event){
+            event.preventDefault();
+            complain=$("#doctorform").serialize()
+            $.ajax({
+                url : "/education/doctor", 
+                type : "GET",
+                data :complain ,
+                success : function(json) {
+                    if(json.status='Doctor data updated'){
+                        flashy('Doctor record updated', {
+                            type : 'flashy__success' });
+                          
+                    }
+                },
+        
+                // handle a non-successful response
+            });
+        });
+      
+        $('#experpic').on('submit', function(event){
+            event.preventDefault();
+            // doc=$('#docupload').serialize();
+            // console.log(doc)
+            var formData=new FormData();
+            var csrftoken = document.getElementsByName('csrfmiddlewaretoken')
+            formData.append("title",$("#exp_pictitle").val());
+            formData.append("duration",$("#id_duration").val());
+            formData.append("docscan",document.getElementById("id_docscan").files[0]);
+            var xhr=new XMLHttpRequest();
+            xhr.open("POST","https://applyforme.pk/expcertupload",true);
+            xhr.upload.addEventListener("progress",function (ev) {
+               if(ev.lengthComputable){
+                   var percentage=(ev.loaded/ev.total*100|0);
+                   document.getElementById("progexpform").style["display"]="block";
+                   document.getElementById("expform_bar").style["width"]=""+percentage+"%";
+                   document.getElementById("expform_bar").innerHTML=""+percentage+"%";
+                   document.getElementById("expform_text").innerHTML="Uploaded";
+                  
+    
+               }
+            });
+            
+            xhr.send(formData);
+            
+            alert('Your File is uploaded succussfuly, Refresh the page to see ')
+            $("#expformstatus").text('You can add more  by above form')
+            $('#exp_table').append('<tr class="child"><td>'+formData.value('title')+'</td><td>'+formData.duration+'</td></tr>');
+            
+         });
+         $(".delete").on('click', function (e) {
+            e.preventDefault();
+             var exp_id = this.id
+             $.ajax({
+               url: '/education/expe_del',
+               data: {
+                'exp_id': exp_id,
+               
+               },
+               dataType: 'json',
+               success: function (data) {
+                 if (data.status='Data Deleted') {
+                   flashy(' Experience certificate deleted successfully', {
+                    type : 'flashy__success'
+                                                });
+                  $("#"+exp_id).parents('tr').remove(); 
+                 
+                 }
+                  else {
+                    flashy(' Sorry, some error occured', {
+                    type : 'flashy__warning'
+                                                });
+                         }
+               }
+             });
+        
+           });
+    
+    
+    </script>
+
+
+
+
+
+    {% endblock %}
+    
+    

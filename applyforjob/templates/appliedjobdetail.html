@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} Applied jobs details{% endblock title %}
+{% block meta %}      {% endblock meta %}
+{% load static %}
+{% load customtags %}
+
+{%block content %} 
+
+
+<style>
+    .card-title{
+       margin-bottom: 2rem;
+
+
+    }
+    .card{
+        background-color: rgb(212, 234, 235);
+        outline: 2px solid #000000;
+        margin-bottom: 0.5rem;
+       
+
+
+    }
+    .cardbody a{
+        color: rgb(0, 0, 0);
+    }
+    .bill{
+        text-align: center;
+    }
+</style>
+<!-- inside this we have updated picture crop -->
+    <div class="row">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9974564044883991"
+                crossorigin="anonymous"></script>
+            <!-- horizontal_add -->
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-9974564044883991"
+                data-ad-slot="1990655087"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        <div class="container">
+            
+            <div class="card">
+                {% if applied.appliedtojob.cropedad %}
+                <img id="{{applied.appliedtojob.id}}" style="z-index: auto; position: relative;width:auto; border: 2px solid #555; " class="adpic" src="{{applied.appliedtojob.cropedad.url}}" alt="sans" onclick="enlargeImg(this.id)" ondblclick="maxzoom(this.id)" onmouseleave="resetImg(this.id)"  > 
+                <p style='color:blue; padding-bottom:0px'>Double click on image to zoom</p>
+                 {% endif %}
+                <div class="card-body">
+                    <div class="row cardbody" >
+                        <div class="col">
+                            <h5 class="card-title">{{applied.appliedtojob.post_name}}</h5>
+                            <div class="row">
+                                    <div class="col">
+                                        <p class="card-text"data-toggle="tooltip" data-placement="top" title="education required for this post"><i class="fas fa-user-graduate"></i><strong> Qualifications: </strong>{% for k in applied.appliedtojob.qualification_req.all %}
+                                            <span style='font-size:10px; color: white;text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;' class="badge bg-success">{{k}} </span>
+                                           {% endfor %}</p>
+                                      
+       
+                                                {% comment %} <p class="card-text"data-toggle="tooltip" data-placement="top" title="education required for this post"><i class="fas fa-user-graduate"></i> whocanapply:{% for j in applied.appliedtojob.whocanapply.all %} <i class="fas fa-circle fa-xs"></i> {{j}},
+                                                {% endfor %}</p>  {% endcomment %}
+                                            <p class="card-text"><b>Education|Experience:</b> {{applied.appliedtojob.experience|safe}}</p>
+                                            <p class="card-text"><b>Job for male or female: </b> {{applied.appliedtojob.jobs_for}}</p>
+                                           
+                                    </div>
+                                    <div class="col bill">
+                                        <p class="card-text"><b>Sector:</b> {{applied.appliedtojob.sector}}</p>
+                                        {% if applied.appliedtojob.min_age %}
+                                    <p><strong>Min. Age: </strong>{{applied.appliedtojob.min_age}} years </p>
+                                    {% endif %}
+                                    {% if applied.appliedtojob.max_age %}
+                                        <p><strong>Max.age: </strong>{{applied.appliedtojob.max_age}}years</p>
+                                        {% endif %}
+                                    <p class="card-text"><b>Total posts:</b> {{applied.appliedtojob.no_of_posts}}</p>
+                                   
+                                     
+                                    </div>
+                                    <div class="col bill">
+                                        <div class="container" style='border: 3px dotted rgba(0,0,0,0.91);
+                                        background-color:#e1d8bd; width:fit-content;'>
+
+
+                                        <div class="ticket">   
+                                            <table>
+                                                job#:<span id="job_id">{{applied.appliedtojob.id}}</span>
+                                                <thead>
+                                
+                                                    <tr>
+                                                        <th class="quantity">Q.</th>
+                                                        <th class="description">Purpose</th>
+                                                        <th class="price">Cost</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="quantity">1</td>
+                                                        <td class="description">Bank slip fee</td>
+                                                        <td class="price">{{applied.appliedtojob.bankfee}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="quantity">2</td>
+                                                        <td class="description">Registeration fee</td>
+                                                        <td class="price">{{applied.appliedtojob.service_fee}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="quantity">3</td>
+                                                        <td class="description">Posting cost</td>
+                                                        <td class="price">{{applied.appliedtojob.posting_fee}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="quantity">4</td>
+                                                        <td class="description">Photocopies cost</td>
+                                                        <td class="price">{{applied.appliedtojob.photocopies}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="quantity"></td>
+                                                        <td class="description">TOTAL</td>
+                                                        <td class="price">{{applied.appliedtojob.total_cost}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                               
+                                        </div>
+                                    </div>
+                                     
+                                </div>
+
+
+                            </div>
+                          
+                         </div>
+                    
+
+                        <div class="container" style="text-align: center; margin-bottom: 0.5rem;">
+                            
+                            {% if applied.appliedtojob.job_title.work == 0 %}
+                                      
+                                                {% if  request.user|pending:applied.appliedtojob.id == 'We contact you within an hour' %}
+                                                <a href="" id="{{applied.appliedtojob.id}}"  class="btn btn-secondary unapply">Unapply</a>
+                                                {% endif %}
+                                                <!-- <a class="alert alert-primary" role="alert">{{request.user|pending:applied.appliedtojob.id}}</a>
+                                             -->
+                                       
+                                
+                                        <table class="table" id="table2">
+                                            <tbody>
+                                        
+                                            <tr>
+                                                {%  if request.user|gendercheck:applied.appliedtojob.id == 'Eligible by gender' %}
+                                                    <td> <img style='width:2rem;height:auto;margin-bottom: 0rem;' src="{% static 'tick.gif' %}">Eligible by gender </td>
+                                                        {% else %}
+                                                    <td style='color:red;'><img style='width:2rem;height:auto;margin-bottom: 0rem; ' src="{% static 'cross.gif' %}">{{request.user|gendercheck:applied.appliedtojob.id}} </td>
+                                                {% endif %}
+                                            </tr>
+                                                                        
+                                            <tr>
+                                                        {%  if request.user|agecheck:applied.appliedtojob.id == 'eligible by age' %}
+                                                    <td> <img style='width:2rem;height:auto;margin-bottom: 0rem;' src="{% static 'tick.gif' %}">Eligible by age </td>
+                                                        {% else %}
+                                                    <td style='color:red;'><img style='width:2rem;height:auto;margin-bottom: 0rem; ' src="{% static 'cross.gif' %}">{{request.user|agecheck:applied.appliedtojob.id}} </td>
+                                                        {% endif %}
+                                            </tr>
+
+
+                                            <!--  -->
+                                                {% if request.user|eligible:applied.appliedtojob.id == 'You are eligible for above Post' %}
+                                                        <tr><td><img style='width:2rem;height:auto;margin-bottom: 0rem;' src="{% static 'tick.gif' %}">Eligible by qualification</td></tr>
+                                                        {% if request.user|qouta:applied.appliedtojob.id == 'Your domicile Quota is available' %}
+                                                        <tr><td><img style='width:2rem;height:auto;' src="{% static 'tick.gif' %}">Domicile Quota is available</td></tr>
+                                                        {% elif request.user|qouta:applied.appliedtojob.id == 'Please add domicile data in personal to check domicile quota' %}
+                                                        <tr> <td style='color:blue'>Please update domicile in personal data </td></tr>
+                                                            {% else %}
+                                                        <tr><td style='color:red'><img style='width:2rem;height:auto;' src="{% static 'cross.gif' %}">Domicile Quota is not available</td></tr>
+                                                            {% endif %}
+                                                
+                                                            {% if applied.appliedtojob.document_scan_required == 'yes' %}
+                                                                {% if request.user|document_check == 'document uploaded' %}
+
+                                                                <tr><td ><img style='width:2rem;height:auto;margin-bottom: 0rem;' src="{% static 'tick.gif' %}">{{request.user|document_check}}</td></tr>
+                                                                {% else %}
+                                                                <tr><td style='color:red'><img style='width:2rem;height:auto;' src="{% static 'cross.gif' %}">{{request.user|document_check}}</td></tr>
+                                                                {% endif %}
+                                                            {% endif %}
+
+
+                                    {% endif %}
+                                    <tr><td>
+                                        <p style='color:blue; padding-bottom:0px'>Applied on {{applied.timestamp}} </p>
+                                    </td></tr>
+                                        </tbody>
+                                    </table>
+ 
+                                                
+                            {% elif applied.appliedtojob.job_title.work == 1 %}
+                                <p style='color:red'>Registeration date is passed </p>
+                            {% elif applied.appliedtojob.job_title.work == 2 %} 
+                                <p style='color:blue;'>We can't do this registeration within this short time interval</p>
+                            {% else %}
+                                <p>Sorry! We are not doing registeration for this job</p>
+                            {% endif %}
+                            
+                                {% if applied.appliedtojob.job_title.adpic %}
+                            <a download='file' href="{{applied.appliedtojob.job_title.adpic.url}}">Download ad</a>
+                                    {% endif %}
+                                {% if applied.alldone %}
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">All proccess completed</div>
+                                    </div>
+                                    {% endif %}
+                        </div>
+                        
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- inside this we have updated picture crop -->
+
+    <div class="container">
+       
+                    <div class="card"> {% for jobstepsreplies in applied.jobstepsreplies_set.all %}
+                        <!-- <div class="card-header">{{applied.appliedtojob}}</div> -->
+                        <div class="card-body">
+                            <div class="row">
+                              
+                                <div class="col">
+                                    <!-- <h5>Procedure:</h5> -->
+                                    <hr>
+                                    <ol>
+                                       
+                                        <div class="alert alert-primary" role="alert">
+                                            <li><i class="fas fa-check-circle"></i> {{jobstepsreplies.steps}}.</li>
+                                             </div>
+                                      
+                                    </ol> 
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+
+
+                        <!-- 
+                        appliedjob
+                        purpose
+                        description
+                        depositslip
+                        timestamp -->
+</div>
+<div class="container">
+<div class="row">
+    <div class="col">
+
+        {% for appliedcertificates in applied.appliedcertificates_set.all %}
+        <div class="card">
+           <h5 class="card-header">{{appliedcertificates.purpose}}</h5>
+           <div class="card-body">
+             <h5 class="card-title">{{appliedcertificates.description}}</h5>
+           
+             {% if appliedcertificates.depositslip%}
+             <img src="{{appliedcertificates.depositslip.url}}"  class="img-fluid" alt="Responsive image"  >
+             <a  class='btn btn-secondary' download='file' href="{{appliedcertificates.depositslip.url}}">Download {{appliedcertificates.purpose}} </a>
+            
+             <p class="card-text">{{appliedcertificates.timestamp}}</p>
+             {% endif %}
+           </div>
+          
+         </div>
+         {% endfor %}
+    </div>
+    
+</div>
+
+</div>
+
+
+
+
+
+
+
+<hr>
+<div class="container">
+  <div class="card">
+       
+    <h5 class="card-header" style="text-align: center;">Question and Answers</h5>
+    {% for result_list in result_list %}
+    <div class="row">
+        
+            <div class="col">
+
+                {% for userreply in result_list.userreply_set.all %}
+            <div class="alert alert-primary" role="alert">
+                <p class="card-text">{{userreply.userreply}} </p> 
+                <p class="card-text">{{userreply.timestamp}}</p> 
+            </div>
+            {% endfor %}
+        </div>
+              
+        <div class="col">
+            <div class="alert alert-secondary" role="alert">
+                <p class="card-text">{{result_list.whattoask}}</p> 
+                <p class="card-text">{{result_list.timestamp}}</p>  
+            </div>
+        </div>
+      
+        
+        
+    </div>
+    
+    {% endfor %}
+ </div>
+
+ 
+ 
+</div>
+
+ 
+
+{% endblock %}
+

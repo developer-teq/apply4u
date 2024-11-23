@@ -1,0 +1,368 @@
+{% extends "base.html" %}
+
+
+
+{%block title %} My Record {% endblock title %}
+{% block meta %}   {% load crispy_forms_tags %}    {% endblock meta %}
+{%block content %} 
+<div class="container">
+    <div class="row">
+        <div class="col">
+        
+            <div class="card" style="width: auto;">
+                <div class="card-body">
+                  <h2 class="card-title">{{user.personal.full_name}}</h2>
+                  <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+                  <p class="card-text">{{user.personal.address}}</p>
+                  {% if user.personal.phone_number %}
+                  <p style="margin-bottom:0rem;" class="card-link"><strong>Phone# </strong>{{user.personal.phone_number}}</p>
+                  {% endif  %}
+                  {% if user.email %}
+                  <p style="margin-left:0rem;margin-bottom:0rem;" class="card-link "><strong>Email:</strong>:{{user.email}}</p>
+                  {% endif %}
+                </div>
+              </div>
+            
+        </div>
+        {% if user.documentpics.picture%}
+        <div class="col">
+            <img src="{{user.documentpics.picture.url}}" alt="..."  class="rounded float-right" style="width: 200px;height: 200px;">
+        </div>
+        {% endif%}
+      </div>
+      <hr>
+
+      <!-- personel info -->
+
+
+ 
+
+
+   
+      <h1>Personal details</h1>
+      {% for personel in mydetail%}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>full_name</td>
+            <td>{{personel.full_name}}</td>
+           
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Father name</td>
+            <td>{{personel.father_name}}</td>
+           
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>cnic</td>
+            <td>{{personel.cnic_number}}</td>
+           
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>father cnic</td>
+            <td>{{personel.father_cnic}}</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>Dateofbirth</td>
+            <td>{{personel.Dateofbirth}}</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>gender</td>
+            <td>{{personel.gender}}</td>
+          </tr>
+          <tr>
+            <th scope="row">6</th>
+            <td>phone_number</td>
+            <td>{{personel.phone_number}}</td>
+          </tr>
+          
+          <tr>
+            <th scope="row">8</th>
+            <td>Religion</td>
+            <td>islam</td>
+          </tr>
+          <tr>
+            <th scope="row">7</th>
+            <td>sect</td>
+            <td>sect</td>
+          </tr>
+          <tr>
+            <th scope="row">9</th>
+            <td>Create date</td>
+            <td>{{personel.create_date}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+{% endfor %}
+    <hr>
+    <!-- education -->
+    <h1>Matric</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">board</th>
+            <th scope="col">marks</th>
+            <th scope="col">total_marks</th>
+            <th scope="col">result_date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for i in matricdata%}
+            <tr>
+              <th scope="row">1</th>
+              <td>{{i.title}}</td>
+              <td> {{i.board}}</td>
+              <td>{{i.marks}}</td>
+              <td>{{i.total_marks}}</td>
+              <td>{{i.result_date}}</td>
+            </tr>
+            {%endfor%}
+  
+        </tbody>
+      </table>
+     
+      <hr>
+      {% if Intermediatedata %}
+      <h1>Intermediate</h1>
+          <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">board</th>
+            <th scope="col">marks</th>
+            <th scope="col">total_marks</th>
+            <th scope="col">result_date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for i in Intermediatedata %}
+            <tr>
+              <th scope="row">1</th>
+              <td>{{i.title}}</td>
+              <td> {{i.board}}</td>
+              <td>{{i.marks}}</td>
+              <td>{{i.total_marks}}</td>
+              <td>{{i.result_date}}</td>
+            </tr>
+            {%endfor%}
+  
+        </tbody>
+      </table>
+
+      <hr>
+      {%endif%}
+    {% if bachlordata %} 
+      <h1>Bachlor</h1>
+          <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">board</th>
+            <th scope="col">marks</th>
+            <th scope="col">total_marks</th>
+            <th scope="col">result_date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for i in bachlordata%}
+          <tr>
+            <th scope="row">1</th>
+            <td>{{i.title}}</td>
+            <td> {{i.board}}</td>
+            <td>{{i.marks}}</td>
+            <td>{{i.total_marks}}</td>
+            <td>{{i.result_date}}</td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
+
+      <hr>
+    
+      {%endif%}
+      {% if masterdata %} 
+      <h1>Master</h1>
+          <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">University</th>
+            <th scope="col">Cgp/Marks</th>
+            <th scope="col">Total cgpa/marks</th>
+            <th scope="col">result_date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for i in masterdata%}
+            <tr>
+              <th scope="row">1</th>
+              <td>{{i.title}}</td>
+              <td> {{i.board}}</td>
+              <td>{{i.marks}}</td>
+              <td>{{i.total_marks}}</td>
+              <td>{{i.result_date}}</td>
+            </tr>
+            {%endfor%}
+  
+        </tbody>
+      </table>
+
+      <hr>
+      {%endif%}
+      {% if mphildata %} 
+      <h1>MPHIL</h1>
+          <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">University</th>
+            <th scope="col">Cgp/Marks</th>
+            <th scope="col">Total cgpa/marks</th>
+            <th scope="col">result_date</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for i in mphildata%}
+            <tr>
+              <th scope="row">1</th>
+              <td>{{i.title}}</td>
+              <td> {{i.university}}</td>
+              <td>{{i.cgpa}}</td>
+              <td>{{i.total_cgpa}}</td>
+              <td>{{i.result_date}}</td>
+            </tr>
+            {%endfor%}
+  
+        </tbody>
+      </table>
+
+      <hr>
+      {%endif%}
+      {% if phd %} 
+      <h1>Phd</h1>
+          <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">University</th>
+            <th scope="col">Cgp/Marks</th>
+            <th scope="col">Total cgpa/marks</th>
+            <th scope="col">result_date</th>
+        </thead>
+        <tbody>
+            {% for i in phd%}
+            <tr>
+              <th scope="row">1</th>
+              <td>{{i.title}}</td>
+              <td> {{i.university}}</td>
+              <td>{{i.cgpa}}</td>
+              <td>{{i.total_cgpa}}</td>
+              <td>{{i.result_date}}</td>
+            </tr>
+            {%endfor%}
+  
+        </tbody>
+      </table>
+<hr>
+{%endif%}
+     
+
+
+<div class="row" id="mistakrow">
+  <div class="col">
+
+    <p>
+      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#sommistakes" aria-expanded="false" aria-controls="collapseExample">
+        Some Mistakes <i class="fas fa-exclamation-circle"></i>
+      </button>
+    </p>
+    <div class="collapse" id="sommistakes">
+      <div class="card card-body">
+      <form method="get">
+        <!-- {{mistakform}} -->
+    <div class="container">{{ mistakform.mistake }}
+     {{ mistakform.mistake_sol}}
+   </div>
+        <button class="btn btn-primary" type="submit" >Submit</button>
+      </form>
+         </div>
+    </div>
+  </div>
+
+
+  <div class="col">
+    <button id="datavarified" class="btn btn-primary"><i class="far fa-check-circle"></i> all data is correct</button>
+    </div>
+     
+</div>
+<input hidden type="text" id="userpersonalprofile" value="{{request.user.personal}}">
+<input hidden type="text" id="status" value="1">
+
+</div>
+<style>
+    h1{
+        text-align: center;
+    }
+    thead{
+        background-color: beige;
+    }
+    #mistakrow{
+      text-align: center;
+
+    }
+</style>
+
+
+<script>
+  $("#datavarified").on('click', function () {
+      var valueof = $("#status").val();
+      var userpersonal = $("#userpersonalprofile").val()
+      $.ajax({
+        url: '/data_varification/',
+        data: {
+         'valueof': valueof,
+          'userpersonal': userpersonal
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.success) {
+            flashy(' Thank you ', {
+             type : 'flashy__success'
+                                         });
+
+            var url = "/";
+            $(location).attr('href',url);
+            // alert("ajax call success.");
+            // here you update the HTML to change the active to innactive
+          }else{
+            // alert("ajax call not success.");
+          }
+        }
+      });
+
+    });
+</script>
+{% endblock %}
+

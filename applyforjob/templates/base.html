@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang = "en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <meta content="text/html; charset=utf-8" http-equiv=Content-Type>
+<link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+  <title>{%block title %}{% endblock title %}</title>
+
+
+  {% block meta %}{% endblock meta %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" >
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+
+
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script> -->
+ <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-217821441-1">
+    </script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-217821441-1');
+    </script>
+
+</head>
+<body style="background-color:#9fd3ab;">
+<div class="container" style="position: sticky; z-index: 1000;">
+{% include 'navbar.html' %}
+</div>
+
+
+
+
+
+<div class="container mt-6">
+  <p id="flash"></p>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        {% if message.tags %} <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>{% endif %}
+        {% endfor %}
+    </ul>
+    {% endif %}</div>
+
+    {%block content %}
+    {% endblock %}
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v12.0&appId=1552482221783317&autoLogAppEvents=1" nonce="4BsRwAGE"></script>
+
+
+<!-- footer -->
+<div id="footercontainer">
+    <div id='footer' >
+      <div class="container-fluid helpline">
+   
+        <img src="{% static 'helplinebanner.gif' %}" alt="" ></div>
+    
+    
+        <div class="row mt-5">
+          <div class="col-sm groupitem">
+            <ul class="">
+              <li class="list-item"></li>
+              <li class="list-item"><a href='/'>Latest jobs</a></li>
+              <li class="list-item"><a href='/updates/'>Job notifications</a></li>
+              <li class="list-item"><a download='file' href="{% static 'guid2.pdf' %}">Guide</a></li>
+            </ul>
+          </div>
+          <div class="col-sm">
+           <ul class="">
+           
+              <li class="list-item"><a href='/'>Our sevices</a></li>
+              <li class="list-item"><a href='/staff/request-a-work'>Request for other online services</a></li>
+              <li class="list-item"><a href='/policies/'>Privacy Policies</a></li>
+             
+            
+            </ul>
+          </div>
+          <div class="col-sm">
+           <ul class="">
+            <li class="list-item"><a href='/how_to_earn/'>How to earn<a></li>
+            <li class="list-item"><a href='/staff/complains'>Do a complain or Feedback</a></li>
+            <li class="list-item"><a href="{% url 'applyforjob:apply_coupon' %}">Apply coupon</a></li>
+           
+             
+              <li class="list-item"><a  download='file' href="{% static 'guid2.pdf' %}" target="_blank"><i class="fas fa-eye"></i> Help </a></li>
+
+
+
+
+             
+            </ul>
+          </div>
+        </div>
+			        <div class="row">
+			          <div class="col">
+			              <p>www.applyforme.pk </p>
+			          </div>
+			        </div>
+      </div>
+  </div>
+     
+
+    
+<style>
+  #footercontainer{
+    margin-top: auto;
+  }
+   #footer {
+    text-align: center;
+    padding: 3px;
+    background-color:#524a62;
+    color: white;
+    position: sticky;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   text-align: center;
+    margin-top:2rem;
+  }
+a{
+  color:white;
+}
+ul {
+    list-style-type: none;
+}
+
+
+</style>
+
+
+    </div>
+    
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-file-upload/4.0.11/jquery.uploadfile.min.js"></script>
+
+   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+   
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <!-- for bootstrap tabs  popover and tooltips-->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
+
+<!-- Flashy CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/flashy.min.css' %}">
+
+<!-- Flashy JS -->
+<script src="{% static 'js/flashy.min.js' %}"></script>
+
+
+<style>
+  .btn-primary {
+    background: linear-gradient(45deg, #05abe0 0%,#8200f4 100%);
+  }
+
+.helpline{
+  background-color:#524a62;
+  margin:0px;
+  
+
+}
+.helpline  img{
+  margin:0px;
+  width: inherit;
+}
+
+</style>
+<style>
+    @import url(https://fonts.googleapis.com/earlyaccess/notonastaliqurdu.css);
+    .urdu{
+        font-family: 'Noto Nastaliq Urdu', serif;
+        font-size: 1rem;
+        direction: rtl;
+        line-height: 2.3rem;
+        text-align:right;
+      }
+</style>
+
+<!-- foor footer -->
+
+
+<script>
+
+    // Function to set image dimensions
+    function enlargeImg(id) {
+        img = document.getElementById(id);
+        img.style.width = "150%";
+        img.style.height = "auto";
+        img.style.transition = "width 0.5s ease";
+    }
+    // Function to reset image dimensions
+    function resetImg(id) {
+        img = document.getElementById(id);
+        img.style.width = "auto";
+        img.style.height = "auto";
+        img.style.transition = "width 0.5s ease";
+    }
+    function maxzoom(id) {
+        img = document.getElementById(id);
+        img.style.width = "200%";
+        img.style.height = "auto";
+        img.style.transition = "width 0.5s ease";
+    }
+
+
+
+  </script>
+
+<script>
+  $(".unapply").on('click', function (e) {
+    e.preventDefault();
+     var jobid = this.id
+     
+     var user = $("#user").val()
+
+     $.ajax({
+       url: '/unapply/',
+       data: {
+        'jobid': jobid,
+         'user': user
+       },
+       dataType: 'json',
+       success: function (data) {
+         if (data.status='Unapplied to this job') {
+           flashy(' Un applied to this job', {
+            type : 'flashy__success'
+                                        });
+          $("#"+jobid).prop("value", "Unapplied"); 
+         
+         }
+          else {
+            flashy(' Sorry, you can not unaply becauser proccess is started', {
+            type : 'flashy__warning'
+                                        });
+                 }
+       }
+     });
+
+   });
+
+
+
+</script>
+
+
+  </body>
+
+  <link rel="stylesheet" href="{% static 'css/floating-wpp.min.css' %}">
+<script type="text/javascript" src="{% static 'js/floating-wpp.min.js' %}"></script>
+<div id="myButton"></div>
+<script type="text/javascript">
+    $(function () {
+        $('#myButton').myfloatingWhatsApp({
+            phone: '+923157340811',
+            popupMessage: 'How can we help you?',
+            message: "I want to ask ",
+            showPopup: true,
+            showOnIE: false,
+            headerTitle: 'Welcome! {% if request.user.is_authenticated%}{{request.user}} {% endif %}',
+            headerColor: '#075e54',
+            backgroundColor: '',
+            buttonImage: '<img src="{% static "whatsapp.svg"%}"/>'
+        });
+    });
+</script>
+</html>

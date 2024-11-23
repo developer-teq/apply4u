@@ -20,7 +20,7 @@ git status
 Explanation: Shows which files have been modified, added, or deleted.
 
 
-git add <file1> <file2>   # To add specific files
+git add <file1> <file2> mm  # To add specific files
 git add .                 # To add all files
 Explanation: Stages the changes for commit.
 

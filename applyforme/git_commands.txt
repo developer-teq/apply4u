@@ -1,0 +1,161 @@
+
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+Explanation: These set your identity for Git commits.
+
+
+git config --list
+Explanation: Displays your current Git configuration.
+
+
+git init
+Explanation: Initializes a new local Git repository in your current directory.
+
+
+git clone https://github.com/username/repository-name.git
+Explanation: Clones a remote repository from GitHub to your local machine.
+
+
+git status
+Explanation: Shows which files have been modified, added, or deleted.
+
+
+git add <file1> <file2>   # To add specific files
+git add .                 # To add all files
+Explanation: Stages the changes for commit.
+
+Remove a file from staging (but not delete it):
+git reset <file>
+Explanation: Unstages a file that was previously added to the staging area.
+
+git commit -m "Your commit message"
+Explanation: Commits the staged changes with a descriptive message.
+
+Commit all changes (add + commit in one command):
+
+git commit -am "Your commit message"
+Explanation: Adds and commits all changes in one command. (Only for files that are already being tracked by Git.)
+
+
+git commit --amend
+Explanation: Changes the commit message of the most recent commit.
+
+Branches
+
+git branch new-branch-name
+Explanation: Creates a new branch but does not switch to it.
+
+Switch to a different branch:
+
+git checkout branch-name
+Explanation: Switches to the specified branch.
+
+Create and switch to a new branch in one command:
+
+git checkout -b new-branch-name
+Explanation: Creates and switches to a new branch.
+
+Merge a branch into the current branch:
+
+git merge branch-name
+Explanation: Merges the specified branch into the current branch.
+
+Delete a branch (locally):
+
+git branch -d branch-name
+Explanation: Deletes the specified branch locally.
+
+Remote Repositories
+
+git remote add origin https://github.com/username/repository-name.git
+Explanation: Adds a remote repository (e.g., GitHub) to your local repository.
+
+Push changes to a remote repository:
+
+git push origin branch-name
+Explanation: Pushes the changes to the specified remote branch.
+
+Pull changes from the remote repository:
+
+git pull origin branch-name
+Explanation: Fetches and merges changes from the remote repository to your local branch.
+
+
+git remote -v
+Explanation: Lists all remote repositories associated with your local repository.
+
+Fetch latest changes from remote (without merging):
+
+git fetch
+Explanation: Downloads objects and refs from the remote repository without merging.
+
+Viewing Commit History
+View commit history:
+
+git log
+Explanation: Shows the commit history in reverse chronological order.
+
+View a simplified commit history:
+
+git log --oneline
+Explanation: Shows a one-line summary of each commit.
+
+View changes in the current branch (compared to the remote):
+
+git diff origin/main
+Explanation: Displays the changes in your branch compared to the remote branch.
+
+Undo Changes
+Undo changes in a file (unstaged changes):
+
+git checkout -- <file>
+Explanation: Discards local changes in a specific file (before staging).
+
+Undo a commit (keep changes in your working directory):
+
+git reset --soft HEAD^
+Explanation: Undoes the last commit but keeps changes staged for a new commit.
+
+Remove a file from the repository (delete it):
+
+git rm <file>
+Explanation: Removes the specified file from the repository and stages the deletion.
+
+Reverting Changes
+Revert a commit (undo a commit and create a new commit):
+
+git revert <commit-hash>
+Explanation: Reverts a commit and creates a new commit to undo the changes.
+
+Reset to a specific commit (hard reset, be cautious):
+
+git reset --hard <commit-hash>
+Explanation: Resets the repository to the specified commit (this can delete local changes).
+
+Other Useful Commands
+See differences between your local changes and the latest commit:
+
+git diff
+Explanation: Shows the differences between the working directory and the index (staged changes).
+
+Check your Git configuration:
+
+git config --list
+Explanation: Lists all your Git configurations, such as username, email, etc.
+
+Rebase your feature branch onto the main branch:
+
+git rebase main
+Explanation: Reapplies your feature branch commits on top of the latest commits from the main branch.
+
+Commands for Cleanup and Maintenance
+Clean up untracked files (use cautiously):
+
+git clean -fd
+Explanation: Removes untracked files and directories from your working directory.
+
+Garbage collection (clean up unnecessary files):
+
+git gc
+Explanation: Optimizes your local repository by cleaning up unnecessary files.
+

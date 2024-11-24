@@ -14,6 +14,7 @@ import AboutPage from './pages/AboutPage';  // Assuming AboutPage.js exists
 import JobPage from './pages/Jobs';
 import AdmissionPage from './pages/admissions';
 import JobDetailsPage from './pages/JobDetailsPage';
+import ApplyjobPage from './pages/ApplyjobPage';
 function App() {
   return (
     <Router>
@@ -28,6 +29,7 @@ function App() {
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/admissions" element={<AdmissionPage />} />
             <Route path="/jobs/:jobId" element={<JobDetailsPage />} />
+            <Route path="/apply/" element={<ApplyjobPage />} />
 
           </Routes>
         </div>

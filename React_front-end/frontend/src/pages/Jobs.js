@@ -1,13 +1,11 @@
 import React from 'react';
 import JobListComponent from '../components/JobListComponent';
-
+import "./jobs.css"
 function JobPage() {
   return (
-    <div>
-      <h2>Job Opportunities</h2>
+    <div className='container'>
+      <h2> Latest Job Opportunities</h2>
       <JobListComponent />
-      <p>Here are the available job listings:</p>
-      {/* Add your job-related content here */}
     </div>
   );
 }

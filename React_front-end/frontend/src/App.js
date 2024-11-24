@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Im
 
 import Navbar from './components/navbar';
 // import Header from './components/header';
-import Sidebar from './components/sidebar';
+// import Sidebar from './components/sidebar';
 // import MainContent from './components/main';
 // import Footer from './components/footer';
 import HomePage from './pages/HomePage';  // Import the HomePage component
@@ -20,8 +20,8 @@ function App() {
     <div className="container-fluid">
       <Navbar />
       <div className="row">
-        <Sidebar />
-        <div className="col-9">
+        {/* <Sidebar /> */}
+        <div className="container">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about-us" element={<AboutPage />} />

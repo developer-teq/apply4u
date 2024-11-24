@@ -1,50 +1,69 @@
-// JobDetailsPage.js
-import { useLocation, useParams } from 'react-router-dom';
-import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+
 function JobDetailsPage() {
-    const { state } = useLocation(); // Access the state from Link
-    const { jobId } = useParams(); // Get jobId from URL (if needed)
-    const [showForm, setShowForm] = useState(false); // Control form visibility
-    const [username, setUsername] = useState(''); // Track user input
+  const { jobslug } = useParams(); // Get jobslug from URL (if needed)
+  const [jobDetails, setJobDetails] = useState([]); // Store the list of jobs
+  const [loading, setLoading] = useState(true); // Loading state
+  const [showForm, setShowForm] = useState(false); // Control form visibility
+  const [selectedJob, setSelectedJob] = useState(null); // Track the selected job
+  const [username, setUsername] = useState(''); // Track user's name input
 
+  // Fetch job details when the component loads
+  useEffect(() => {
+    const fetchJobDetails = async () => {
+      try {
+        const response = await fetch(`https://jsonplaceholder.typicode.com/posts`); // Simulating API call
+        const data = await response.json();
+        setJobDetails(data);
+      } catch (error) {
+        console.error('Error fetching job details:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!state?.job) {
-    return <p>No job data available. Please navigate from the Job List Page.</p>;
+    fetchJobDetails();
+  }, [jobslug]);
+
+  // Handle loading state
+  if (loading) {
+    return <div>Loading job details...</div>;
   }
 
-//   const { title, description, slug } = state.job;
-const title = state.job.title;
-const description = state.job.description;
-const slug = state.job.slug;
+  // Handle no job details
+  if (!jobDetails || jobDetails.length === 0) {
+    return <div>No job details available.</div>;
+  }
 
-const handleApplyClick = () => {
+  // Handle Apply Button Click
+  const handleApplyClick = (job) => {
+    setSelectedJob(job); // Set the selected job details
     setShowForm(true); // Show the form
   };
 
+  // Handle Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Prepare data to send to the Django API
-    const formData = {
-      jobTitle: title,
-      jobSlug: slug,
-      username,
-    };
-
     try {
-      // Replace with your Django API endpoint
+      // Replace this with your actual API endpoint
       const response = await fetch('https://your-backend-api.com/api/apply-job/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          jobId: selectedJob.id,
+          jobTitle: selectedJob.title,
+          username,
+        }),
       });
 
       if (response.ok) {
         alert('Application submitted successfully!');
-        setShowForm(false); // Hide the form after submission
-        setUsername('enw name'); // Reset form
+        setShowForm(false); // Hide the form
+        setSelectedJob(null); // Clear selected job
+        setUsername(''); // Reset username input
       } else {
         alert('Failed to submit the application.');
       }
@@ -55,33 +74,64 @@ const handleApplyClick = () => {
   };
 
   return (
-    <div>
-      <h1>Job Details</h1>
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <p>{slug}</p>
-      <p>Job ID: {jobId}</p>
-      <button onClick={handleApplyClick} className="btn btn-primary">
-        Apply to this Job
-      </button>
- {/* Conditional Rendering of the Form */}
- {showForm && (
+    <div className="container">
+      <div className="row">
+        {/* Job Cards */}
+        {jobDetails.map((job) => (
+          <div className="col-md-4" key={job.id}>
+            <div className="card mb-4">
+              <div className="card-body">
+                <h5 className="card-title">{job.title}</h5>
+                <p className="card-text">{job.body}</p>
+                <button
+                  onClick={() => handleApplyClick(job)}
+                  className="btn btn-primary"
+                >
+                  Apply to this Job
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Conditional Form Rendering */}
+      {showForm && selectedJob && (
         <form onSubmit={handleSubmit} className="mt-3 border p-3">
-          <h2>Apply to {title}</h2>
-          
+          <h2>Apply to "{selectedJob.title}"</h2>
+
           {/* Job Details (Read-Only) */}
           <div className="mb-3">
             <label>Job Title</label>
-            <input type="text" value={title} readOnly className="form-control" />
+            <input
+              type="text"
+              value={selectedJob.title}
+              readOnly
+              className="form-control"
+            />
           </div>
           <div className="mb-3">
             <label>Job Description</label>
-            <textarea value={description} readOnly className="form-control" rows="3" />
+            <textarea
+              value={selectedJob.body}
+              readOnly
+              className="form-control"
+              rows="3"
+            />
+          </div>
+          <div className="mb-3">
+            <label>Job ID</label>
+            <input
+              type="text"
+              value={selectedJob.id}
+              readOnly
+              className="form-control"
+            />
           </div>
 
           {/* Username Input */}
           <div className="mb-3">
-            <label>Your Username</label>
+            <label>Your Name</label>
             <input
               type="text"
               value={username}
@@ -96,8 +146,7 @@ const handleApplyClick = () => {
             Submit Application
           </button>
         </form>
-
- )};
+      )}
     </div>
   );
 }

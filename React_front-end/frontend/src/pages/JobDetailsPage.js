@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
 function JobDetailsPage() {
@@ -8,6 +9,8 @@ function JobDetailsPage() {
   const [showForm, setShowForm] = useState(false); // Control form visibility
   const [selectedJob, setSelectedJob] = useState(null); // Track the selected job
   const [username, setUsername] = useState(''); // Track user's name input
+  const location = useLocation();
+  const { job } = location.state || {};
 
   // Fetch job details when the component loads
   useEffect(() => {
@@ -76,7 +79,9 @@ function JobDetailsPage() {
   return (
     <div className="container">
       <div className="row">
-        {/* Job Cards */}
+      <h5 className="card-title">{job.title}</h5>
+      <p className="card-text">{job.description}</p>
+      <hr></hr>
         {jobDetails.map((job) => (
           <div className="col-md-4" key={job.id}>
             <div className="card mb-4">

@@ -15,6 +15,7 @@ import JobPage from './pages/Jobs';
 import AdmissionPage from './pages/admissions';
 import JobDetailsPage from './pages/JobDetailsPage';
 import ApplyjobPage from './pages/ApplyjobPage';
+import UserProfileForm from './pages/UserProfile';
 function App() {
   return (
     <Router>
@@ -28,9 +29,10 @@ function App() {
             <Route path="/about-us" element={<AboutPage />} />
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/admissions" element={<AdmissionPage />} />
+            <Route path="/userpprofile" element={<UserProfileForm />} />
             <Route path="/jobs/:jobId" element={<JobDetailsPage />} />
             <Route path="/apply" element={<ApplyjobPage />} />
-
+            
           </Routes>
         </div>
       </div>

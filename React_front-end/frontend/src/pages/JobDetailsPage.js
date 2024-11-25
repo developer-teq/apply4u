@@ -6,10 +6,10 @@ function JobDetailsPage() {
   const { jobslug } = useParams(); // Get jobslug from URL (if needed)
   const [jobDetails, setJobDetails] = useState([]); // Store the list of jobs
   const [loading, setLoading] = useState(true); // Loading state
-  const [userData, setUserData] = useState(null); // User data for eligibility check
+  const [UserData, setUserData] = useState(null); // User data for eligibility check
   const location = useLocation();
-  const { job } = location.state || {}; // Get job data passed from previous page
-
+  const { main_job } = location.state || {}; // Get job data passed from previous page
+ 
   // Fetch job details when the component loads
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -18,17 +18,17 @@ function JobDetailsPage() {
         const jobResponse = [
           {
             "id": 1,
-            "title": "Software Engineer",
+            "title": "clirk job",
             "qualification_required": ["Bachelors", "Masters"],
             "whocanapply": ["Bachelors"],
             "post_regions": ["Punjab", "Sindh"],
-            "jobs_for": "male",
+            "jobs_for": "Both",
             "min_age": 25,
             "max_age": 35
           },
           {
             "id": 2,
-            "title": "Project Manager",
+            "title": "Assistant",
             "qualification_required": ["Masters", "PhD"],
             "whocanapply": ["Masters"],
             "post_regions": ["Punjab", "KPK"],
@@ -38,11 +38,11 @@ function JobDetailsPage() {
           },
           {
             "id": 3,
-            "title": "Junior Developer",
+            "title": "computer operator",
             "qualification_required": ["Bachelors"],
             "whocanapply": ["Bachelors"],
             "post_regions": ["Sindh", "Balochistan"],
-            "jobs_for": "both",
+            "jobs_for": "Both",
             "min_age": 22,
             "max_age": 30
           }
@@ -86,7 +86,7 @@ function JobDetailsPage() {
       job.qualification_required.includes(user.qualification) &&
       job.whocanapply.includes(user.qualification) &&
       job.post_regions.includes(user.domicile) &&
-      (job.jobs_for === user.gender || job.jobs_for === "both") &&
+      (job.jobs_for === user.gender || job.jobs_for === "Both") &&
       userAge >= job.min_age &&
       userAge <= job.max_age
     );
@@ -101,15 +101,15 @@ function JobDetailsPage() {
   if (!jobDetails || jobDetails.length === 0) {
     return <div>No job details available.</div>;
   }
-  console.log({ job, userData });
+
   return (
     <div className="container">
       <div className="row">
-        <h5 className="card-title">{job?.title || 'Job Details'}</h5>
-        <p className="card-text">{job?.description || 'Job description is not available.'}</p>
+        <h5 className="card-title">{main_job?.title || 'Job Details'}</h5>
+        <p className="card-text">{main_job?.description || 'Job description is not available.'}</p>
         <hr />
         {jobDetails.map((job) => {
-          const isEligible = userData ? checkEligibility(userData, job) : false;
+          const isEligible = UserData ? checkEligibility(UserData, job) : false;
 
           return (
             <div className="col-md-4" key={job.id}>
@@ -124,16 +124,16 @@ function JobDetailsPage() {
                     {isEligible ? (
                       <span className="text-success">You are eligible for this job.</span>
                     ) : (
-                      <span className="text-danger">You are not eligible for this job.</span>
+                      <span classNUserData
+UserDataName="text-danger">You are not eligible for this job.</span>
                     )}
                   </p>
-                  <Link
-                    className='btn btn-secondary'
-                    to={{ pathname: `/apply/`, state: { job, userData } }}
-                    disabled={!isEligible}
+
+                  <Link className='btn btn-secondary' to={`/apply/`} state={{ job, UserData, main_job }} disabled={!isEligible}
                   >
                     {isEligible ? 'Apply Now' : 'Not Eligible'}
                   </Link>
+                  
                 </div>
               </div>
             </div>

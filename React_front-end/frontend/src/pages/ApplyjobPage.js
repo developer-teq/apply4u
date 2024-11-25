@@ -1,25 +1,75 @@
 import { useLocation } from 'react-router-dom';
 
+
 function ApplyjobPage() {
   const location = useLocation();
-  const { job, userData } = location.state || {}; // Corrected 'UserData' to 'userData'
-  console.log(location.state);
+  const { job, UserData, main_job } = location.state || {}; // Retrieve all passed state
 
-  if (!job || !userData) {
-    return <div>No data available</div>;
+
+  if (!job || !UserData) {
+    return <div>No data available. Please navigate properly.</div>;
   }
 
+  const isEligible = (jobValue, userValue, type) => {
+    if (type === "qualification") {
+      return jobValue.includes(userValue) ? "Eligible" : "Not Eligible";
+    }
+    if (type === "domicile") {
+      return jobValue.includes(userValue) ? "Eligible" : "Not Eligible";
+    }
+    if (type === "gender") {
+      return jobValue === userValue || jobValue === "Both" ? "Eligible" : "Not Eligible";
+    }
+    if (type === "age") {
+      const userAge = new Date().getFullYear() - new Date(userValue).getFullYear();
+      return userAge >= jobValue.min && userAge <= jobValue.max ? "Eligible" : "Not Eligible";
+    }
+    return "Not Applicable";
+  };
+
   return (
-    <div className="container">    
-      <div className="col-md-4" key={job.id}>
-        <div className="card mb-4">
-          <div className="card-body">
-            <h5 className="card-title">{job.title}</h5>
-            <p className="card-text">Qualifications: {job.qualification_required.join(', ')}</p>
-            <p className="card-text">Domicile: {job.post_regions.join(', ')}</p>
-            <p className="card-text">Gender: {job.jobs_for}</p>
-            <p className="card-text">Age Range: {job.min_age} - {job.max_age}</p>
-          </div>
+    <div className="container">
+      <h1>Apply for {job.title} in {main_job.title}</h1>
+
+      <div className="card mb-4">
+        <div className="card-body">
+          <h5 className="card-title">{job.title}</h5>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Requirement</th>
+                <th>Job Data</th>
+                <th>User Data</th>
+                <th>Eligibility</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Qualification</td>
+                <td>{job.qualification_required.join(', ')}</td>
+                <td>{UserData.qualification}</td>
+                <td>{isEligible(job.qualification_required, UserData.qualification, "qualification")}</td>
+              </tr>
+              <tr>
+                <td>Domicile</td>
+                <td>{job.post_regions.join(', ')}</td>
+                <td>{UserData.domicile}</td>
+                <td>{isEligible(job.post_regions, UserData.domicile, "domicile")}</td>
+              </tr>
+              <tr>
+                <td>Gender</td>
+                <td>{job.jobs_for}</td>
+                <td>{UserData.gender}</td>
+                <td>{isEligible(job.jobs_for, UserData.gender, "gender")}</td>
+              </tr>
+              <tr>
+                <td>Age</td>
+                <td>{job.min_age} - {job.max_age}</td>
+                <td>{new Date().getFullYear() - new Date(UserData.date_of_birth).getFullYear()}</td>
+                <td>{isEligible({ min: job.min_age, max: job.max_age }, UserData.date_of_birth, "age")}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

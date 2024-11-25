@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-
+import { checkEligibility } from '../components/my_utilities';
 
 function ApplyjobPage() {
   const location = useLocation();
@@ -9,6 +9,17 @@ function ApplyjobPage() {
   if (!job || !UserData) {
     return <div>No data available. Please navigate properly.</div>;
   }
+
+  // const full_eligible = UserData ? checkEligibility(UserData, job) : false;
+let full_eligible;
+if (UserData) {
+  full_eligible = checkEligibility(UserData, job);
+} else {
+  full_eligible = false;
+}
+
+
+
 
   const isEligible = (jobValue, userValue, type) => {
     if (type === "qualification") {
@@ -26,6 +37,35 @@ function ApplyjobPage() {
     }
     return "Not Applicable";
   };
+
+// submitting on apply form 
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  // You can submit the data via an API or to another page
+  // For example, using fetch to send the data to an API endpoint
+  const formData = new FormData();
+  formData.append('main_job_title', main_job.title);
+  formData.append('job_title', job.title);
+
+  // on this api we send the job name, user etc to website 
+  
+  fetch('/apply', {
+    method: 'POST',
+    body: formData,
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Application submitted successfully:', data);
+      // Redirect or show success message
+    })
+    .catch(error => {
+      console.error('Error submitting the form:', error);
+    });
+};
+
+
+
 
   return (
     <div className="container">
@@ -70,6 +110,20 @@ function ApplyjobPage() {
               </tr>
             </tbody>
           </table>
+         
+         
+
+
+           <form onSubmit={handleSubmit}>
+                {/* Hidden fields for main_job.title and job.title */}
+                <input type="hidden" name="main_job_title" value={main_job.title} />
+                <input type="hidden" name="job_title" value={job.title} />
+
+                <button type="submit" className="btn btn-primary"  disabled={!full_eligible}
+                  >
+                    {full_eligible ? 'Apply Now' : 'Not Eligible'}
+                   </button>
+          </form>
         </div>
       </div>
     </div>

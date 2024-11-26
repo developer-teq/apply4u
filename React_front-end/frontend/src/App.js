@@ -16,6 +16,8 @@ import AdmissionPage from './pages/admissions';
 import JobDetailsPage from './pages/JobDetailsPage';
 import ApplyjobPage from './pages/ApplyjobPage';
 import UserProfileForm from './pages/UserProfile';
+import CashoutForm from './components/forms_components/CashInOutForm';
+import AppliedJobDetail from './pages/AppliedJobs';
 function App() {
   return (
     <Router>
@@ -30,6 +32,8 @@ function App() {
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/admissions" element={<AdmissionPage />} />
             <Route path="/userprofile" element={<UserProfileForm />} />
+            <Route path="/add_balance" element={<CashoutForm />} />
+            <Route path="/applied-jobs" element={<AppliedJobDetail/>} />
             <Route path="/jobs/:jobId" element={<JobDetailsPage />} />
             <Route path="/apply" element={<ApplyjobPage />} />
             

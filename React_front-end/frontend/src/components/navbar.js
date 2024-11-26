@@ -13,8 +13,10 @@ const MyNavbar = () => {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/about-us">About Us</Nav.Link>
             <Nav.Link href="/jobs">Jobs</Nav.Link>
+            <Nav.Link href="/applied-jobs">Applied jobs</Nav.Link>
             <Nav.Link href="/admissions">Admissions</Nav.Link>
             <Nav.Link href="/userprofile">User Profiles</Nav.Link>
+            <Nav.Link href="/add_balance">Add balance</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

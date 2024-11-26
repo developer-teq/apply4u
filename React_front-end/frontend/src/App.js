@@ -29,7 +29,7 @@ function App() {
             <Route path="/about-us" element={<AboutPage />} />
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/admissions" element={<AdmissionPage />} />
-            <Route path="/userpprofile" element={<UserProfileForm />} />
+            <Route path="/userprofile" element={<UserProfileForm />} />
             <Route path="/jobs/:jobId" element={<JobDetailsPage />} />
             <Route path="/apply" element={<ApplyjobPage />} />
             

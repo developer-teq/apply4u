@@ -18,6 +18,9 @@ import ApplyjobPage from './pages/ApplyjobPage';
 import UserProfileForm from './pages/UserProfile';
 import CashoutForm from './components/forms_components/CashInOutForm';
 import AppliedJobDetail from './pages/AppliedJobs';
+import { Toaster, toast } from 'react-hot-toast';
+
+
 function App() {
   return (
     <Router>
@@ -41,6 +44,7 @@ function App() {
         </div>
       </div>
       <footer className="bg-dark text-white text-center py-3">
+    
         <p>Apply4u.online  - &copy; 2024 apply for you</p>
       </footer>
     </div>

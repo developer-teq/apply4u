@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     "registerme",
     "refferals",
+    "apicall",
+    "rest_framework",
     # 'storages',
     'allauth',
     'allauth.account',
@@ -56,7 +58,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google', 
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.instagram',
-    # "corsheaders",
+    "corsheaders",
     'captcha',
 ]
 
@@ -64,7 +66,7 @@ SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     'allauth.account.middleware.AccountMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -175,6 +177,21 @@ ACCOUNT_AUTHENTICATION_METHOD ='username_email'
 # Provider specific settings
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.TokenAuthentication',
+#     ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ],
+# }
+
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -239,7 +256,10 @@ STATICFILES_DIRS = [
 #SECURE_HSTS_SECONDS=31536000
 # SECURE_HSTS_PRELOAD=True
 # SECURE_HSTS_INCLUDE_SUBDOMAINS=True 
-# CORS_ORIGIN_ALLOW_ALL = True   
+CORS_ORIGIN_ALLOW_ALL = True  
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React local dev server
+]
 
 
 

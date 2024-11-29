@@ -14,7 +14,7 @@ function JobDetailsPage() {
   const [error, setError] = useState("");
 
 
-
+console.log(main_job)
 
   // // Fetch job details when the component loads
   // useEffect(() => {
@@ -74,30 +74,12 @@ function JobDetailsPage() {
   //   fetchJobDetails();
   // }, [jobslug]);
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const response = await axios.get(`http://127.0.0.1:8000/apicall/${main_job.id}`);
-        setJobDetails(response.data.results); // Assuming the API returns an array in `results`
-        console.log(response)
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to fetch jobs. Please try again later.");
-        setLoading(false);
-      }
-    };
-
-    fetchJobs();
-  }, []);
-
-
+  
   // Handle loading state
-  if (loading) {
-    return <div>Loading job details...</div>;
-  }
+  
 
   // Handle no job details
-  if (!JobDetails || JobDetails.length === 0) {
+  if (!main_job || main_job.length === 0) {
     return <div>No job details available.</div>;
   }
 
@@ -109,19 +91,19 @@ function JobDetailsPage() {
         <p className="card-text">{main_job?.posts || 'Job description is not available.'}</p>
         {/* <img src={main_job.imageUrl} alt={main_job.title} className="job-image" /> */}
         <hr />
-        {JobDetails.map((job) => {
+        {main_job.details.map((job, index) => {
           const full_eligible = UserData ? checkEligibility(UserData, job) : false;
 
 
           return (
-            <div className="col-md-4" key={job.id}>
+            <div className="col-md-4" key={index}>
               <div className="card mb-4">
                 <div className="card-body">
                   <h5 className="card-title">{job.title}</h5>
-                  <p className="card-text">Qualifications: {job.qualification_required.join(', ')}</p>
+                  <p className="card-text">Qualifications: {job.qualification_req.join(', ')}</p>
                   <p className="card-text">Domicile: {job.post_regions.join(', ')}</p>
                   <p className="card-text">Gender: {job.jobs_for}</p>
-                  <p className="card-text">Age Range: {job.min_age} - {job.max_age}</p>
+                  <p className="card-text">Age Range: {job.min_age}   :{job.max_age}</p>
                   <p className="card-text">
                     {full_eligible ? (
                       <span className="text-success">You are eligible for this job.</span>

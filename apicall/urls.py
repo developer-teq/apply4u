@@ -19,12 +19,14 @@ from django.urls import include
 from .import views
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import CurrentJobsListCreateAPIView, CurrentJobsDetailAPIView
+from .views import CurrentJobsListCreateAPIView, CurrentJobsDetailAPIView, PostDetailViewSet
 
 app_name = 'apicall'
 # handler404 = '.views.handler_404'
 urlpatterns = [
     path('', CurrentJobsListCreateAPIView.as_view(), name='jobs-list-create'),
-    path('<int:id>/', CurrentJobsDetailAPIView.as_view(), name='jobs-detail'),
+    path('postdetails/', PostDetailViewSet.as_view({'get': 'list'}), name='post-details'),
+    
+    # path('<int:id>/', CurrentJobsDetailAPIView.as_view(), name='jobs-detail'),  
 
 ]

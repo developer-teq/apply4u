@@ -13,69 +13,10 @@ function JobDetailsPage() {
   const { main_job } = location.state || {}; // Get job data passed from previous page
   const [error, setError] = useState("");
 
+  
 
 console.log(main_job)
 
-  // // Fetch job details when the component loads
-  // useEffect(() => {
-  //   const fetchJobDetails = async () => {
-  //     try {
-  //       // Mock job response
-  //       const jobResponse = [
-  //         {
-  //           "id": 1,
-  //           "title": "clirk job",
-  //           "qualification_required": ["Bachelors", "Masters"],
-  //           "whocanapply": ["Bachelors"],
-  //           "post_regions": ["Punjab", "Sindh"],
-  //           "jobs_for": "Both",
-  //           "min_age": 25,
-  //           "max_age": 35
-  //         },
-  //         {
-  //           "id": 2,
-  //           "title": "Assistant",
-  //           "qualification_required": ["Masters", "PhD"],
-  //           "whocanapply": ["Masters"],
-  //           "post_regions": ["Punjab", "KPK"],
-  //           "jobs_for": "female",
-  //           "min_age": 30,
-  //           "max_age": 45
-  //         },
-  //         {
-  //           "id": 3,
-  //           "title": "computer operator",
-  //           "qualification_required": ["Bachelors"],
-  //           "whocanapply": ["Bachelors"],
-  //           "post_regions": ["Sindh", "Balochistan"],
-  //           "jobs_for": "Both",
-  //           "min_age": 22,
-  //           "max_age": 30
-  //         }
-  //       ];
-
-  //       setJobDetails(jobResponse);
-
-  //       // Mock user data (can be fetched from an API or state)
-  //       const userResponse = {
-  //         qualification: "Bachelors",
-  //         date_of_birth: "1992-06-10", // Use a valid date string
-  //         gender: "male",
-  //         domicile: "Punjab"
-  //       };
-  //       setUserData(userResponse);
-  //     } catch (error) {
-  //       console.error('Error fetching job details:', error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchJobDetails();
-  // }, [jobslug]);
-
-  
-  // Handle loading state
   
 
   // Handle no job details
@@ -85,31 +26,79 @@ console.log(main_job)
 
   return (
     <div className="container">
-      {console.log(main_job)}
+     
       <div className="row">
         <h5 className="card-title">{main_job?.jobtitle || 'Job Details'}</h5>
         <p className="card-text">{main_job?.posts || 'Job description is not available.'}</p>
-        {/* <img src={main_job.imageUrl} alt={main_job.title} className="job-image" /> */}
+        {main_job.adpic && (
+              <img className="img-fluid" src={main_job.adpic} alt="Job Ad" />
+            )}
         <hr />
         {main_job.details.map((job, index) => {
           const full_eligible = UserData ? checkEligibility(UserData, job) : false;
 
 
-          return (
-            <div className="col-md-4" key={index}>
+          return (<>
+           
+            
+            <div className="col-md-4" key={index}>{job.cropedad && (
+              <img className="img-fluid" src={job.cropedad} alt="Job Ad" />
+            )}
               <div className="card mb-4">
                 <div className="card-body">
                   <h5 className="card-title">{job.title}</h5>
-                  <p className="card-text">Qualifications: {job.qualification_req.join(', ')}</p>
-                  <p className="card-text">Domicile: {job.post_regions.join(', ')}</p>
+                  <p className="card-text"> Qualifications required: {job.qualification_req.map(qual => qual.education).join(', ')}</p>
+                  {/* <p className="card-text"> who can apply: {job.whocanapply.map(qual => qual.education).join(', ')}</p> */}
+                  {/* <p className="card-text"> Regions: {job.post_regions.map(region => region.regions).join(', ')} </p>*/}
+                  <div className="container mt-5">
+   <table className="table table-bordered table-striped">
+        <thead className="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Service</th>
+            <th>Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr key={job.id}>
+              <td>1</td>
+              <td>bank fee</td>
+              <td>${job.bankfee}</td>
+            </tr>
+            <tr key={job.id}>
+              <td>2</td>
+              <td>photocopies</td>
+              <td>${job.photocopies}</td>
+            </tr>
+            <tr key={job.id}>
+              <td>4</td>
+              <td>posting_fee</td>
+              <td>${job.posting_fee}</td>
+            </tr>
+            <tr key={job.id}>
+              <td>3</td>
+              <td>service_fee</td>
+              <td>${job.service_fee}</td>
+            </tr>
+          <tr className="fw-bold">
+            <td colSpan="2" className="text-end">
+              Total
+            </td>
+            <td>${job.total_cost}</td>
+          </tr>
+        </tbody>
+      </table>
+      
+    </div>
+
+
                   <p className="card-text">Gender: {job.jobs_for}</p>
                   <p className="card-text">Age Range: {job.min_age}   :{job.max_age}</p>
                   <p className="card-text">
                     {full_eligible ? (
                       <span className="text-success">You are eligible for this job.</span>
                     ) : (
-                      <span classNUserData
-UserDataName="text-danger">You are not eligible for this job.</span>
+                      <span className="UserData" UserDataName="text-danger">You are not eligible for this job.</span>
                     )}
                   </p>
 
@@ -120,7 +109,7 @@ UserDataName="text-danger">You are not eligible for this job.</span>
                   
                 </div>
               </div>
-            </div>
+            </div></>
           );
         })}
       </div>

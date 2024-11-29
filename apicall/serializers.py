@@ -1,7 +1,18 @@
 from rest_framework import serializers
-from applyforjob.models import currentjobs, postdetail
+from applyforjob.models import currentjobs, postdetail,education_category,jobregion
+class EducationCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = education_category
+        fields = ['id', 'education', 'year_of'] 
+class JobRegionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = jobregion
+        fields = ['id', 'regions'] 
 
 class PostDetailSerializer(serializers.ModelSerializer):
+    qualification_req = EducationCategorySerializer(many=True, read_only=True)  
+    whocanapply = EducationCategorySerializer(many=True, read_only=True)  
+    post_regions = JobRegionSerializer(many=True, read_only=True)
     class Meta:
         model = postdetail
         fields = '__all__' 

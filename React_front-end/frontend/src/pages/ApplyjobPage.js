@@ -4,11 +4,11 @@ import { checkEligibility } from '../components/my_utilities';
 function ApplyjobPage() {
   const location = useLocation();
   const { job, UserData, main_job } = location.state || {}; // Retrieve all passed state
+console.log(job , UserData, main_job)
 
-
-  if (!job || !UserData) {
-    return <div>No data available. Please navigate properly.</div>;
-  }
+  // if (!job || !UserData) {
+  //   return <div>No data available. Please navigate properly.</div>;
+  // }
 
   // const full_eligible = UserData ? checkEligibility(UserData, job) : false;
 let full_eligible;
@@ -86,9 +86,9 @@ const handleSubmit = (e) => {
             <tbody>
               <tr>
                 <td>Qualification</td>
-                <td>{job.qualification_required.join(', ')}</td>
+                <td>{job.qualification_required}</td>
                 <td>{UserData.qualification}</td>
-                <td>{isEligible(job.qualification_required, UserData.qualification, "qualification")}</td>
+                <td>{isEligible(job.qualification_req.map(qual => qual.education), UserData.qualification, "qualification")}</td>
               </tr>
               <tr>
                 <td>Domicile</td>

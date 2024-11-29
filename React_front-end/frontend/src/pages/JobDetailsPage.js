@@ -2,78 +2,93 @@ import { useParams } from 'react-router-dom';
 import { useLocation, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { checkEligibility } from '../components/my_utilities';
-
+import axios from "axios";
 
 function JobDetailsPage() {
   const { jobslug } = useParams(); // Get jobslug from URL (if needed)
-  const [jobDetails, setJobDetails] = useState([]); // Store the list of jobs
+  const [JobDetails, setJobDetails] = useState([]); // Store the list of jobs
   const [loading, setLoading] = useState(true); // Loading state
   const [UserData, setUserData] = useState(null); // User data for eligibility check
   const location = useLocation();
   const { main_job } = location.state || {}; // Get job data passed from previous page
- 
+  const [error, setError] = useState("");
 
 
 
 
-  // Fetch job details when the component loads
+  // // Fetch job details when the component loads
+  // useEffect(() => {
+  //   const fetchJobDetails = async () => {
+  //     try {
+  //       // Mock job response
+  //       const jobResponse = [
+  //         {
+  //           "id": 1,
+  //           "title": "clirk job",
+  //           "qualification_required": ["Bachelors", "Masters"],
+  //           "whocanapply": ["Bachelors"],
+  //           "post_regions": ["Punjab", "Sindh"],
+  //           "jobs_for": "Both",
+  //           "min_age": 25,
+  //           "max_age": 35
+  //         },
+  //         {
+  //           "id": 2,
+  //           "title": "Assistant",
+  //           "qualification_required": ["Masters", "PhD"],
+  //           "whocanapply": ["Masters"],
+  //           "post_regions": ["Punjab", "KPK"],
+  //           "jobs_for": "female",
+  //           "min_age": 30,
+  //           "max_age": 45
+  //         },
+  //         {
+  //           "id": 3,
+  //           "title": "computer operator",
+  //           "qualification_required": ["Bachelors"],
+  //           "whocanapply": ["Bachelors"],
+  //           "post_regions": ["Sindh", "Balochistan"],
+  //           "jobs_for": "Both",
+  //           "min_age": 22,
+  //           "max_age": 30
+  //         }
+  //       ];
+
+  //       setJobDetails(jobResponse);
+
+  //       // Mock user data (can be fetched from an API or state)
+  //       const userResponse = {
+  //         qualification: "Bachelors",
+  //         date_of_birth: "1992-06-10", // Use a valid date string
+  //         gender: "male",
+  //         domicile: "Punjab"
+  //       };
+  //       setUserData(userResponse);
+  //     } catch (error) {
+  //       console.error('Error fetching job details:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchJobDetails();
+  // }, [jobslug]);
+
   useEffect(() => {
-    const fetchJobDetails = async () => {
+    const fetchJobs = async () => {
       try {
-        // Mock job response
-        const jobResponse = [
-          {
-            "id": 1,
-            "title": "clirk job",
-            "qualification_required": ["Bachelors", "Masters"],
-            "whocanapply": ["Bachelors"],
-            "post_regions": ["Punjab", "Sindh"],
-            "jobs_for": "Both",
-            "min_age": 25,
-            "max_age": 35
-          },
-          {
-            "id": 2,
-            "title": "Assistant",
-            "qualification_required": ["Masters", "PhD"],
-            "whocanapply": ["Masters"],
-            "post_regions": ["Punjab", "KPK"],
-            "jobs_for": "female",
-            "min_age": 30,
-            "max_age": 45
-          },
-          {
-            "id": 3,
-            "title": "computer operator",
-            "qualification_required": ["Bachelors"],
-            "whocanapply": ["Bachelors"],
-            "post_regions": ["Sindh", "Balochistan"],
-            "jobs_for": "Both",
-            "min_age": 22,
-            "max_age": 30
-          }
-        ];
-
-        setJobDetails(jobResponse);
-
-        // Mock user data (can be fetched from an API or state)
-        const userResponse = {
-          qualification: "Bachelors",
-          date_of_birth: "1992-06-10", // Use a valid date string
-          gender: "male",
-          domicile: "Punjab"
-        };
-        setUserData(userResponse);
-      } catch (error) {
-        console.error('Error fetching job details:', error);
-      } finally {
+        const response = await axios.get(`http://127.0.0.1:8000/apicall/${main_job.id}`);
+        setJobDetails(response.data.results); // Assuming the API returns an array in `results`
+        console.log(response)
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to fetch jobs. Please try again later.");
         setLoading(false);
       }
     };
 
-    fetchJobDetails();
-  }, [jobslug]);
-
+    fetchJobs();
+  }, []);
 
 
   // Handle loading state
@@ -82,18 +97,19 @@ function JobDetailsPage() {
   }
 
   // Handle no job details
-  if (!jobDetails || jobDetails.length === 0) {
+  if (!JobDetails || JobDetails.length === 0) {
     return <div>No job details available.</div>;
   }
 
   return (
     <div className="container">
+      {console.log(main_job)}
       <div className="row">
-        <h5 className="card-title">{main_job?.title || 'Job Details'}</h5>
-        <p className="card-text">{main_job?.description || 'Job description is not available.'}</p>
-        <img src={main_job.imageUrl} alt={main_job.title} className="job-image" />
+        <h5 className="card-title">{main_job?.jobtitle || 'Job Details'}</h5>
+        <p className="card-text">{main_job?.posts || 'Job description is not available.'}</p>
+        {/* <img src={main_job.imageUrl} alt={main_job.title} className="job-image" /> */}
         <hr />
-        {jobDetails.map((job) => {
+        {JobDetails.map((job) => {
           const full_eligible = UserData ? checkEligibility(UserData, job) : false;
 
 

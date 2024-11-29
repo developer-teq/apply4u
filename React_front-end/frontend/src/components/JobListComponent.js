@@ -1,16 +1,11 @@
-// JobListComponent.js
-
 import axios from "axios";
-
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import "./joblistcomponents.css"
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
-
+import { Button, Card, ListGroup } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import './joblistcomponents.css';
 
 function JobListComponent() {
+  const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -20,9 +15,7 @@ function JobListComponent() {
     const fetchJobs = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:8000/apicall/");
-        // setJobs(response.data); // Assuming the API returns a list
-        setJobs(response.data.results);
-         
+        setJobs(response.data.results); // Assuming the API returns an array in `results`
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch jobs. Please try again later.");
@@ -33,50 +26,51 @@ function JobListComponent() {
     fetchJobs();
   }, []);
 
+  // Loading or error state
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
-  // from django.utils import timezone
-// jobtitle posts sector newspaper addate sectorlogo adpic full_add lastdate work
-//jobtitle posts sector newspaper addate sectorlogo adpic full_add lastdate work
-  return (
-    <div className='joblistcomponent'>
+  // Function to handle button click and navigate with state
+  const handleNavigate = (main_job) => {
+    navigate(`/jobs/${main_job.slug}`, { state: { main_job } });
+  };
 
-        {jobs.map(main_job => (<Card className='card' style={{ width: '18rem' }}>
-          
-      <Card.Header as="h5"> {main_job.jobtitle} </Card.Header>
-      {main_job.sectorlogo && (
+  return (
+    <div className="container-fluid">
+      {jobs.map(main_job => (
+        <Card className="card" key={main_job.id}>
+          <Card.Header as="h5">
+            {main_job.sectorlogo && (
               <img
                 src={main_job.sectorlogo}
                 alt="Sector Logo"
-                style={{ width: "100px", height: "auto" }}
+                style={{ width: "3.5em", height: "auto", padding: "2px 3px" }}
               />
             )}
-      <Card.Body>
-      {main_job.adpic && (
-              <img
-                src={main_job.adpic}
-                alt="Job Ad"
-                style={{ width: "300px", height: "auto" }}
-              />
+            {main_job.jobtitle}
+          </Card.Header>
+
+          <Card.Body>
+            {main_job.adpic && (
+              <img className="img-fluid" src={main_job.adpic} alt="Job Ad" />
             )}
-        <Card.Title>{main_job.posts}</Card.Title>
-        <Card.Text>
-        27-4 newspaper jhang       last date 
-        </Card.Text>
-        <ListGroup horizontal>
-      <ListGroup.Item>{main_job.newspaper}</ListGroup.Item>
-      <ListGroup.Item> Posted on :{main_job.addate}</ListGroup.Item>
-      <ListGroup.Item>last date:{main_job.lastdate} </ListGroup.Item>
-    </ListGroup>
-    
-        <Button variant="primary">Detail jobs</Button>
-      </Card.Body>
-    </Card>
-           
-        ))}
+            <Card.Title>{main_job.posts}</Card.Title>
+            <ListGroup horizontal className="w-100 flex-wrap flex-md-nowrap">
+              <ListGroup.Item>{main_job.newspaper}</ListGroup.Item>
+              <ListGroup.Item>Posted on: {main_job.addate}</ListGroup.Item>
+              <ListGroup.Item>Last date: {main_job.lastdate}</ListGroup.Item>
+            </ListGroup>
 
-
+            {/* Button to navigate to job details */}
+            <Button
+              variant="primary"
+              onClick={() => handleNavigate(main_job)} // Trigger the navigate function
+            >
+              Detail jobs
+            </Button>
+          </Card.Body>
+        </Card>
+      ))}
     </div>
   );
 }

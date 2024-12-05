@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from applyforjob.models import currentjobs, postdetail,education_category,jobregion
+from applyforjob.models import currentjobs, postdetail,education_category,jobregion,appliedjobs,personal
+from django.contrib.auth import authenticate 
 class EducationCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = education_category
@@ -43,3 +44,39 @@ class CurrentJobsSerializer(serializers.ModelSerializer):
             return self.context['request'].build_absolute_uri(obj.adpic.url)
         return None
 
+class AppliedJobsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = appliedjobs
+        fields = ['id', 'appliedtojob', 'timestamp', 'alldone', 'comment', 'status', 'ref_payment']
+
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims if needed
+        token['email'] = user.email
+        return token
+
+    def validate(self, attrs):
+        credentials = {
+            'email': attrs.get('username'),  # Expecting email in username field
+            'password': attrs.get('password'),
+        }
+        user = authenticate(**credentials)
+
+        if user:
+            if not user.is_active:
+                raise serializers.ValidationError('Account is disabled.')
+            return super().validate(attrs)
+        else:
+            raise serializers.ValidationError('Invalid email or password.')
+
+
+class PersonalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = personal
+        fields = '__all__' 

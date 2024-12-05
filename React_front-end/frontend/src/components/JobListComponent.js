@@ -37,40 +37,49 @@ function JobListComponent() {
 
   return (
     <div className="container-fluid">
-      {jobs.map(main_job => (
-        <Card className="card" key={main_job.id}>
-          <Card.Header as="h5">
-            {main_job.sectorlogo && (
-              <img
-                src={main_job.sectorlogo}
-                alt="Sector Logo"
-                style={{ width: "3.5em", height: "auto", padding: "2px 3px" }}
-              />
-            )}
-            {main_job.jobtitle}
-          </Card.Header>
+      {jobs.map(main_job => {
+        // Check if the last date has passed
+        const lastDate = new Date(main_job.lastdate);
+        const isDatePassed = lastDate < new Date();
 
-          <Card.Body>
-            {main_job.adpic && (
-              <img className="img-fluid" src={main_job.adpic} alt="Job Ad" />
-            )}
-            <Card.Title>{main_job.posts}</Card.Title>
-            <ListGroup horizontal className="w-100 flex-wrap flex-md-nowrap">
-              <ListGroup.Item>{main_job.newspaper}</ListGroup.Item>
-              <ListGroup.Item>Posted on: {main_job.addate}</ListGroup.Item>
-              <ListGroup.Item>Last date: {main_job.lastdate}</ListGroup.Item>
-            </ListGroup>
+        return (
+          <Card className="card" key={main_job.id}>
+            <Card.Header as="h5">
+              {main_job.sectorlogo && (
+                <img
+                  src={main_job.sectorlogo}
+                  alt="Sector Logo"
+                  style={{ width: "3.5em", height: "auto", padding: "2px 3px" }}
+                />
+              )}
+              {main_job.jobtitle}
+            </Card.Header>
 
-            {/* Button to navigate to job details */}
-            <Button
-              variant="primary"
-              onClick={() => handleNavigate(main_job)} // Trigger the navigate function
-            >
-              Detail jobs
-            </Button>
-          </Card.Body>
-        </Card>
-      ))}
+            <Card.Body>
+              {main_job.adpic && (
+                <img className="img-fluid" src={main_job.adpic} alt="Job Ad" />
+              )}
+              <Card.Title>{main_job.posts}</Card.Title>
+              <ListGroup horizontal className="w-100 flex-wrap flex-md-nowrap">
+                <ListGroup.Item>{main_job.newspaper}</ListGroup.Item>
+                <ListGroup.Item>Posted on: {main_job.addate}</ListGroup.Item>
+                <ListGroup.Item>Last date: {main_job.lastdate}... {isDatePassed && (<p style={{ color: "red", marginTop: "10px" }}>Date has passed</p>
+              )}</ListGroup.Item>
+              </ListGroup>
+
+              {/* Button to navigate to job details */}
+              <Button
+                variant="primary"
+                onClick={() => handleNavigate(main_job)}
+                 // Disable the button if the date is passed
+              >
+                Detail jobs
+              </Button>
+
+            </Card.Body>
+          </Card>
+        );
+      })}
     </div>
   );
 }

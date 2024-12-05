@@ -18,7 +18,7 @@ const UserProfile = () => {
 
   const handlePersonalSubmit = async (data) => {
     try {
-        const response = await axios.post("/api/matric/", data); // Update the API endpoint
+        const response = await axios.post("http://127.0.0.1:8000/apicall/personal/", data); // Update the API endpoint
         console.log("Matric data submitted successfully:", response.data);
         
     } catch (error) {

@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Navbar.css";
 import { Navbar, Nav, Container, NavbarToggle, NavbarCollapse } from 'react-bootstrap'; // Import necessary components
 
-const MyNavbar = () => {
+import { AuthContext } from "./AuthContext";
+
+const MyNavbar =() =>  {
+  const { isLoggedIn, logout } = useContext(AuthContext);
+  const handleLogout = () => {
+    if (window.confirm("Do you really want to log out?")) {
+      logout();
+    }
+  };
+
   return (
     <Navbar bg="dark" variant="dark" expand="sm">  {/* "expand" determines the breakpoint */}
       <Container>
@@ -13,10 +22,22 @@ const MyNavbar = () => {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/about-us">About Us</Nav.Link>
             <Nav.Link href="/jobs">Jobs</Nav.Link>
-            <Nav.Link href="/applied-jobs">Applied jobs</Nav.Link>
             <Nav.Link href="/admissions">Admissions</Nav.Link>
-            <Nav.Link href="/userprofile">User Profiles</Nav.Link>
+            {isLoggedIn ? (
+              <>
+                <Nav.Link href="/applied_jobs">Applied jobs</Nav.Link>
+                <Nav.Link href="/userprofile">User Profiles</Nav.Link>
             <Nav.Link href="/add_balance">Add balance</Nav.Link>
+            <button className="btn btn-link nav-link" onClick={handleLogout}>
+                    Logout
+                  </button>
+              </>
+            ) : (
+              <>
+              <Nav.Link href="/signup">sign up</Nav.Link>
+              <Nav.Link href="/login">login</Nav.Link>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

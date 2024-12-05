@@ -8,6 +8,7 @@ const HomePage = () => {
 
   const openAdmissionsPage = () => {
     window.location.href = '/admissions'; // Navigate to the "Admissions" page
+  
   };
   return (
     <>

@@ -1,6 +1,7 @@
 
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Import Routes instead of Switch
+import React, { useState, useEffect } from "react";
 
 import Navbar from './components/navbar';
 // import Header from './components/header';
@@ -18,25 +19,47 @@ import ApplyjobPage from './pages/ApplyjobPage';
 import UserProfileForm from './pages/UserProfile';
 import CashoutForm from './components/forms_components/CashInOutForm';
 import AppliedJobDetail from './pages/AppliedJobs';
-import { Toaster, toast } from 'react-hot-toast';
+import Login from './components/forms_components/LoginForm';
+import Signup from './components/forms_components/SignUpForm';
+import { AuthProvider } from "./components/AuthContext";
 
 
 function App() {
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check login status when the app loads
+  useEffect(() => {
+    const token = localStorage.getItem("access");
+    setIsLoggedIn(!!token); // Convert token to boolean
+  }, []);
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Do you really want to log out?");
+    if (confirmLogout) {
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      setIsLoggedIn(false);
+    }
+  };
   return (
+    <AuthProvider>
     <Router>
     <div className="container-fluid">
-      <Navbar />
+      <Navbar  isLoggedIn={isLoggedIn} onLogout={handleLogout}  />
       <div className="row">
         {/* <Sidebar /> */}
         <div className="container">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/about-us" element={<AboutPage />} />
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/admissions" element={<AdmissionPage />} />
             <Route path="/userprofile" element={<UserProfileForm />} />
             <Route path="/add_balance" element={<CashoutForm />} />
-            <Route path="/applied-jobs" element={<AppliedJobDetail/>} />
+            <Route path="/applied_jobs" element={<AppliedJobDetail/>} />
             <Route path="/jobs/:jobId" element={<JobDetailsPage />} />
             <Route path="/apply" element={<ApplyjobPage />} />
             
@@ -49,6 +72,7 @@ function App() {
       </footer>
     </div>
   </Router>
+  </AuthProvider>
   );
 }
 export default App;

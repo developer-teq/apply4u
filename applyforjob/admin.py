@@ -125,7 +125,7 @@ class postdetailAdmin(admin.ModelAdmin):
 admin.site.register(postdetail, postdetailAdmin)
 
 class appliedjobsAdmin(admin.ModelAdmin):
-    list_display = ('appliedtojob','user','joblastdate','alldone','status','ref_payment')
+    list_display = ('appliedtojob','user','alldone','status','ref_payment')
     search_fields = [ 'appliedtojob__post_name', 'user__username']
     @admin.display(ordering='appliedtojob__job_title__lastdate')
     def joblastdate(self, obj):

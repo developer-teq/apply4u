@@ -1,75 +1,78 @@
-import { useLocation } from 'react-router-dom';
-import { checkEligibility } from '../components/my_utilities';
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { checkEligibility } from "../components/my_utilities";
 
-function ApplyjobPage() {
+function ApplyJobPage() {
   const location = useLocation();
-  const { job, UserData, main_job } = location.state || {}; // Retrieve all passed state
-console.log(job , UserData, main_job)
+  const { job, UserData, main_job } = location.state || {}; // Retrieve state
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
+  console.log(job)
 
-  // if (!job || !UserData) {
-  //   return <div>No data available. Please navigate properly.</div>;
-  // }
-
-  // const full_eligible = UserData ? checkEligibility(UserData, job) : false;
-let full_eligible;
-if (UserData) {
-  full_eligible = checkEligibility(UserData, job);
-} else {
-  full_eligible = false;
-}
-
-
-
+  // Check overall eligibility
+  const lastDate = new Date(main_job.lastdate);
+  const isDatePassed = lastDate < new Date();
+  const fullEligible = UserData ? checkEligibility(UserData, job) : false;
 
   const isEligible = (jobValue, userValue, type) => {
-    if (type === "qualification") {
-      return jobValue.includes(userValue) ? "Eligible" : "Not Eligible";
+    switch (type) {
+      case "qualification":
+      case "domicile":
+        return jobValue.includes(userValue) ? "Eligible" : "Not Eligible";
+      case "gender":
+        return jobValue === userValue || jobValue === "Both" ? "Eligible" : "Not Eligible";
+      case "age":
+        const userAge = new Date().getFullYear() - new Date(userValue).getFullYear();
+        return userAge >= jobValue.min && userAge <= jobValue.max ? "Eligible" : "Not Eligible";
+      default:
+        return "Not Applicable";
     }
-    if (type === "domicile") {
-      return jobValue.includes(userValue) ? "Eligible" : "Not Eligible";
-    }
-    if (type === "gender") {
-      return jobValue === userValue || jobValue === "Both" ? "Eligible" : "Not Eligible";
-    }
-    if (type === "age") {
-      const userAge = new Date().getFullYear() - new Date(userValue).getFullYear();
-      return userAge >= jobValue.min && userAge <= jobValue.max ? "Eligible" : "Not Eligible";
-    }
-    return "Not Applicable";
   };
 
-// submitting on apply form 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  // Form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage(null); // Clear previous messages
 
-  // You can submit the data via an API or to another page
-  // For example, using fetch to send the data to an API endpoint
-  const formData = new FormData();
-  formData.append('main_job_title', main_job.title);
-  formData.append('job_title', job.title);
+    const formData = {
+      user_id: UserData.user_id,
+      job_id: job.id,
+    };
 
-  // on this api we send the job name, user etc to website 
-  
-  fetch('/apply', {
-    method: 'POST',
-    body: formData,
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Application submitted successfully:', data);
-      // Redirect or show success message
-    })
-    .catch(error => {
-      console.error('Error submitting the form:', error);
-    });
-};
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/apicall/apply-to-job/",
+        formData,
+        { headers: { "Content-Type": "application/json" } }
+      );
+      setMessage({ type: "success", text: response.data.message });
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "An unexpected error occurred. Please try again.";
+      setMessage({ type: "error", text: errorMessage });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-
-
+  if (!job || !UserData) {
+    return <div>No data available. Please navigate properly.</div>;
+  }
 
   return (
     <div className="container">
-      <h1>Apply for {job.title} in {main_job.title}</h1>
+      {message && (
+        <div className={`alert ${message.type === "success" ? "alert-success" : "alert-danger"}`}>
+          {message.text}
+        </div>
+      )}
+      
+
+      <h1>
+        <strong>{job.post_name}</strong> {main_job?.jobtitle}
+      </h1>
 
       <div className="card mb-4">
         <div className="card-body">
@@ -86,15 +89,15 @@ const handleSubmit = (e) => {
             <tbody>
               <tr>
                 <td>Qualification</td>
-                <td>{job.qualification_required}</td>
+                <td>{job.qualification_req.map((q) => q.education).join(", ")}</td>
                 <td>{UserData.qualification}</td>
-                <td>{isEligible(job.qualification_req.map(qual => qual.education), UserData.qualification, "qualification")}</td>
+                <td>{isEligible(job.whocanapply.map((q) => q.education), UserData.qualification, "qualification")}</td>
               </tr>
               <tr>
                 <td>Domicile</td>
-                <td>{job.post_regions.join(', ')}</td>
+                <td>{job.post_regions.map((r) => r.regions).join(", ")}</td>
                 <td>{UserData.domicile}</td>
-                <td>{isEligible(job.post_regions, UserData.domicile, "domicile")}</td>
+                <td>{isEligible(job.post_regions.map((r) => r.regions), UserData.domicile, "domicile")}</td>
               </tr>
               <tr>
                 <td>Gender</td>
@@ -104,25 +107,67 @@ const handleSubmit = (e) => {
               </tr>
               <tr>
                 <td>Age</td>
-                <td>{job.min_age} - {job.max_age}</td>
+                <td>
+                  {job.min_age} --- {job.max_age}
+                </td>
                 <td>{new Date().getFullYear() - new Date(UserData.date_of_birth).getFullYear()}</td>
                 <td>{isEligible({ min: job.min_age, max: job.max_age }, UserData.date_of_birth, "age")}</td>
               </tr>
             </tbody>
           </table>
-         
-         
 
+          <hr />
 
-           <form onSubmit={handleSubmit}>
-                {/* Hidden fields for main_job.title and job.title */}
-                <input type="hidden" name="main_job_title" value={main_job.title} />
-                <input type="hidden" name="job_title" value={job.title} />
+          <table className="table table-bordered table-striped">
+            <thead className="table-dark">
+              <tr>
+                <th>#</th>
+                <th>Service</th>
+                <th>Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Bank Fee</td>
+                <td>${job.bankfee}</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Photocopies</td>
+                <td>${job.photocopies}</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Posting Fee</td>
+                <td>${job.posting_fee}</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Service Fee</td>
+                <td>${job.service_fee}</td>
+              </tr>
+              <tr className="fw-bold">
+                <td colSpan="2" className="text-end">
+                  Total
+                </td>
+                <td>${job.total_cost}</td>
+              </tr>
+            </tbody>
+          </table>
 
-                <button type="submit" className="btn btn-primary"  disabled={!full_eligible}
-                  >
-                    {full_eligible ? 'Apply Now' : 'Not Eligible'}
-                   </button>
+          <form onSubmit={handleSubmit}>
+            <input type="" name="user_id" value={UserData.user_id} />
+            <input type="" name="job_id" value={job.id} />
+
+            <button type="submit" className="btn btn-primary" disabled={!fullEligible || loading || isDatePassed}>
+                      {loading ? "Applying..." : fullEligible ? "Apply Now" : "Not Eligible"}
+                    </button>
+                    {isDatePassed && (
+                      <p style={{ color: "red", marginTop: "10px" }}>
+                        Date has passed
+                      </p>
+                    )}
           </form>
         </div>
       </div>
@@ -130,4 +175,4 @@ const handleSubmit = (e) => {
   );
 }
 
-export default ApplyjobPage;
+export default ApplyJobPage;

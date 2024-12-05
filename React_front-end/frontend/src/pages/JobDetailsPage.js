@@ -8,16 +8,22 @@ function JobDetailsPage() {
   const { jobslug } = useParams(); // Get jobslug from URL (if needed)
   const [JobDetails, setJobDetails] = useState([]); // Store the list of jobs
   const [loading, setLoading] = useState(true); // Loading state
-  const [UserData, setUserData] = useState(null); // User data for eligibility check
-  const location = useLocation();
+ const location = useLocation();
   const { main_job } = location.state || {}; // Get job data passed from previous page
   const [error, setError] = useState("");
 
   
 
-console.log(main_job)
+// console.log(main_job)
 
-  
+const [UserData, setUserData] = useState({
+  user:"sajid",
+  user_id: 1, 
+  date_of_birth: "1997-01-01",
+  qualification: "MBA Finance",
+  domicile: "Punjab",
+  gender: "male",
+});
 
   // Handle no job details
   if (!main_job || main_job.length === 0) {
@@ -35,6 +41,9 @@ console.log(main_job)
             )}
         <hr />
         {main_job.details.map((job, index) => {
+          const lastDate = new Date(main_job.lastdate);
+          const isDatePassed = lastDate < new Date();
+         
           const full_eligible = UserData ? checkEligibility(UserData, job) : false;
 
 
@@ -42,14 +51,16 @@ console.log(main_job)
            
             
             <div className="col-md-4" key={index}>{job.cropedad && (
+              
               <img className="img-fluid" src={job.cropedad} alt="Job Ad" />
             )}
+            
               <div className="card mb-4">
                 <div className="card-body">
                   <h5 className="card-title">{job.title}</h5>
                   <p className="card-text"> Qualifications required: {job.qualification_req.map(qual => qual.education).join(', ')}</p>
-                  {/* <p className="card-text"> who can apply: {job.whocanapply.map(qual => qual.education).join(', ')}</p> */}
-                  {/* <p className="card-text"> Regions: {job.post_regions.map(region => region.regions).join(', ')} </p>*/}
+                  <p className="card-text"> who can apply: {job.whocanapply.map(qual => qual.education).join(', ')}</p>
+                  <p className="card-text"> Regions: {job.post_regions.map(region => region.regions).join(', ')} </p>
                   <div className="container mt-5">
    <table className="table table-bordered table-striped">
         <thead className="table-dark">
@@ -106,10 +117,13 @@ console.log(main_job)
                   >
                     {full_eligible ? 'Apply Now' : 'Not Eligible'}
                   </Link>
+                   {isDatePassed && (<p style={{ color: "red", marginTop: "10px" }}>Date has passed</p>
+              )}
                   
                 </div>
               </div>
-            </div></>
+            </div>
+            </>
           );
         })}
       </div>

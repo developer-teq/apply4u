@@ -1,292 +1,173 @@
-import React, { useState, useEffect } from "react";
 
-const PersonalForm = ({ onSubmit }) => {
-  const [jobRegions, setJobRegions] = useState([]);
-  const [educationCategories, setEducationCategories] = useState([]);
+import React, { useState, useEffect } from 'react'; 
+import axios from 'axios';
+import { refreshAccessToken } from '../refreshAccessToken';
+
+const PersonalForm = () => {
   const [formData, setFormData] = useState({
-    full_name: "",
-    date_of_birth: "",
-    father_name: "",
-    address: "",
-    domicile: "",
-    qualification: "",
-    gender: "male",
-    phone_number: "",
-    get_alerts_by: "phone",
-    send_education_based_jobs_alerts: "",
-    cnic_number: "",
-    father_cnic: "",
-    father_status: "alive",
+    full_name: '',
+    Dateofbirth: '',
+    father_name: '',
+    address: '',
+    domicile: '',
+    qualific: '',
+    gender: 'female',
+    phone_number: '',
+    get_alerts_by: 'whatsapp and phone both',
+    send_education_based_jobs_alerts: '',
+    cnic_number: '',
+    father_cnic: '',
+    My_Father_is: 'alive',
   });
-  const [errors, setErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState("");
-
+  const token = localStorage.getItem("access");
+  const [jobRegions, setJobRegions] = useState([]); 
+  const [educationCategories, setEducationCategories] = useState([]); 
   useEffect(() => {
-    // Use Promise.all to fetch both data concurrently
-    Promise.all([
-      fetch("/jobregion/"),
-      fetch("/educationcategory/")
-    ])
-      .then(([resJobRegions, resEducationCategories]) => {
-        // Log the raw response to debug the issue
-        console.log('Job Regions Response:', resJobRegions);
-        console.log('Education Categories Response:', resEducationCategories);
-        
-        if (!resJobRegions.ok) {
-          throw new Error(`Error fetching job regions: ${resJobRegions.status}`);
-        }
-        if (!resEducationCategories.ok) {
-          throw new Error(`Error fetching education categories: ${resEducationCategories.status}`);
-        }
-
-        // Try to parse the JSON after checking the response is not HTML
-        return Promise.all([resJobRegions.text(), resEducationCategories.text()]);
-      })
-      .then(([jobRegionsText, educationCategoriesText]) => {
+    const fetchDataWithToken = async () => {
         try {
-          // Now try to parse the text as JSON
-          const jobRegionsData = JSON.parse(jobRegionsText);
-          const educationCategoriesData = JSON.parse(educationCategoriesText);
-          // Set the state for both jobRegions and educationCategories
-          setJobRegions(jobRegionsData);
-          setEducationCategories(educationCategoriesData);
+            let accessToken = localStorage.getItem("access");
+            if (!accessToken) {
+                console.error("No access token available. Please log in.");
+                return;
+            }
+
+            // Function to fetch data with token
+            const fetchJobRegions = async () => {
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+                const response = await axios.get("http://127.0.0.1:8000/apicall/jobregions/", config);
+                setJobRegions(response.data.results);
+            };
+
+            const fetchEducationCategories = async () => {
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+                const response = await axios.get("http://127.0.0.1:8000/apicall/educationcategory/", config);
+                setEducationCategories(response.data.results);
+            };
+
+            try {
+                // Fetch job regions and education categories
+                await fetchJobRegions();
+                await fetchEducationCategories();
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    console.log("Access token expired. Refreshing token...");
+                    accessToken = await refreshAccessToken();
+                    if (accessToken) {
+                        // Retry fetching data with the refreshed token
+                        await fetchJobRegions();
+                        await fetchEducationCategories();
+                    } else {
+                        console.error("Token refresh failed. Please log in again.");
+                    }
+                } else {
+                    console.error("Error fetching data:", error);
+                }
+            }
         } catch (error) {
-          console.error("Error parsing JSON:", error);
+            console.error("Unexpected error:", error);
         }
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-  
-  // Handle input changes
+    };
+
+    fetchDataWithToken();
+}, []);
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+    
   };
-
-  // Validate the form fields
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.full_name.trim()) newErrors.full_name = "Full name is required.";
-    if (!formData.date_of_birth) newErrors.date_of_birth = "Date of birth is required.";
-    if (!formData.father_name.trim()) newErrors.father_name = "Father's name is required.";
-    if (!formData.address.trim()) newErrors.address = "Address is required.";
-    if (!formData.domicile) newErrors.domicile = "Please select a domicile.";
-    if (!formData.qualification) newErrors.qualification = "Please select a qualification.";
-    if (!/^\d{13}$/.test(formData.cnic_number)) newErrors.cnic_number = "Invalid CNIC number.";
-    if (!/^\d{11}$/.test(formData.phone_number)) newErrors.phone_number = "Invalid phone number.";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // Handle form submission
-  const handleSubmit = (e) => {
+  console.log(formData)
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      onSubmit(formData);
-      setSuccessMessage("Form submitted successfully!");
-    } else {
-      setSuccessMessage("");
+    try {
+      // const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrftoken')).split('=')[1];
+  
+        let token = await refreshAccessToken();
+        // alert(token)// Retrieve the access token
+        console.log(token)
+        if (!token) {
+          token = await refreshAccessToken();
+          console.log('token refreshed ')
+          // Refresh the token
+          
+        }
+        
+        const response = await axios.post(
+            'http://127.0.0.1:8000/apicall/personal/', 
+            formData, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    // 'X-CSRFToken': csrfToken 
+                },
+                 // Not necessary for JWT, but good practice if cookies are involved
+            }
+        );
+        console.log(response.data);
+    } catch (error) {
+        console.error('There was an error submitting the form!', error);
     }
-  };
+};
+
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border rounded bg-light">
-      {/* Success Message */}
-      {successMessage && <div className="alert alert-success">{successMessage}</div>}
-
-      {/* Full Name */}
-      <div className="mb-3">
-        <label htmlFor="full_name" className="form-label">Full Name</label>
-        <input
-          type="text"
-          id="full_name"
-          name="full_name"
-          className={`form-control ${errors.full_name ? "is-invalid" : ""}`}
-          value={formData.full_name}
-          onChange={handleChange}
-          required
-        />
-        {errors.full_name && <div className="invalid-feedback">{errors.full_name}</div>}
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Full Name:  {token}</label>
+        <input type="text" name="full_name" value={formData.full_name} onChange={handleChange} />
       </div>
-
-      {/* Date of Birth */}
-      <div className="mb-3">
-        <label htmlFor="date_of_birth" className="form-label">Date of Birth</label>
-        <input
-          type="date"
-          id="date_of_birth"
-          name="date_of_birth"
-          className={`form-control ${errors.date_of_birth ? "is-invalid" : ""}`}
-          value={formData.date_of_birth}
-          onChange={handleChange}
-          required
-        />
-        {errors.date_of_birth && <div className="invalid-feedback">{errors.date_of_birth}</div>}
-      </div>
-
-      {/* Father's Name */}
-      <div className="mb-3">
-        <label htmlFor="father_name" className="form-label">Father's Name</label>
-        <input
-          type="text"
-          id="father_name"
-          name="father_name"
-          className={`form-control ${errors.father_name ? "is-invalid" : ""}`}
-          value={formData.father_name}
-          onChange={handleChange}
-          required
-        />
-        {errors.father_name && <div className="invalid-feedback">{errors.father_name}</div>}
-      </div>
-
-      {/* Address */}
-      <div className="mb-3">
-        <label htmlFor="address" className="form-label">Address</label>
-        <input
-          type="text"
-          id="address"
-          name="address"
-          className={`form-control ${errors.address ? "is-invalid" : ""}`}
-          value={formData.address}
-          onChange={handleChange}
-          required
-        />
-        {errors.address && <div className="invalid-feedback">{errors.address}</div>}
-      </div>
-
-      {/* Domicile */}
-      <div className="mb-3">
-        <label htmlFor="domicile" className="form-label">Domicile</label>
-        <select
-          id="domicile"
-          name="domicile"
-          className={`form-select ${errors.domicile ? "is-invalid" : ""}`}
-          value={formData.domicile}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Domicile</option>
-          {jobRegions.map((region) => (
-            <option key={region.id} value={region.id}>{region.name}</option>
-          ))}
-        </select>
-        {errors.domicile && <div className="invalid-feedback">{errors.domicile}</div>}
-      </div>
-
-      {/* Qualification */}
-      <div className="mb-3">
-        <label htmlFor="qualification" className="form-label">Qualification</label>
-        <select
-          id="qualification"
-          name="qualification"
-          className={`form-select ${errors.qualification ? "is-invalid" : ""}`}
-          value={formData.qualification}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Qualification</option>
-          {educationCategories.map((category) => (
-            <option key={category.id} value={category.id}>{category.education}</option>
-          ))}
-        </select>
-        {errors.qualification && <div className="invalid-feedback">{errors.qualification}</div>}
-      </div>
-
-  {/* Gender */}
-  <div className="mb-3">
-          <label className="form-label">Gender</label>
-          <select
-            className="form-select"
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-          >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-
-        {/* Phone Number */}
-        <div className="mb-3">
-          <label className="form-label">Phone Number</label>
-          <input
-            type="tel"
-            className="form-control"
-            name="phone_number"
-            value={formData.phone_number}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Get Alerts By */}
-        <div className="mb-3">
-          <label className="form-label">Get Alerts By</label>
-          <select
-            className="form-select"
-            name="get_alerts_by"
-            value={formData.get_alerts_by}
-            onChange={handleChange}
-          >
-            <option value="phone">Phone</option>
-            <option value="WhatsApp messages">WhatsApp Messages</option>
-            <option value="WhatsApp and phone both">WhatsApp and Phone Both</option>
-            <option value="No alerts">No Alerts</option>
-          </select>
-        </div>
-
-        {/* CNIC Number */}
-        <div className="mb-3">
-          <label className="form-label">CNIC Number</label>
-          <input
-            type="text"
-            className="form-control"
-            name="cnic_number"
-            value={formData.cnic_number}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Father's CNIC */}
-        <div className="mb-3">
-          <label className="form-label">Father CNIC</label>
-          <input
-            type="text"
-            className="form-control"
-            name="father_cnic"
-            value={formData.father_cnic}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Father's Status */}
-        <div className="mb-3">
-          <label className="form-label">My Father is</label>
-          <select
-            className="form-select"
-            name="My_Father_is"
-            value={formData.My_Father_is}
-            onChange={handleChange}
-          >
-            <option value="alive">Alive</option>
-            <option value="not alive">Not Alive</option>
-          </select>
-        </div>
-
-        {/* Submit Button */}
+  
      
-
-
-      {/* Gender, Phone, Alerts, CNIC, Father's Status */}
-      {/* Repeat similar structure as above for remaining fields */}
-      {/* Submit Button */}
-      <div className="d-grid">
-        <button type="submit" className="btn btn-primary">Submit</button>
+      
+      <div> <label>Domicile:</label> <select name="domicile" value={formData.domicile} onChange={handleChange}> 
+        <option value="">Select Domicile</option> {jobRegions.map(region => ( <option key={region.id} value={region.id}>{region.regions}</option> ))} </select> </div> 
+      <div> 
+        <label>Qualification:</label> <select name="qualific" value={formData.qualific} onChange={handleChange}>
+           <option value="">Select Qualification</option> {educationCategories.map(category => ( <option key={category.id} value={category.id}>{category.education}</option> ))} </select> </div>
+      <div>
+        <label>Gender:</label>
+        <select name="gender" value={formData.gender} onChange={handleChange}>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
       </div>
+      <div>
+        <label>Phone Number:</label>
+        <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} />
+      </div>
+      <div>
+        <label>Get Alerts By:</label>
+        <select name="get_alerts_by" value={formData.get_alerts_by} onChange={handleChange}>
+          <option value="phone">Phone</option>
+          <option value="Whasapp messages">WhatsApp Messages</option>
+          <option value="whatsapp and phone both">WhatsApp and Phone Both</option>
+          <option value="No alerts">No Alerts</option>
+        </select>
+      </div>
+      <div>
+        <label>Education Based Job Alerts:</label>
+        <input type="text" name="send_education_based_jobs_alerts" value={formData.send_education_based_jobs_alerts} onChange={handleChange} />
+      </div>
+    
+     
+      <div>
+        <label>My Father Is:</label>
+        <select name="My_Father_is" value={formData.My_Father_is} onChange={handleChange}>
+          <option value="alive">Alive</option>
+          <option value="not alive">Not Alive</option>
+        </select>
+      </div>
+      <button type="submit">Submit</button>
     </form>
   );
 };

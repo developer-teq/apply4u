@@ -1,7 +1,7 @@
 from rest_framework import generics
-
-from applyforjob.models import currentjobs,postdetail,appliedjobs,jobregion,education_category
-from .serializers import CurrentJobsSerializer,PostDetailSerializer,AppliedJobsSerializer,PersonalSerializer
+from rest_framework.decorators import api_view
+from applyforjob.models import currentjobs,postdetail,appliedjobs,jobregion,education_category,personal
+from .serializers import CurrentJobsSerializer,PostDetailSerializer,AppliedJobsSerializer,PersonalSerializer,JobRegionSerializer,EducationCategorySerializer
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
@@ -10,28 +10,73 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 # List and Create API
 
-class JobRegionView(APIView):
-    def get(self, request):
-        regions = jobregion.objects.values("id", "regions")
-        return Response(regions)
+# class JobRegionView(APIView):
+#     def get(self, request):
+#         regions = jobregion.objects.values("id", "regions")
+#         return Response(regions)
+class JobRegionList(generics.ListAPIView): 
+    # permission_classes = [IsAuthenticated]
 
-class EducationCategoryView(APIView):
-    def get(self, request):
-        categories = education_category.objects.values("id", "education")
-        return Response(categories)
+    
+    queryset = jobregion.objects.all() 
+    serializer_class = JobRegionSerializer
 
-class PersonalView(APIView):
+class EducationCategoryView(generics.ListAPIView): 
+    queryset = education_category.objects.all() 
+    serializer_class = EducationCategorySerializer
+
+# class EducationCategoryView(APIView):
+#     def get(self, request):
+#         categories = education_category.objects.values("id", "education")
+#         return Response(categories)
+
+# class PersonalView(APIView):
+#     def post(self, request):
+#         modeldata=jobregion.objects.all()
+#         print(modeldata)
+#         serializer = PersonalSerializer(data=request.data)
+#         # print(request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         print(serializer.errors)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# @api_view(['POST'])
+# def PersonalView(request):
+#      if request.method == 'POST': 
+#         serializer = PersonalSerializer(data=request.data, context={'request': request}) 
+#         if serializer.is_valid(): 
+#             serializer.save() 
+#             return Response(serializer.data, status=status.HTTP_201_CREATED) 
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import IsAuthenticated
+class PersonalAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = User.objects.get(id=request.user.id)
+        try:
+            personal = personal.objects.get(user=user)
+            serializer = PersonalSerializer(personal)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except personal.DoesNotExist:
+            return Response({"error": "Personal profile not found."}, status=status.HTTP_404_NOT_FOUND)
+
     def post(self, request):
-        modeldata=jobregion.objects.all()
-        print(modeldata)
-        serializer = PersonalSerializer(data=request.data)
-        # print(request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.get(id=request.user.id)
+        try:
+            personal = Personal.objects.get(user=user)
+            serializer = PersonalSerializer(personal, data=request.data, partial=True)  # Use `partial=True` for partial updates
+        except:
+            serializer = PersonalSerializer(data=request.data)
 
+        if serializer.is_valid():
+            serializer.save(user=user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class CurrentJobsListCreateAPIView(generics.ListCreateAPIView):
     queryset = currentjobs.objects.all().order_by('-lastdate')
     serializer_class = CurrentJobsSerializer
@@ -85,10 +130,14 @@ class AppliedJobsView(ListAPIView):
 
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
+import secrets
 class SignupView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+     
+        print(secrets.token_urlsafe(32))
+
         username = request.data.get('username')
         email = request.data.get('email')
         password = request.data.get('password')

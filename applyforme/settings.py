@@ -49,8 +49,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     "registerme",
     "refferals",
-    "apicall",
     "rest_framework",
+    "rest_framework_simplejwt",
+    "apicall",
+    
     # 'storages',
     'allauth',
     'allauth.account',
@@ -60,7 +62,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.instagram',
     "corsheaders",
     'captcha',
-    'rest_framework_simplejwt',
+    
 ]
 
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
@@ -74,6 +76,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
  
@@ -137,33 +140,57 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication'
+        
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
+
+
+
 
 from datetime import timedelta
 SIMPLE_JWT = {
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': 'your-secret-key',  # Replace with a secure key
+    'SIGNING_KEY': '',  # Replace with a secure key
     'AUTH_HEADER_TYPES': ('Bearer',),
+    # RBgPNtbumkhaZPHNarzLdQLP_pbk_pZX20rlXk7GfJk
 }
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
 }
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Asia/Karachi'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -191,11 +218,6 @@ ACCOUNT_AUTHENTICATION_METHOD ='username_email'
 
 # Provider specific settings
 
-
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
-}
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -272,6 +294,7 @@ STATICFILES_DIRS = [
 # SECURE_HSTS_PRELOAD=True
 # SECURE_HSTS_INCLUDE_SUBDOMAINS=True 
 CORS_ORIGIN_ALLOW_ALL = True  
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React local dev server
 ]

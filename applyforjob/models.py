@@ -93,7 +93,7 @@ class OrganizationImage(models.Model):
 
 
 class personal(models.Model):
-    user = models.OneToOneField(to = User, on_delete = CASCADE, blank = True)
+    user = models.OneToOneField(to = User, on_delete = CASCADE, blank = False)
     slug = models.SlugField(max_length=40,unique=True ,default='thisisuer')
     full_name = models.CharField(max_length = 150, blank = True, null = True)
     Dateofbirth=models.DateField(max_length=8, blank = True, null = True)

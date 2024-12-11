@@ -1,0 +1,52 @@
+
+
+
+
+
+
+# POST http://127.0.0.1:8000/apicall/personal/
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzODQ4NTM0LCJpYXQiOjE3MzM4NDgyMzQsImp0aSI6IjY1NjAxZmYxYzVmMzQwMzliNjRhMmE3NmY0ZTQ1NzM2IiwidXNlcl9pZCI6NTg4LCJlbWFpbCI6Im5ld3VzZXJAZXhhbXBsZS5jb20ifQ.S5aZOhuxyZdvaWC5bzi3-cMj2Vy-xkLBNxgH5PDdU0U
+
+# Content-Type: application/json
+# {
+#   "full_name": "John Doe",
+#   "Dateofbirth": "1990-01-01",
+#   "father_name": "Mark Doe",
+#   "address": "123 Street",
+#   "domicile": 1,
+#   "qualific": 1,
+#   "gender": "male",
+#   "phone_number": "123456789",
+#   "get_alerts_by": "phone",
+#   "send_education_based_jobs_alerts": 1,
+#   "cnic_number": "12345-1234567-1",
+#   "father_cnic": "12345-1234567-2",
+#   "My_Father_is": "alive"
+# }
+
+# POST http://127.0.0.1:8000/apicall/signup/
+# Content-Type: application/json
+
+# { 
+#     "username": "newuser",
+#     "email": "newuser@example.com",
+#     "password": "strongpassword123",
+#     "password2": "strongpassword123"
+# }
+
+# POST http://127.0.0.1:8000/apicall/token/refresh/
+# Content-Type: application/json
+
+# {
+#     "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzkzMzk3OSwiaWF0IjoxNzMzODQ3NTc5LCJqdGkiOiI3Zjk4MTZhNzhjMTU0MmIzODI2ZmFjNzg5YWM3MWE5ZiIsInVzZXJfaWQiOjU4MywiZW1haWwiOiJzYWltYnVzaEBnbWFpbC5jb20ifQ.cEmPZSuw_TMRJ6cwgrvVacZlE0-i6hNMqdXqC0_WRnY"}
+# POST http://127.0.0.1:8000/apicall/token/
+# Content-Type: application/json
+
+# {
+#     "username": "newuser@example.com",
+#     "password": "strongpassword123"
+# }
+# {
+#   "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczNDQ1MzAzNCwiaWF0IjoxNzMzODQ4MjM0LCJqdGkiOiJkYzMwNzg1MjExNDU0NjFiOTQ1ZThkMDdkNWY1NjI5MSIsInVzZXJfaWQiOjU4OCwiZW1haWwiOiJuZXd1c2VyQGV4YW1wbGUuY29tIn0.w9TLgTnui08zmcVwaW_It0ApZqNbT40p9pR3DQLOSNg",
+#   "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzODQ4NTM0LCJpYXQiOjE3MzM4NDgyMzQsImp0aSI6IjY1NjAxZmYxYzVmMzQwMzliNjRhMmE3NmY0ZTQ1NzM2IiwidXNlcl9pZCI6NTg4LCJlbWFpbCI6Im5ld3VzZXJAZXhhbXBsZS5jb20ifQ.S5aZOhuxyZdvaWC5bzi3-cMj2Vy-xkLBNxgH5PDdU0U"
+# }

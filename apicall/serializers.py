@@ -75,8 +75,17 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
         else:
             raise serializers.ValidationError('Invalid email or password.')
 
-
 class PersonalSerializer(serializers.ModelSerializer):
     class Meta:
         model = personal
-        fields = '__all__' 
+        fields = [
+             'full_name',
+            'domicile', 'qualific', 'gender',  
+            'phone_number', 'get_alerts_by', 'send_education_based_jobs_alerts', 
+             'My_Father_is', 
+        ]
+        extra_kwargs = {
+            'user': {'read_only': True},  # User is automatically set based on the logged-in user.
+            'slug': {'read_only': True},  # Slug should auto-generate or be handled separately.
+            'create_date': {'read_only': True},  # Auto-generated fields should not be editable.
+        }

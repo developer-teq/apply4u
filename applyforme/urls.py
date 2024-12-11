@@ -39,6 +39,7 @@ urlpatterns = [
     path('adminuserpage/', admin.site.urls),
     path('', include('applyforjob.urls')),
     path('apicall/', include('apicall.urls')),
+    path('api-auth/', include('rest_framework.urls')),
     path('staff/', include('registerme.urls')),
     path('ref/', include('refferals.urls')),
     path('captcha/', include('captcha.urls')),

@@ -21,9 +21,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import CurrentJobsListCreateAPIView, CurrentJobsDetailAPIView, PostDetailViewSet,ApplyToJobView,SignupView,AppliedJobsView,JobRegionView, EducationCategoryView
+from .views import CurrentJobsListCreateAPIView, CurrentJobsDetailAPIView, PostDetailViewSet,ApplyToJobView,SignupView,AppliedJobsView,JobRegionList, EducationCategoryView
 from .serializers import EmailTokenObtainPairSerializer
-from .views import PersonalView
+from .views import PersonalAPIView
+from rest_framework_simplejwt.views import TokenVerifyView
+
 
 class EmailTokenObtainPairView(TokenObtainPairView):
     serializer_class = EmailTokenObtainPairSerializer
@@ -33,12 +35,14 @@ app_name = 'apicall'
 # handler404 = '.views.handler_404'
 urlpatterns = [
     path('', CurrentJobsListCreateAPIView.as_view(), name='jobs-list-create'),
-    path('personal/', PersonalView.as_view(), name='personal'),
-    path('jobregion/', JobRegionView.as_view(), name='JobRegion'),
+    # path('personal/', PersonalView.as_view(), name='personal'),
+    path('personal/', PersonalAPIView.as_view(), name='personal_api'),
+    path('jobregions/', JobRegionList.as_view(), name='JobRegion'),
     path('educationcategory/', EducationCategoryView.as_view(), name='educationcategory'),
     
     path('token/', EmailTokenObtainPairView.as_view(), name='token_obtain_pair'),
-
+    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('signup/', SignupView.as_view(), name='signup'),

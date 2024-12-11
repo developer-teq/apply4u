@@ -20,6 +20,7 @@ const Login = () => {
     
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -35,10 +36,13 @@ const Login = () => {
         }
       );
       const { access, refresh } = response.data;
-      console.log(response.data)
       login(access, refresh);
       localStorage.setItem("access", access);
       localStorage.setItem("refresh", refresh);
+      // const token = response.data.access_token;
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+      
       
       setMessage("Login successful!");
       navigate("/");

@@ -9,6 +9,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={(props) =>
         isAuthenticated() ? (
+          
             
           <Component {...props} />
         ) : (

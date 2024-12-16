@@ -3,27 +3,45 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { checkEligibility } from "../components/my_utilities";
 
+import { jwtDecode } from 'jwt-decode'; // Use the named import
 function ApplyJobPage() {
   const location = useLocation();
-  const { job, UserData, main_job } = location.state || {}; // Retrieve state
+  const { job,  main_job } = location.state || {}; // Retrieve state
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
-  console.log(job)
+
+  const access = localStorage.getItem("access"); // Assume the token is already stored in localStorage
+  const decoded = jwtDecode(access);
+  const userId = decoded.user_id; 
 
   // Check overall eligibility
   const lastDate = new Date(main_job.lastdate);
   const isDatePassed = lastDate < new Date();
-  const fullEligible = UserData ? checkEligibility(UserData, job) : false;
+  const full_eligible = checkEligibility(job);
 
-  const isEligible = (jobValue, userValue, type) => {
+  const userstoreddata = localStorage.getItem('formData');
+  if (!userstoreddata) {
+    console.error("No user data found in sessionStorage.");
+    return false;
+  }
+
+  const parsedUserData = JSON.parse(userstoreddata);
+
+  function checkeligible(array, value) {
+    console.log(array, value)
+    // Check if the value exists in the array
+    return array.includes(Number(value)) ? "Eligible" : "Not Eligible";
+}
+
+  const isEligible = (jobValue, parsedUserData, type) => {
     switch (type) {
       case "qualification":
       case "domicile":
-        return jobValue.includes(userValue) ? "Eligible" : "Not Eligible";
+        return jobValue.includes(parsedUserData) ? "Eligible" : "Not Eligible";
       case "gender":
-        return jobValue === userValue || jobValue === "Both" ? "Eligible" : "Not Eligible";
+        return jobValue === parsedUserData || jobValue === "Both" ? "Eligible" : "Not Eligible";
       case "age":
-        const userAge = new Date().getFullYear() - new Date(userValue).getFullYear();
+        const userAge = new Date().getFullYear() - new Date(parsedUserData).getFullYear();
         return userAge >= jobValue.min && userAge <= jobValue.max ? "Eligible" : "Not Eligible";
       default:
         return "Not Applicable";
@@ -37,8 +55,8 @@ function ApplyJobPage() {
     setMessage(null); // Clear previous messages
 
     const formData = {
-      user_id: UserData.user_id,
       job_id: job.id,
+      user_id:userId
     };
 
     try {
@@ -47,7 +65,7 @@ function ApplyJobPage() {
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
-      setMessage({ type: "success", text: response.data.message });
+      setMessage({ type: "success", text: response.message });
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "An unexpected error occurred. Please try again.";
@@ -57,7 +75,7 @@ function ApplyJobPage() {
     }
   };
 
-  if (!job || !UserData) {
+  if (!job) {
     return <div>No data available. Please navigate properly.</div>;
   }
 
@@ -68,8 +86,7 @@ function ApplyJobPage() {
           {message.text}
         </div>
       )}
-      
-
+     
       <h1>
         <strong>{job.post_name}</strong> {main_job?.jobtitle}
       </h1>
@@ -90,28 +107,29 @@ function ApplyJobPage() {
               <tr>
                 <td>Qualification</td>
                 <td>{job.qualification_req.map((q) => q.education).join(", ")}</td>
-                <td>{UserData.qualification}</td>
-                <td>{isEligible(job.whocanapply.map((q) => q.education), UserData.qualification, "qualification")}</td>
+                <td>{parsedUserData.qualific.name}</td>
+               <td>{checkeligible(job.whocanapply.map((q) => q.id), parsedUserData.qualific.id)}</td>
+
               </tr>
               <tr>
                 <td>Domicile</td>
                 <td>{job.post_regions.map((r) => r.regions).join(", ")}</td>
-                <td>{UserData.domicile}</td>
-                <td>{isEligible(job.post_regions.map((r) => r.regions), UserData.domicile, "domicile")}</td>
+                <td>{parsedUserData.domicile.name} </td>
+                <td>{isEligible(job.post_regions.map((r) => r.id), parsedUserData.domicile.id, "domicile")}</td>
               </tr>
               <tr>
                 <td>Gender</td>
                 <td>{job.jobs_for}</td>
-                <td>{UserData.gender}</td>
-                <td>{isEligible(job.jobs_for, UserData.gender, "gender")}</td>
+                <td>{parsedUserData.gender}</td>
+                <td>{isEligible(job.jobs_for, parsedUserData.gender, "gender")}</td>
               </tr>
               <tr>
                 <td>Age</td>
                 <td>
                   {job.min_age} --- {job.max_age}
                 </td>
-                <td>{new Date().getFullYear() - new Date(UserData.date_of_birth).getFullYear()}</td>
-                <td>{isEligible({ min: job.min_age, max: job.max_age }, UserData.date_of_birth, "age")}</td>
+                <td>{new Date().getFullYear() - new Date(parsedUserData.Dateofbirth).getFullYear()}</td>
+                <td>{isEligible({ min: job.min_age, max: job.max_age }, parsedUserData.Dateofbirth, "age")}</td>
               </tr>
             </tbody>
           </table>
@@ -157,11 +175,12 @@ function ApplyJobPage() {
           </table>
 
           <form onSubmit={handleSubmit}>
-            <input type="" name="user_id" value={UserData.user_id} />
+            <input type="" name="user_id" value={userId} />
             <input type="" name="job_id" value={job.id} />
 
-            <button type="submit" className="btn btn-primary" disabled={!fullEligible || loading || isDatePassed}>
-                      {loading ? "Applying..." : fullEligible ? "Apply Now" : "Not Eligible"}
+            {/* <button type="submit" className="btn btn-primary" disabled={!full_eligible || loading || isDatePassed}> */}
+            <button type="submit" className="btn btn-primary">
+                      {loading ? "Applying..." : full_eligible ? "Apply Now" : "Not Eligible"}
                     </button>
                     {isDatePassed && (
                       <p style={{ color: "red", marginTop: "10px" }}>

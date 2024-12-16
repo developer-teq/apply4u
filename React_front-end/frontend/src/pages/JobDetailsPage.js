@@ -12,17 +12,18 @@ function JobDetailsPage() {
   const { main_job } = location.state || {}; // Get job data passed from previous page
   const [error, setError] = useState("");
 
-  
+ 
 
-// console.log(main_job)
 
+// '{"full_name":"newform","Dateofbirth":"2002-09-09","father_name":"","domicile":"3","qualific":"58","gender":"male","phone_number":"23232",
+// "get_alerts_by":"whatsapp and phone both","send_education_based_jobs_alerts":"1","My_Father_is":"alive"}'
 const [UserData, setUserData] = useState({
-  user:"sajid",
+  user: "sajid",
   user_id: 1, 
   date_of_birth: "1997-01-01",
-  qualification: "MBA Finance",
-  domicile: "Punjab",
-  gender: "male",
+  qualification: { id: 64, name: "MBA Finance" }, 
+  domicile: { id: 2, name: "Punjab" },          
+  gender:"male" ,              
 });
 
   // Handle no job details
@@ -44,9 +45,8 @@ const [UserData, setUserData] = useState({
           const lastDate = new Date(main_job.lastdate);
           const isDatePassed = lastDate < new Date();
          
-          const full_eligible = UserData ? checkEligibility(UserData, job) : false;
-
-
+          const full_eligible = checkEligibility(job);
+         
           return (<>
            
             
@@ -59,8 +59,11 @@ const [UserData, setUserData] = useState({
                 <div className="card-body">
                   <h5 className="card-title">{job.title}</h5>
                   <p className="card-text"> Qualifications required: {job.qualification_req.map(qual => qual.education).join(', ')}</p>
-                  <p className="card-text"> who can apply: {job.whocanapply.map(qual => qual.education).join(', ')}</p>
+                  {/* <p className="card-text"> Qualifications required ids: {job.qualification_req.map(qual => qual.id).join(', ')}</p> */}
+                  {/* <p className="card-text"> who can apply: {job.whocanapply.map(qual => qual.education).join(', ')}</p> */}
+                  {/* <p className="card-text"> who can apply_id: {job.whocanapply.map(qual => qual.id).join(', ')}</p> */}
                   <p className="card-text"> Regions: {job.post_regions.map(region => region.regions).join(', ')} </p>
+                  {/* <p className="card-text"> Regions_ids: {job.post_regions.map(region => region.id).join(', ')} </p> */}
                   <div className="container mt-5">
    <table className="table table-bordered table-striped">
         <thead className="table-dark">
@@ -113,7 +116,7 @@ const [UserData, setUserData] = useState({
                     )}
                   </p>
 
-                  <Link className='btn btn-secondary' to={`/apply/`} state={{ job, UserData, main_job }} disabled={!full_eligible}
+                  <Link className='btn btn-secondary' to={`/apply/`} state={{ job,  main_job }} disabled={!full_eligible}
                   >
                     {full_eligible ? 'Apply Now' : 'Not Eligible'}
                   </Link>

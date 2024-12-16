@@ -94,7 +94,7 @@ class OrganizationImage(models.Model):
 
 class personal(models.Model):
     user = models.OneToOneField(to = User, on_delete = CASCADE, blank = False)
-    slug = models.SlugField(max_length=40,unique=True ,default='thisisuer')
+    slug = models.SlugField(max_length=40 ,default='thisisuer')
     full_name = models.CharField(max_length = 150, blank = True, null = True)
     Dateofbirth=models.DateField(max_length=8, blank = True, null = True)
     father_name=models.CharField(max_length = 150, blank = True, null = True)
@@ -118,11 +118,14 @@ class personal(models.Model):
     def get_absolute_url(self):
         return reverse('applyforjob:mycv', args = [self.slug, ])
 
-    def save(self, *args, **kwargs):
-        if self.slug:
-            self.slug = slugify(self.user)
+    # def save(self, *args, **kwargs):
+        # if self.slug:
+        #     self.slug = slugify(self.user)
         
-        super(personal, self).save(*args, **kwargs)
+        # super(personal, self).save(*args, **kwargs)
+        # if not self.slug:
+        #     self.slug = slugify(self.user)  # Generate slug only if it doesn't exist
+        # super().save(*args, **kwargs)
     
 class matric(models.Model):
     user = models.OneToOneField(to = User, on_delete = CASCADE, blank = True)
@@ -484,6 +487,17 @@ class askingquestion(models.Model):
         ordering = ["timestamp"]
 class userreply(models.Model):
     job=models.ForeignKey(to=askingquestion,on_delete = models.SET_NULL, null=True)
+    extradocument = models.ImageField(upload_to ='pictures/extra/', null = True, blank = True)
+    userreply=models.CharField(max_length = 200)
+    read=models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add = True)
+    def __str__(self):
+        return "%s" % self.userreply
+    class Meta:
+        ordering = ["timestamp"]
+#   set this for apicall , i
+class userreplied(models.Model):
+    job=models.ForeignKey(to=appliedjobs,on_delete = models.SET_NULL, null=True)
     extradocument = models.ImageField(upload_to ='pictures/extra/', null = True, blank = True)
     userreply=models.CharField(max_length = 200)
     read=models.BooleanField(default=False)

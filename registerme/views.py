@@ -173,7 +173,7 @@ def askingview(request):
             questionasking=askingquestion(job=applied_jobs,whattoask=askq)
             questionasking.save()
             email=str(applied_jobs.user.email)
-            send_mail('A team member asked '+str(questionasking), 'As you requested to apply on the job of '+str(applied_jobs.appliedtojob.post_name)+' in '+str(applied_jobs.appliedtojob.job_title)+'\n Please visit https://applyforme.pk/appliedjobs/ and see notification details \n\n Thank you for trusting us. \n applyforme.pk team', settings.EMAIL_HOST_USER, ['sajidjoyia1996@gmail.com',])
+            # send_mail('A team member asked '+str(questionasking), 'As you requested to apply on the job of '+str(applied_jobs.appliedtojob.post_name)+' in '+str(applied_jobs.appliedtojob.job_title)+'\n Please visit https://applyforme.pk/appliedjobs/ and see notification details \n\n Thank you for trusting us. \n applyforme.pk team', settings.EMAIL_HOST_USER, ['sajidjoyia1996@gmail.com',])
             return JsonResponse({'status':'question submitted'})
         return JsonResponse({'status':'this is not mathod'})
     return JsonResponse({'status':'You are not authorized'})

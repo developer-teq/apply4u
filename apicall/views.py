@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.decorators import api_view
-from applyforjob.models import currentjobs,postdetail,appliedjobs,jobregion,education_category,personal
-from .serializers import CurrentJobsSerializer,PostDetailSerializer,AppliedJobsSerializer,PersonalSerializer,JobRegionSerializer,EducationCategorySerializer
+from applyforjob.models import currentjobs,postdetail,appliedjobs,jobregion,education_category,personal,billing,addingbalance,jobstepsreplies,askingquestion,userreplied
+from .serializers import CurrentJobsSerializer,PostDetailSerializer,AppliedJobsSerializer,PersonalSerializer,JobRegionSerializer,EducationCategorySerializer,AddingBalanceSerializer
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
@@ -52,31 +52,21 @@ class EducationCategoryView(generics.ListAPIView):
 
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
-class PersonalAPIView(APIView):
+
+
+from rest_framework.generics import RetrieveUpdateAPIView
+class PersonalCreateView(RetrieveUpdateAPIView):
+    queryset = personal.objects.all()
+    serializer_class = PersonalSerializer
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        user = User.objects.get(id=request.user.id)
-        try:
-            personal = personal.objects.get(user=user)
-            serializer = PersonalSerializer(personal)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except personal.DoesNotExist:
-            return Response({"error": "Personal profile not found."}, status=status.HTTP_404_NOT_FOUND)
+    def get_object(self):
+        # Retrieve the user's profile or create a blank one
+        user=User.objects.get(id=self.request.user.id)
+        obj, created = personal.objects.get_or_create(user=user)
+        return obj
 
-    def post(self, request):
-        user = User.objects.get(id=request.user.id)
-        try:
-            personal = Personal.objects.get(user=user)
-            serializer = PersonalSerializer(personal, data=request.data, partial=True)  # Use `partial=True` for partial updates
-        except:
-            serializer = PersonalSerializer(data=request.data)
 
-        if serializer.is_valid():
-            serializer.save(user=user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class CurrentJobsListCreateAPIView(generics.ListCreateAPIView):
     queryset = currentjobs.objects.all().order_by('-lastdate')
     serializer_class = CurrentJobsSerializer
@@ -97,6 +87,7 @@ class ApplyToJobView(APIView):
         data = request.data
         user_id = data.get("user_id")
         job_id = data.get("job_id")
+        print(user_id, job_id)
 
         # Validate if the user exists
         try:
@@ -126,7 +117,14 @@ class AppliedJobsView(ListAPIView):
 
     def get_queryset(self):
         # Filter applied jobs for the currently authenticated user
-        return appliedjobs.objects.filter(user=self.request.user)
+        print(appliedjobs.objects.filter(user_id=self.request.user.id))
+        return appliedjobs.objects.filter(user_id=self.request.user.id)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        print(serializer.data)  # Logs the serialized response
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
@@ -150,3 +148,106 @@ class SignupView(APIView):
 
         user = User.objects.create_user(username=username, email=email, password=password)
         return Response({'detail': 'User created successfully.'}, status=status.HTTP_201_CREATED)
+
+class AddingBalanceAPI(APIView):
+    permission_classes = [IsAuthenticated]  # Ensure only authenticated users can access
+    def get(self, request):
+        adding_balance_data = addingbalance.objects.filter(user_id=self.request.user.id)  # Assuming the user is logged in
+        serializer = AddingBalanceSerializer(adding_balance_data, many=True)
+        return Response(serializer.data)
+
+
+    def post(self, request):
+        print(request.data)
+        serializer = AddingBalanceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user_id=request.user.id)  # Associate the logged-in user
+            return Response({"message": "Balance added successfully!", "data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+from .serializers import BillingSerializer
+
+class BillingView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        billing_data = billing.objects.filter(user_id=request.user.id)  # Assuming user is logged in
+        serializer = BillingSerializer(billing_data, many=True)
+        return Response(serializer.data)
+
+from .serializers import JobStepsRepliesSerializer
+class JobStepsRepliesView(APIView):
+    # Get all replies or filter by job ID
+    permission_classes = [IsAuthenticated]
+    def get(self, request, job_id=None):
+        if job_id:
+            replies = jobstepsreplies.objects.filter(job_id=job_id)
+        else:
+            replies = jobstepsreplies.objects.all()
+        serializer = JobStepsRepliesSerializer(replies, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # Create a new reply
+    def post(self, request):
+        serializer = JobStepsRepliesSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+from .serializers import AskingQuestionSerializer,UserRepliedSerializer
+
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from .serializers import AskingQuestionSerializer, UserRepliedSerializer
+
+class AskingQuestionView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    # Get all questions or filter by job ID
+    def get(self, request, job_id=None):
+        if job_id:
+            questions = askingquestion.objects.filter(job_id=job_id)
+            user_replies = userreplied.objects.filter(job_id=job_id)
+        else:
+            questions = askingquestion.objects.all()
+            user_replies = userreplied.objects.all()
+
+        # Serialize the data
+        q_serializer = AskingQuestionSerializer(questions, many=True)
+        r_serializer = UserRepliedSerializer(user_replies, many=True)
+
+        # Return the data in a structured format (separate questions and replies)
+        return Response({
+            'questions': q_serializer.data,
+            'user_replies': r_serializer.data
+        }, status=status.HTTP_200_OK)
+
+    # Add a new question
+    def post(self, request):
+        serializer = AskingQuestionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class UserRepliedView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)
+
+    def post(self, request, *args, **kwargs):
+        serializer = UserRepliedSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Organization,OrganizationImage,requestonline,complaints_rep,feedbacks,complaints, experiencepics,cashout,appliedcertificates, askingquestion,userreply,jobstepsreplies,Post,privacy_policy,jobnotifictions,education_category, Bachlor, master, personal,matric,Intermediate,mphil,doctorial,documentpics,currentjobs,postdetail,userwebrecord,appliedjobs,billing,addingbalance,mistakes,jobsectors,jobregion,Coupon, CouponUsage
+from .models import Organization,OrganizationImage,requestonline,complaints_rep,feedbacks,complaints, experiencepics,cashout,appliedcertificates, askingquestion,userreply,userreplied,jobstepsreplies,Post,privacy_policy,jobnotifictions,education_category, Bachlor, master, personal,matric,Intermediate,mphil,doctorial,documentpics,currentjobs,postdetail,userwebrecord,appliedjobs,billing,addingbalance,mistakes,jobsectors,jobregion,Coupon, CouponUsage
 
 # Register your models here.
 from django.contrib.auth.models import User
@@ -179,6 +179,7 @@ admin.site.register(privacy_policy)
 admin.site.register(jobstepsreplies)
 admin.site.register(askingquestion)
 admin.site.register(userreply)
+admin.site.register(userreplied)
 admin.site.register(appliedcertificates)
 admin.site.register(experiencepics)
 admin.site.register(feedbacks)

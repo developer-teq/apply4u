@@ -23,7 +23,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .views import CurrentJobsListCreateAPIView, CurrentJobsDetailAPIView, PostDetailViewSet,ApplyToJobView,SignupView,AppliedJobsView,JobRegionList, EducationCategoryView
 from .serializers import EmailTokenObtainPairSerializer
-from .views import PersonalAPIView
+from .views import PersonalCreateView,AddingBalanceAPI,BillingView,JobStepsRepliesView,AskingQuestionView,UserRepliedView
 from rest_framework_simplejwt.views import TokenVerifyView
 
 
@@ -36,20 +36,25 @@ app_name = 'apicall'
 urlpatterns = [
     path('', CurrentJobsListCreateAPIView.as_view(), name='jobs-list-create'),
     # path('personal/', PersonalView.as_view(), name='personal'),
-    path('personal/', PersonalAPIView.as_view(), name='personal_api'),
+    path('personal/', PersonalCreateView.as_view(), name='personal_api'),
     path('jobregions/', JobRegionList.as_view(), name='JobRegion'),
     path('educationcategory/', EducationCategoryView.as_view(), name='educationcategory'),
+    path('adding-balance/', AddingBalanceAPI.as_view(), name="adding_balance"),
+    path('billing/', BillingView.as_view(), name='billing-list'),
     
     path('token/', EmailTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('signup/', SignupView.as_view(), name='signup'),
     path('postdetails/', PostDetailViewSet.as_view({'get': 'list'}), name='post-details'),
     path('apply-to-job/', ApplyToJobView.as_view(), name='apply_to_job'),
     path('applied_jobs/', AppliedJobsView.as_view(), name='AppliedJobsView'),
-    
+    path('jobstepsreplies/<int:job_id>/', JobStepsRepliesView.as_view(), name='jobstepsreplies_by_job'),
+    path('askingquestions/<int:job_id>/', AskingQuestionView.as_view(), name='askingquestions_by_job'),
+    path('userreplied/', UserRepliedView.as_view(), name='userreplies'),
+
+
     # path('<int:id>/', CurrentJobsDetailAPIView.as_view(), name='jobs-detail'),  
 
 ]

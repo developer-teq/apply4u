@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from applyforjob.models import currentjobs, postdetail,education_category,jobregion,appliedjobs,personal
+from applyforjob.models import currentjobs, postdetail,education_category,jobregion,appliedjobs,personal,addingbalance,billing, askingquestion, jobstepsreplies,userreplied
 from django.contrib.auth import authenticate 
 class EducationCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,9 +45,10 @@ class CurrentJobsSerializer(serializers.ModelSerializer):
         return None
 
 class AppliedJobsSerializer(serializers.ModelSerializer):
+    job_title = serializers.CharField(source='__str__', read_only=True)
     class Meta:
         model = appliedjobs
-        fields = ['id', 'appliedtojob', 'timestamp', 'alldone', 'comment', 'status', 'ref_payment']
+        fields = ['id', 'appliedtojob', 'timestamp', 'alldone', 'comment', 'status', 'ref_payment','job_title']
 
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -78,9 +79,10 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
 class PersonalSerializer(serializers.ModelSerializer):
     class Meta:
         model = personal
+        
         fields = [
-             'full_name',
-            'domicile', 'qualific', 'gender',  
+             'full_name','user',
+            'domicile', 'qualific', 'gender','Dateofbirth',  
             'phone_number', 'get_alerts_by', 'send_education_based_jobs_alerts', 
              'My_Father_is', 
         ]
@@ -89,3 +91,35 @@ class PersonalSerializer(serializers.ModelSerializer):
             'slug': {'read_only': True},  # Slug should auto-generate or be handled separately.
             'create_date': {'read_only': True},  # Auto-generated fields should not be editable.
         }
+
+
+class AddingBalanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = addingbalance
+        fields = "__all__"  # Include all fields or specify required ones
+        read_only_fields = ["timestamp", "varified", "fraudingperson"]  
+
+class BillingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = billing
+        # fields = ['id', 'user', 'userbalance', 'accountmanagement', 'userloan', 'userlastpayment', 'timestamp', 'trusted', 'loancleared', 'earnings']
+        fields = ['userbalance', 'accountmanagement', 'timestamp',]
+
+class JobStepsRepliesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = jobstepsreplies
+        fields = '__all__'
+
+class AskingQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = askingquestion
+        fields = '__all__'
+
+
+
+class UserRepliedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = userreplied
+        fields = ['id', 'job', 'extradocument', 'userreply', 'read', 'timestamp']
+        read_only_fields = ['id', 'timestamp', 'read']
+

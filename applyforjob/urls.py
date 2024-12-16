@@ -52,7 +52,7 @@ urlpatterns = [
    path('policies/',views.ourpolicies,name='ourpolicies'),
    
 #    path('uploadcv/<slug:slug>',views.uploadcv,name='uploadcv'),
-   path('mycv/<slug:slug>/',views.mydata, name='mycv'),
+   path('mycv/<slug:slug>/',views.mydata, name='mycv'),    # now it will not work , becuase i am removing slug from models
    path('data_varification/',views.data_varification, name='data_varification'),
    
 #    path('datasaving/',views.savedata, name='savedata'),

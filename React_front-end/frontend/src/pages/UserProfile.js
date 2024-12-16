@@ -19,105 +19,13 @@ const UserProfile = () => {
   const handlePersonalSubmit = async (data) => {
     try {
         const response = await axios.post("http://127.0.0.1:8000/apicall/personal/", data); // Update the API endpoint
-        console.log("Matric data submitted successfully:", response.data);
+        console.log("personal data submitted successfully:", response.data);
         
     } catch (error) {
         console.error("Error submitting matric data:", error);
         setFormSubmitted(true);
     }
 };
- 
-//   const handleMatricSubmit = async (data) => {
-//     try {
-//         const response = await axios.post("/api/matric/", data); // Update the API endpoint
-//         console.log("Matric data submitted successfully:", response.data);
-        
-//     } catch (error) {
-//         console.error("Error submitting matric data:", error);
-//         setFormSubmitted(true);
-//     }
-
-// };
-//   const handleInterSubmit = async (data) => {
-//     try {
-//         const response = await axios.post("/api/matric/", data); // Update the API endpoint
-//         console.log("Matric data submitted successfully:", response.data);
-//         setFormSubmitted(true);
-//     } catch (error) {
-//         console.error("Error submitting matric data:", error);
-//         setFormSubmitted(true);
-//     }
-// };
-//   const handleBachelorSubmit = async (data) => {
-//     try {
-//         const response = await axios.post("/api/matric/", data); // Update the API endpoint
-//         console.log("Matric data submitted successfully:", response.data);
-//         setFormSubmitted(true);
-//     } catch (error) {
-//         console.error("Error submitting matric data:", error);
-//         setFormSubmitted(true);
-//     }
-// };
-//   const handleMasterSubmit = async (data) => {
-//     try {
-//         const response = await axios.post("/api/matric/", data); // Update the API endpoint
-//         console.log("Matric data submitted successfully:", response.data);
-//         setFormSubmitted(true);
-//     } catch (error) {
-//         console.error("Error submitting matric data:", error);
-//         setFormSubmitted(true);
-//     }
-// };
-//   const handleMphilSubmit = async (data) => {
-//     try {
-//         const response = await axios.post("/api/matric/", data); // Update the API endpoint
-//         console.log("Matric data submitted successfully:", response.data);
-//         setFormSubmitted(true);
-//     } catch (error) {
-//         console.error("Error submitting matric data:", error);
-//         setFormSubmitted(true);
-//     }
-// };
-
-//   const handleDoctorialSubmit = async (data) => {
-//     try {
-//         const response = await axios.post("/api/matric/", data); // Update the API endpoint
-//         console.log("Matric data submitted successfully:", response.data);
-//         setFormSubmitted(true);
-//     } catch (error) {
-//         console.error("Error submitting matric data:", error);
-//         setFormSubmitted(true);
-//     }
-// };
-//   const handlePicSubmit = async (data) => {
-//     try {
-//         const response = await axios.post("/api/matric/", data); // Update the API endpoint
-//         console.log("Matric data submitted successfully:", response.data);
-//         setFormSubmitted(true);
-//     } catch (error) {
-//         console.error("Error submitting matric data:", error);
-//         setFormSubmitted(true);
-//     }
-// };
-//   const handleExpSubmit = async (data) => {
-//     try {
-//         const response = await axios.post("/api/matric/", data); // Update the API endpoint
-//         console.log("Matric data submitted successfully:", response.data);
-//         setFormSubmitted(true);
-//     } catch (error) {
-//         console.error("Error submitting matric data:", error);
-//         setFormSubmitted(true);
-//     }
-// };
-
-// const handleNext = () => {
-//   setCurrentStep((prevStep) => prevStep + 1);
-//   setFormSubmitted(false); // Reset the form submission status for the next step
-// };
-
-// const handlePrevious = () => {
-//   setCurrentStep((prevStep) => prevStep - 1);
-// };
 
 
   return (

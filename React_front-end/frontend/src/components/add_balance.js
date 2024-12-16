@@ -1,12 +1,13 @@
+// src/components/CashoutForm.js
 import React, { useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { refreshAccessToken } from "../refreshAccessToken";
+import { refreshAccessToken } from "./refreshAccessToken";
 
 const CashoutForm = () => {
   const [message, setMessage] = useState(null);
   const [formData, setFormData] = useState({
-    cashout: 0,
+    payment_adding: 0,
     paymentMethod: "JazzCash",
     usertrnxid: 0,
     comment: "",
@@ -65,25 +66,23 @@ const CashoutForm = () => {
 
       <div className="card shadow-lg">
         <div className="card-header bg-primary text-white text-center">
-          <h3>Add Balance</h3>
+          <h3>Cashout Form</h3>
         </div>
         <div className="card-body">
           <form onSubmit={handleSubmit}>
-            {/* Cashout amount */}
             <div className="mb-3">
               <label className="form-label">Cashout Amount:</label>
               <input
                 type="number"
                 className="form-control"
-                name="cashout"
-                value={formData.cashout}
+                name="payment_adding"
+                value={formData.payment_adding}
                 onChange={handleChange}
                 min="0"
                 required
               />
             </div>
 
-            {/* Payment Method */}
             <div className="mb-3">
               <label className="form-label">Payment Method:</label>
               <select
@@ -98,7 +97,6 @@ const CashoutForm = () => {
               </select>
             </div>
 
-            {/* Transaction ID */}
             <div className="mb-3">
               <label className="form-label">Transaction ID:</label>
               <input
@@ -111,7 +109,6 @@ const CashoutForm = () => {
               />
             </div>
 
-            {/* Comment */}
             <div className="mb-3">
               <label className="form-label">Comment:</label>
               <textarea
@@ -124,7 +121,6 @@ const CashoutForm = () => {
               />
             </div>
 
-            {/* Fraud detection */}
             <div className="form-check mb-3">
               <input
                 className="form-check-input"
@@ -139,7 +135,6 @@ const CashoutForm = () => {
               </label>
             </div>
 
-            {/* Submit button */}
             <div className="d-grid">
               <button type="submit" className="btn btn-primary">
                 Submit

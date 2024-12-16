@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../AuthContext";
-
 const Login = () => {
   const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({
@@ -41,8 +40,8 @@ const Login = () => {
       localStorage.setItem("refresh", refresh);
       // const token = response.data.access_token;
       // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-      
+       
+       
       
       setMessage("Login successful!");
       navigate("/");

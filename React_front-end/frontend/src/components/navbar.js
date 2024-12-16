@@ -27,7 +27,6 @@ const MyNavbar =() =>  {
               <>
                 <Nav.Link href="/applied_jobs">Applied jobs</Nav.Link>
                 <Nav.Link href="/userprofile">User Profiles</Nav.Link>
-            <Nav.Link href="/add_balance">Add balance</Nav.Link>
             <button className="btn btn-link nav-link" onClick={handleLogout}>
                     Logout
                   </button>

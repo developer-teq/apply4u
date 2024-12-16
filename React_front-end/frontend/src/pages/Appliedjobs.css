@@ -1,0 +1,110 @@
+/* UserAppliedJobs.css */
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .card-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .table {
+    margin-bottom: 0;
+  }
+  
+  .badge {
+    font-size: 0.9rem;
+  }
+  
+  .alert {
+    font-size: 1.2rem;
+  }
+  
+  .text-center {
+    margin-top: 20px;
+  }
+  
+  .replies{
+    background-color:  rgb(1s89, 189, 199);
+    width: 80%;
+    align-self: flex-end;
+  }
+
+
+  /* for question, and replies chats */
+  
+  .chat-container {
+    max-width: 600px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: #f9f9f9;
+  }
+
+  .chat-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+    margin: 0;
+  }
+
+  .chat-box {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .chat-message {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  .staff-message {
+    background-color: #e2f0ff;
+    align-self: flex-start;
+    border-top-left-radius: 0;
+  }
+
+  .user-message {
+    background-color: #d4edda;
+    align-self: flex-end;
+    border-top-right-radius: 0;
+  }
+
+  .message-content {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .message-timestamp {
+    font-size: 12px;
+    color: #555;
+  }
+
+  .badge {
+    position: relative;
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+  }
+
+  .badge.bg-success {
+    background-color: #28a745;
+    color: white;
+  }
+
+  .badge.bg-warning {
+    background-color: #ffc107;
+    color: black;
+  }
+
+

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import JobListComponent from '../components/jobs_bysheet';
 const HomePage = () => {
 
   const openJobsPage = () => {
@@ -12,6 +13,7 @@ const HomePage = () => {
   };
   return (
     <>
+    <JobListComponent/>
      <div className='container-fluid '>
      <button className='btn btn-primary mx-4' onClick={openJobsPage}>Go to Jobs</button>
       <button className='btn btn-primary mx-4' onClick={openAdmissionsPage}>Go to Admissions</button>

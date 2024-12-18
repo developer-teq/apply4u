@@ -13,7 +13,6 @@ function ApplyJobPage() {
   const access = localStorage.getItem("access"); // Assume the token is already stored in localStorage
   const decoded = jwtDecode(access);
   const userId = decoded.user_id; 
-
   // Check overall eligibility
   const lastDate = new Date(main_job.lastdate);
   const isDatePassed = lastDate < new Date();
@@ -81,11 +80,7 @@ function ApplyJobPage() {
 
   return (
     <div className="container">
-      {message && (
-        <div className={`alert ${message.type === "success" ? "alert-success" : "alert-danger"}`}>
-          {message.text}
-        </div>
-      )}
+     
      
       <h1>
         <strong>{job.post_name}</strong> {main_job?.jobtitle}
@@ -179,14 +174,26 @@ function ApplyJobPage() {
             <input type="" name="job_id" value={job.id} />
 
             {/* <button type="submit" className="btn btn-primary" disabled={!full_eligible || loading || isDatePassed}> */}
-            <button type="submit" className="btn btn-primary">
-                      {loading ? "Applying..." : full_eligible ? "Apply Now" : "Not Eligible"}
-                    </button>
+            <button
+        type="submit"
+        className={`btn btn-primary ${loading ? "btn-loading" : ""}`}
+        disabled={!full_eligible || loading || isDatePassed} >
+        {loading
+          ? "Submitting..."
+          : message
+          ? `${message.text}` 
+          : "Apply Now"}
+      </button>
                     {isDatePassed && (
                       <p style={{ color: "red", marginTop: "10px" }}>
                         Date has passed
                       </p>
                     )}
+                     {message && (
+        <div className={`alert ${message.type === "success" ? "alert-success" : "alert-danger"}`}>
+          {message.text}
+        </div>
+      )}
           </form>
         </div>
       </div>

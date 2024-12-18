@@ -87,7 +87,6 @@ class ApplyToJobView(APIView):
         data = request.data
         user_id = data.get("user_id")
         job_id = data.get("job_id")
-        print(user_id, job_id)
 
         # Validate if the user exists
         try:
@@ -100,8 +99,6 @@ class ApplyToJobView(APIView):
             job = postdetail.objects.get(id=job_id)
         except postdetail.DoesNotExist:
             return Response({"message": "Job not found."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Check if the user has already applied to the job
         if appliedjobs.objects.filter(user=user, appliedtojob=job).exists():
             return Response({"message": "You have already applied for this job."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -134,7 +131,7 @@ class SignupView(APIView):
 
     def post(self, request):
      
-        print(secrets.token_urlsafe(32))
+        
 
         username = request.data.get('username')
         email = request.data.get('email')
@@ -224,6 +221,7 @@ class AskingQuestionView(APIView):
         # Serialize the data
         q_serializer = AskingQuestionSerializer(questions, many=True)
         r_serializer = UserRepliedSerializer(user_replies, many=True)
+        
 
         # Return the data in a structured format (separate questions and replies)
         return Response({

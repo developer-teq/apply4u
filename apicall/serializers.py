@@ -46,9 +46,11 @@ class CurrentJobsSerializer(serializers.ModelSerializer):
 
 class AppliedJobsSerializer(serializers.ModelSerializer):
     job_title = serializers.CharField(source='__str__', read_only=True)
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+
     class Meta:
         model = appliedjobs
-        fields = ['id', 'appliedtojob', 'timestamp', 'alldone', 'comment', 'status', 'ref_payment','job_title']
+        fields = ['id', 'appliedtojob', 'timestamp', 'alldone', 'comment', 'status_display', 'ref_payment','job_title']
 
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer

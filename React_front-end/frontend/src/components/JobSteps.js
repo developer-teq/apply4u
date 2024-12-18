@@ -42,12 +42,12 @@ const JobStepsReplies = ({ jobId }) => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="container">
+    <div className="new">
       <h3>Job Steps</h3>
       <ul className="list-group">
         {replies.map((reply) => (
           <li key={reply.id} className="list-group-item">
-            <strong>{reply.steps}</strong> - {reply.timestamp}
+            <strong>{reply.steps}</strong> - {new Date(reply.timestamp).toLocaleString()}
             {reply.alldone && <span className="badge bg-success ms-2">All Done</span>}
           </li>
         ))}

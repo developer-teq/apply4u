@@ -9,7 +9,6 @@ const BalanceRequests = () => {
 
   // JWT Token for Authorization
   const token = localStorage.getItem('jwtToken');
-
   // Fetch existing balance data on component mount
   useEffect(() => {
     const fetchBalanceData = async () => {

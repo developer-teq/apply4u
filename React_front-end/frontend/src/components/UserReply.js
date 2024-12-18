@@ -7,17 +7,15 @@ const SubmitReply = ({ jobId, onReplySubmitted }) => {
   const [extraDocument, setExtraDocument] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
-  const [replies, setReplies] = useState([]); // State to store replies
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setSuccess(null);
+ 
 
     const formData = new FormData();
-    formData.append('job', jobId); // Job ID is passed as a prop
+    formData.append('job', jobId);
     formData.append('userreply', userReply);
     if (extraDocument) {
       formData.append('extradocument', extraDocument);
@@ -36,25 +34,21 @@ const SubmitReply = ({ jobId, onReplySubmitted }) => {
         },
       });
 
-      setSuccess('Reply submitted successfully!');
+  
       setUserReply('');
       setExtraDocument(null);
 
-      // Capture the current time and add the new reply to the list
-      const currentTime = new Date().toLocaleString(); // Get the current time
-      setReplies((prevReplies) => [
-        ...prevReplies,
-        {
-          reply: userReply,
-          document: extraDocument ? extraDocument.name : null,
-          time: currentTime, // Store the timestamp
-        },
-      ]);
-
-      onReplySubmitted(); // Callback to refresh data or notify parent component
+      // Send the new reply to the parent component
+      onReplySubmitted({
+        type: 'reply',
+        userreply: userReply,
+        submitted:true,
+        // extradocument: extraDocument ? URL.createObjectURL(extraDocument) : null,
+        extradocument: response.data.extradocument,
+        timestamp: new Date().toISOString(),
+      });
     } catch (err) {
-        console.log(err)
-    //   setError('Failed to submit the reply. Please try again.');
+      setError('Failed to submit the reply. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -63,59 +57,39 @@ const SubmitReply = ({ jobId, onReplySubmitted }) => {
   return (
     <div className="container my-4">
       {error && <div className="alert alert-danger">{error}</div>}
-      {success && <div className="alert alert-success">{success}</div>}
-
-      {/* Display the list of submitted replies */}
-      <div className="mb-3">
-        {replies.length > 0 && (
-          <div>
-          
-            <ul className="list-group">
-              {replies.map((reply, index) => (
-                <li key={index} className="list-group-item">
-                  <strong>Reply:</strong> {reply.reply}
-                  {reply.document && (
-                    <div>
-                      <strong>Document:</strong> {reply.document}
-                    </div>
-                  )}
-                  <div className="text-muted" >
-                  {reply.time}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-         
+    
+      <form onSubmit={handleSubmit} className="d-flex align-items-center">
+        <div className="flex-grow-1">
           <textarea
             id="userReply"
             className="form-control"
-            placeholder='Reply here'
+            placeholder="Reply here"
             value={userReply}
             onChange={(e) => setUserReply(e.target.value)}
             rows="3"
             required
           ></textarea>
         </div>
-        <div className="mb-3">
-          <label htmlFor="extraDocument" className="form-label">
-            Upload Extra Document (Optional)
+       
+        <div className=""> <div className="">
+          <label htmlFor="extraDocument" className="btn btn-light border shadow-sm p-2 rounded-circle">
+            <i className="fa fa-paperclip" style={{ fontSize: "20px" }}></i>
           </label>
           <input
             type="file"
             id="extraDocument"
-            className="form-control"
+            className="d-none"
             onChange={(e) => setExtraDocument(e.target.files[0])}
           />
         </div>
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? 'Submitting...' : 'Submit Reply'}
-        </button>
+        <button type="submit" className="btn btn-primary submitbutton" disabled={loading}>
+  {loading ? (
+    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  ) : (
+    ""
+  )}
+</button>
+        </div>
       </form>
     </div>
   );

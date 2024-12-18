@@ -13,7 +13,12 @@ const UserAppliedJobs = () => {
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeJobId, setActiveJobId] = useState(null); // State to track the active job's chat
 
+  const toggleQuestions = (jobId) => {
+    // Toggle the active job's chat visibility
+    setActiveJobId((prevJobId) => (prevJobId === jobId ? null : jobId));
+  };
 
   useEffect(() => {
     const fetchAppliedJobs = async () => {
@@ -48,7 +53,8 @@ const UserAppliedJobs = () => {
   }
 
   return (
-    <div className="container my-5">
+    <div className="container">
+    {console.log('data is loaded ')}
        <BalanceRequests />
        <BillingComponent />
        <CashoutForm />
@@ -59,6 +65,8 @@ const UserAppliedJobs = () => {
         <div className="card-body">
           {appliedJobs.length > 0 ? (
             <div className="table-responsive">
+              {appliedJobs.map((job) => (
+                    <>
               <table className="table table-striped table-hover">
                 <thead className="table-primary">
                   <tr>
@@ -70,36 +78,58 @@ const UserAppliedJobs = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {appliedJobs.map((job) => (
-                    <>
+                  
                     <tr key={job.id}>
                       <td>{job.id}</td>
                       <td>{job.job_title}</td>
                       <td>{new Date(job.timestamp).toLocaleDateString()}</td>
-                      <td><span className={`badge ${job.status === 'Accepted' ? 'bg-success' : 'bg-warning'}`}>{job.status}</span></td>
+                      <td>
+                          <span className={`badge ${job.status_display === 'registeration done'
+                              ? 'bg-success'
+                              : job.status_display === 'registeration_started'
+                                ? 'bg-primary'
+                                : job.status_display === 'pending'
+                                  ? 'bg-warning'
+                                  : 'bg-danger'
+                            }`}>
+                            {job.status_display}
+                          </span>
+                          </td>
                       <td>{job.comment || "No comments"}</td>
                     </tr>
-                    <tr>
-                    <JobStepsReplies jobId={job.id}/>
-                    <AskingQuestions jobId={job.id} />
-                  
-                    <SubmitReply jobId={job.id} />
-
-                    </tr>
                    
-                     
-                    
-                     
-                    </>
-                  ))}
-                </tbody>
+                 
+                </tbody> 
+              
               </table>
+              <hr />
+              <JobStepsReplies jobId={job.id}/>
+
+                  <button
+                    onClick={() => toggleQuestions(job.id)}
+                    className="btn btn-primary"
+                  >
+                    {activeJobId === job.id ? "Hide" : "Chat with staff"}
+                  </button>
+
+                  {/* Conditionally Render AskingQuestions Component */}
+                  {activeJobId === job.id && (
+                    <div className="asking-questions-container">
+                      <AskingQuestions jobId={job.id} />
+                    </div>
+                  )}
+             
+<hr />
+<hr />
+              </>
+                  ))}
             </div>
           ) : (
             <p className="text-center text-muted">You have not applied to any jobs yet.</p>
           )}
         </div>
       </div>
+      
     </div>
   );
 };

@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { refreshAccessToken } from './refreshAccessToken';
 
-const BalanceRequests = () => {
+const BalanceRequests = ({newbalanceData}) => {
   const [balanceData, setBalanceData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    if (newbalanceData) {
+      setBalanceData((prevData) => [...prevData, newbalanceData]);
+    }
+  }, [newbalanceData]);
   // JWT Token for Authorization
   const token = localStorage.getItem('jwtToken');
   // Fetch existing balance data on component mount
@@ -16,7 +21,7 @@ const BalanceRequests = () => {
         let token = await refreshAccessToken();
         if (!token) {
           throw new Error("Failed to refresh token.");
-        }
+        } 
         const response = await axios.get('http://127.0.0.1:8000/apicall/adding-balance/', {
           headers: {
             'Authorization': `Bearer ${token}`

@@ -15,6 +15,7 @@ function JobListComponent() {
     const fetchJobs = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:8000/apicall/");
+        console.log(response)
         setJobs(response.data.results); // Assuming the API returns an array in `results`
         setLoading(false);
       } catch (err) {
@@ -26,6 +27,23 @@ function JobListComponent() {
     fetchJobs();
   }, []);
 
+// addate
+// adpic
+// details
+// full_add
+// id
+// jobtitle
+// lastdate
+// meta_discription
+// newspaper
+// oraganizational_data
+// posts
+// sector
+// sectorinfo
+// sectorlogo
+// slug
+// timestamp
+// work
   // Loading or error state
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -55,17 +73,23 @@ function JobListComponent() {
               {main_job.jobtitle}
             </Card.Header>
 
-            <Card.Body>
-              {main_job.adpic && (
+            <Card.Body className="card-box">
+              {/* {main_job.adpic && (
                 <img className="img-fluid" src={main_job.adpic} alt="Job Ad" />
-              )}
-              <Card.Title>{main_job.posts}</Card.Title>
-              <ListGroup horizontal className="w-100 flex-wrap flex-md-nowrap">
-                <ListGroup.Item>{main_job.newspaper}</ListGroup.Item>
-                <ListGroup.Item>Posted on: {main_job.addate}</ListGroup.Item>
-                <ListGroup.Item>Last date: {main_job.lastdate}... {isDatePassed && (<p style={{ color: "red", marginTop: "10px" }}>Date has passed</p>
+              )} */}
+              <Card.Title> {main_job.posts.split(',').map((post, index) => (
+    <Button key={index} variant="outline-success" className="m-1">
+      {post.trim()}
+    </Button>
+  ))}</Card.Title>
+              <div>
+              <ListGroup horizontal className="job-list-card flex-wrap">
+                <ListGroup.Item><span className="bold-text">Advertised in </span>{main_job.newspaper}</ListGroup.Item>
+                <ListGroup.Item><span className="bold-text">Posted on: </span>{main_job.addate}</ListGroup.Item>
+                <ListGroup.Item><span  className="bold-text">Last date: </span>{main_job.lastdate}... {isDatePassed && (<p style={{ color: "red", marginTop: "10px" }}>Date has passed</p>
               )}</ListGroup.Item>
-              </ListGroup>
+              </ListGroup></div>
+              <div>
 
               {/* Button to navigate to job details */}
               <Button
@@ -74,7 +98,7 @@ function JobListComponent() {
                  // Disable the button if the date is passed
               >
                 Detail jobs
-              </Button>
+              </Button></div>
 
             </Card.Body>
           </Card>

@@ -4,8 +4,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { refreshAccessToken } from "./refreshAccessToken";
 
-const CashoutForm = () => {
-  const [message, setMessage] = useState(null);
+const CashoutForm = ({addBalanceRequest}) => {
   const [formData, setFormData] = useState({
     payment_adding: 0,
     paymentMethod: "JazzCash",
@@ -13,7 +12,7 @@ const CashoutForm = () => {
     comment: "",
     fraudingperson: false,
   });
-
+  const [message, setMessage] = useState(null);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -40,8 +39,9 @@ const CashoutForm = () => {
           },
         }
       );
-
+      addBalanceRequest({ ...formData, id: response.data.id, timestamp: new Date() });
       setMessage({ type: "success", text: response.data.message });
+      
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||

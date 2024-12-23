@@ -22,6 +22,7 @@ const PersonalForm = () => {
     My_Father_is: 'alive',
   });
   const [jobRegions, setJobRegions] = useState([]); 
+  const [Message, setMessage] = useState([]); 
   const [educationCategories, setEducationCategories] = useState([]); 
   useEffect(() => {
     const fetchDataWithToken = async () => {
@@ -135,12 +136,14 @@ const PersonalForm = () => {
       alert('your data is saved ');
       localStorage.setItem('formData', JSON.stringify(formData));
     } catch (error) {
+      setMessage('pleas fill all feilds ')
       console.error('There was an error submitting the form!', error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="container mt-4">
+
       <div className="mb-3">
         <label className="form-label">Full Name</label>
         <input 
@@ -164,6 +167,7 @@ const PersonalForm = () => {
       </div>
 
       <div className="mb-3">
+        
         <label className="form-label">Domicile</label>
         <select name="domicile" className="form-select" value={formData.domicile.id || ""}  onChange={handleChange}>
           <option value="">Select Domicile</option>
@@ -254,7 +258,7 @@ const PersonalForm = () => {
           <option value="not alive">Not Alive</option>
         </select>
       </div>
-
+<h3>{ Message}</h3>
       <button type="submit" className="btn btn-primary">Submit</button>
     </form>
   );

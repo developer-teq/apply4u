@@ -8,13 +8,18 @@ import BillingComponent from "../components/billing";
 import BalanceRequests from "../components/BalanceRequests";
 import JobStepsReplies from "../components/JobSteps";
 import AskingQuestions from "../components/AskingQuestions";
-import SubmitReply from "../components/UserReply";
+// import SubmitReply from "../components/UserReply";
+import Button from '../components/Button';
+
 const UserAppliedJobs = () => {
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeJobId, setActiveJobId] = useState(null); // State to track the active job's chat
-
+  const [balanceData, setBalanceData] = useState([]);
+  const addBalanceRequest = (newRequest) => {
+    setBalanceData((prevData) => [newRequest, ...prevData]);
+  };
   const toggleQuestions = (jobId) => {
     // Toggle the active job's chat visibility
     setActiveJobId((prevJobId) => (prevJobId === jobId ? null : jobId));
@@ -55,9 +60,10 @@ const UserAppliedJobs = () => {
   return (
     <div className="container">
     {console.log('data is loaded ')}
-       <BalanceRequests />
-       <BillingComponent />
-       <CashoutForm />
+      <BillingComponent />
+      <hr />
+      <BalanceRequests balanceData={balanceData} />
+       <CashoutForm addBalanceRequest={addBalanceRequest} />
       <div className="card shadow-lg">
         <div className="card-header bg-primary text-white text-center">
           <h1>My Applied Jobs</h1>
@@ -104,13 +110,11 @@ const UserAppliedJobs = () => {
               </table>
               <hr />
               <JobStepsReplies jobId={job.id}/>
-
-                  <button
-                    onClick={() => toggleQuestions(job.id)}
-                    className="btn btn-primary"
-                  >
-                    {activeJobId === job.id ? "Hide" : "Chat with staff"}
-                  </button>
+              <Button  onClick={() => toggleQuestions(job.id)} text={activeJobId === job.id ? "Hide" : "Chat with staff"} >
+              {activeJobId === job.id ? "Hide" : "Chat with staff"}
+              </Button>
+             
+                  
 
                   {/* Conditionally Render AskingQuestions Component */}
                   {activeJobId === job.id && (

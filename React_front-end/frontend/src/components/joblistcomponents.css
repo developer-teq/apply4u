@@ -7,3 +7,18 @@
   width: 100%;
   height: auto;
 }
+.card-body{
+  display: flex;
+      /* flex-direction: row; */
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+
+      
+          flex-direction: column;
+          flex-wrap: wrap;
+          align-items: flex-start;
+}
+.bold-text{
+  font-weight: 600;
+}

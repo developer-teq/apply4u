@@ -21,7 +21,7 @@ function JobListComponent() {
         // Read the Excel file using XLSX
         const workbook = XLSX.read(arrayBuffer, { type: 'array' });
         const worksheet = workbook.Sheets[workbook.SheetNames[0]]; // Get the first sheet
-        const data = XLSX.utils.sheet_to_json(worksheet); // Convert it to JSON
+        const data = XLSX.utils.sheet_to_json(worksheet); 
         
         setJobs(data); 
         console.log(data)// Store the parsed Excel data as jobs

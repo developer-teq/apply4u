@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { checkEligibility } from "../components/my_utilities";
-
+import { Button } from "react-bootstrap";
 import { jwtDecode } from 'jwt-decode'; // Use the named import
 function ApplyJobPage() {
   const location = useLocation();
@@ -23,30 +23,46 @@ function ApplyJobPage() {
     console.error("No user data found in sessionStorage.");
     return false;
   }
-
   const parsedUserData = JSON.parse(userstoreddata);
-
   function checkeligible(array, value) {
-    console.log(array, value)
+   
     // Check if the value exists in the array
-    return array.includes(Number(value)) ? "Eligible" : "Not Eligible";
+    return array.includes(Number(value)) ? (
+      <span style={{ color: "green", fontSize: "1.2em" }}>✔️</span>
+    ) : (
+      <span style={{ color: "red", fontSize: "1.2em" }}>❌</span>
+    );
+
+    
 }
 
   const isEligible = (jobValue, parsedUserData, type) => {
     switch (type) {
       case "qualification":
       case "domicile":
-        return jobValue.includes(parsedUserData) ? "Eligible" : "Not Eligible";
+        return jobValue.includes(parsedUserData) ?(
+    <span style={{ color: "green", fontSize: "1.2em" }}>✔️</span>
+  ) : (
+    <span style={{ color: "red", fontSize: "1.2em" }}>❌</span>
+  );
       case "gender":
-        return jobValue === parsedUserData || jobValue === "Both" ? "Eligible" : "Not Eligible";
+        return jobValue === parsedUserData || jobValue === "Both" ?(
+    <span style={{ color: "green", fontSize: "1.2em" }}>✔️</span>
+  ) : (
+    <span style={{ color: "red", fontSize: "1.2em" }}>❌</span>
+  );
       case "age":
         const userAge = new Date().getFullYear() - new Date(parsedUserData).getFullYear();
-        return userAge >= jobValue.min && userAge <= jobValue.max ? "Eligible" : "Not Eligible";
+        return userAge >= jobValue.min && userAge <= jobValue.max ?(
+    <span style={{ color: "green", fontSize: "1.2em" }}>✔️</span>
+  ) : (
+    <span style={{ color: "red", fontSize: "1.2em" }}>❌</span>
+  );
       default:
         return "Not Applicable";
     }
   };
-
+console.log(message)
   // Form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,14 +73,14 @@ function ApplyJobPage() {
       job_id: job.id,
       user_id:userId
     };
-
+console.log(formData)
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/apicall/apply-to-job/",
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
-      setMessage({ type: "success", text: response.message });
+      setMessage({ type: "success", text: 'Applied on jobs' });
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "An unexpected error occurred. Please try again.";
@@ -94,21 +110,40 @@ function ApplyJobPage() {
               <tr>
                 <th>Requirement</th>
                 <th>Job Data</th>
-                <th>User Data</th>
+                <th>Your Data</th>
                 <th>Eligibility</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Qualification</td>
-                <td>{job.qualification_req.map((q) => q.education).join(", ")}</td>
+                <td>{job.qualification_req.map((qual, index) => (
+                      <Button
+                        key={index}
+                        variant="outline-primary"
+                        className="m-1 p-1"
+                        style={{ fontSize: '0.6rem' }}
+
+                      >
+                        {qual.education}
+                      </Button>
+                    ))}</td>
                 <td>{parsedUserData.qualific.name}</td>
                <td>{checkeligible(job.whocanapply.map((q) => q.id), parsedUserData.qualific.id)}</td>
 
               </tr>
               <tr>
                 <td>Domicile</td>
-                <td>{job.post_regions.map((r) => r.regions).join(", ")}</td>
+                <td>{job.post_regions.map((region, index) => (
+                      <Button
+                        key={index}
+                        variant="outline-secondary"
+                        className="m-1 p-1"
+                        style={{ fontSize: '0.6rem' }}
+                      >
+                        {region.regions}
+                      </Button>
+                    ))}</td>
                 <td>{parsedUserData.domicile.name} </td>
                 <td>{isEligible(job.post_regions.map((r) => r.id), parsedUserData.domicile.id, "domicile")}</td>
               </tr>
@@ -121,7 +156,8 @@ function ApplyJobPage() {
               <tr>
                 <td>Age</td>
                 <td>
-                  {job.min_age} --- {job.max_age}
+                 {job.min_age && <span>Min Age: {job.min_age}</span>}
+  {job.max_age && <span> Max Age: {job.max_age}</span>}
                 </td>
                 <td>{new Date().getFullYear() - new Date(parsedUserData.Dateofbirth).getFullYear()}</td>
                 <td>{isEligible({ min: job.min_age, max: job.max_age }, parsedUserData.Dateofbirth, "age")}</td>
@@ -170,9 +206,7 @@ function ApplyJobPage() {
           </table>
 
           <form onSubmit={handleSubmit}>
-            <input type="" name="user_id" value={userId} />
-            <input type="" name="job_id" value={job.id} />
-
+          
             {/* <button type="submit" className="btn btn-primary" disabled={!full_eligible || loading || isDatePassed}> */}
             <button
         type="submit"

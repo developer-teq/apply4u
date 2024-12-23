@@ -2,9 +2,12 @@ import { useParams } from 'react-router-dom';
 import { useLocation, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { checkEligibility } from '../components/my_utilities';
+import { Button } from "react-bootstrap";
 import axios from "axios";
 
 function JobDetailsPage() {
+  const [showFullImage, setShowFullImage] = useState(false);
+
   const { jobslug } = useParams(); // Get jobslug from URL (if needed)
   const [JobDetails, setJobDetails] = useState([]); // Store the list of jobs
   const [loading, setLoading] = useState(true); // Loading state
@@ -34,12 +37,31 @@ const [UserData, setUserData] = useState({
   return (
     <div className="container">
      
-      <div className="row">
+      <div className="row detail-job-row">
         <h5 className="card-title">{main_job?.jobtitle || 'Job Details'}</h5>
         <p className="card-text">{main_job?.posts || 'Job description is not available.'}</p>
         {main_job.adpic && (
-              <img className="img-fluid" src={main_job.adpic} alt="Job Ad" />
-            )}
+        <>
+          
+          <Button
+            variant="primary"
+            className="mt-2"
+            onClick={() => setShowFullImage(!showFullImage)}
+          >
+            {showFullImage ? "Hide Full Ad" : "View Full Ad"}
+          </Button>
+          {showFullImage && (
+            <div className="mt-3">
+              <img
+                src={main_job.adpic}
+                alt="Full Job Ad"
+                className="img-fluid"
+              />
+            </div>
+          )}
+        </>
+      )}
+        <hr />
         <hr />
         {main_job.details.map((job, index) => {
           const lastDate = new Date(main_job.lastdate);
@@ -48,22 +70,50 @@ const [UserData, setUserData] = useState({
           const full_eligible = checkEligibility(job);
          
           return (<>
-           
-            
-            <div className="col-md-4" key={index}>{job.cropedad && (
-              
+
+
+            <div className="col-md-4 job-box" key={index}>{job.cropedad && (
+
               <img className="img-fluid" src={job.cropedad} alt="Job Ad" />
             )}
-            
+
               <div className="card mb-4">
                 <div className="card-body">
                   <h5 className="card-title">{job.title}</h5>
-                  <p className="card-text"> Qualifications required: {job.qualification_req.map(qual => qual.education).join(', ')}</p>
+                  <div className="bold-text">
+                   Qualifications:
+                    {job.qualification_req.map((qual, index) => (
+                      <Button
+                        key={index}
+                        variant="outline-primary"
+                        className="m-1 p-1"
+                        style={{ fontSize: '0.6rem' }}
+
+                      >
+                        {qual.education} 
+                      </Button>
+                    ))}
+                  </div>
                   {/* <p className="card-text"> Qualifications required ids: {job.qualification_req.map(qual => qual.id).join(', ')}</p> */}
                   {/* <p className="card-text"> who can apply: {job.whocanapply.map(qual => qual.education).join(', ')}</p> */}
                   {/* <p className="card-text"> who can apply_id: {job.whocanapply.map(qual => qual.id).join(', ')}</p> */}
-                  <p className="card-text"> Regions: {job.post_regions.map(region => region.regions).join(', ')} </p>
-                  {/* <p className="card-text"> Regions_ids: {job.post_regions.map(region => region.id).join(', ')} </p> */}
+                  <div className=" bold-text  flex-wrap">
+                    Regions:
+                    {job.post_regions.map((region, index) => (
+                      <Button
+                        key={index}
+                        variant="outline-secondary"
+                        className="m-1 p-1"
+                        style={{ fontSize: '0.6rem' }}
+                      >
+                        {region.regions}
+                      </Button>
+                    ))}
+                  </div> 
+                
+                  <p className=""><span className='bold-text'>Gender: </span>{job.jobs_for}</p>
+                  <p className=""><span className='bold-text'>Max-age:</span> {job.max_age}</p>  
+                  
                   <div className="container mt-5">
    <table className="table table-bordered table-striped">
         <thead className="table-dark">
@@ -106,8 +156,7 @@ const [UserData, setUserData] = useState({
     </div>
 
 
-                  <p className="card-text">Gender: {job.jobs_for}</p>
-                  <p className="card-text">Age Range: {job.min_age}   :{job.max_age}</p>
+                  
                   <p className="card-text">
                     {full_eligible ? (
                       <span className="text-success">You are eligible for this job.</span>

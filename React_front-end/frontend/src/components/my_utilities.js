@@ -20,8 +20,7 @@ export const checkEligibility = (job) => {
   const parsedUserData = JSON.parse(userData);
 
   // Log the parsed user data for debugging
-  console.log("User Data from sessionStorage:", parsedUserData);
-
+  
   // Validate required fields in parsedUserData
   if (
     !parsedUserData.Dateofbirth ||
@@ -42,18 +41,6 @@ export const checkEligibility = (job) => {
   const postRegions = job.post_regions.map((r) => r.id);
 
   // Log the job data for debugging
-  console.log("Job Data:", job);
-  console.log("Extracted Job Requirements:");
-  console.log("Qualifications Required:", qualificationsRequired);
-  console.log("Who Can Apply IDs:", whoCanApply);
-  console.log("Post Regions IDs:", postRegions);
-
-  // Debugging logs for conditions
-  console.log("Calculated User Age:", userAge);
-  console.log("User Qualification:", parsedUserData.qualific);
-  console.log("User Domicile:", parsedUserData.domicile);
-  console.log("User Gender:", parsedUserData.gender);
-  console.log("Job Target Gender:", job.jobs_for);
 
   // Eligibility checks
   const isEligible =
@@ -64,7 +51,34 @@ export const checkEligibility = (job) => {
     userAge <= job.max_age;
 
   // Log the final result of the eligibility check
-  console.log("Eligibility Check Result:", isEligible);
-
+ 
   return isEligible;
 };
+
+
+export const saveJobApplication = (jobId, userId) => {
+  // Retrieve stored user data
+  let userstoreddata = JSON.parse(localStorage.getItem('formData')) || {};
+
+  // Check if 'applied_jobs' key exists, if not initialize it as an array
+  if (!Array.isArray(userstoreddata.applied_jobs)) {
+    userstoreddata.applied_jobs = [];
+  }
+
+  // Add new job application data
+  const newJobApplication = {
+    job_id: jobId,
+    user_id: userId,
+  };
+
+  // Check for duplicates before adding
+  if (!userstoreddata.applied_jobs.some(job => job.job_id === jobId)) {
+    userstoreddata.applied_jobs.push(newJobApplication);
+  }
+
+  // Save the updated data back to localStorage
+  localStorage.setItem('formData', JSON.stringify(userstoreddata));
+
+  console.log('Updated userstoreddata:', userstoreddata);
+};
+

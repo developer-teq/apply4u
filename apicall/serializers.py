@@ -1,5 +1,7 @@
-from rest_framework import serializers
-from applyforjob.models import currentjobs, postdetail,education_category,jobregion,appliedjobs,personal,addingbalance,billing, askingquestion, jobstepsreplies,userreplied
+
+from rest_framework import serializers, viewsets
+
+from applyforjob.models import currentjobs,appliedcertificates, postdetail,education_category,jobregion,appliedjobs,personal,addingbalance,billing, askingquestion, jobstepsreplies,userreplied
 from django.contrib.auth import authenticate 
 class EducationCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -51,6 +53,17 @@ class AppliedJobsSerializer(serializers.ModelSerializer):
     class Meta:
         model = appliedjobs
         fields = ['id', 'appliedtojob', 'timestamp', 'alldone', 'comment', 'status_display', 'ref_payment','job_title']
+
+
+
+class AppliedCertificatesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = appliedcertificates
+        fields = '__all__'
+
+
+
+
 
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer

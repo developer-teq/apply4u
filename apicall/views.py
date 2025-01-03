@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework.decorators import api_view
-from applyforjob.models import currentjobs,postdetail,appliedjobs,jobregion,education_category,personal,billing,addingbalance,jobstepsreplies,askingquestion,userreplied
-from .serializers import CurrentJobsSerializer,PostDetailSerializer,AppliedJobsSerializer,PersonalSerializer,JobRegionSerializer,EducationCategorySerializer,AddingBalanceSerializer
+from applyforjob.models import currentjobs,postdetail,appliedjobs,appliedcertificates,jobregion,education_category,personal,billing,addingbalance,jobstepsreplies,askingquestion,userreplied
+from .serializers import CurrentJobsSerializer,PostDetailSerializer,AppliedJobsSerializer,PersonalSerializer,AppliedCertificatesSerializer,JobRegionSerializer,EducationCategorySerializer,AddingBalanceSerializer
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
@@ -114,18 +114,30 @@ class AppliedJobsView(ListAPIView):
 
     def get_queryset(self):
         # Filter applied jobs for the currently authenticated user
-        print(appliedjobs.objects.filter(user_id=self.request.user.id))
         return appliedjobs.objects.filter(user_id=self.request.user.id)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
-        print(serializer.data)  # Logs the serialized response
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
+class AppliedCertificatesViewSet(viewsets.ModelViewSet):
+    queryset = appliedcertificates.objects.all()
+    serializer_class = AppliedCertificatesSerializer
+
+    def get_queryset(self):
+        job_id = self.request.query_params.get('job_id')
+        if job_id:
+            return self.queryset.filter(appliedjob_id=job_id)
+        return self.queryset
+
 
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
-import secrets
+
 class SignupView(APIView):
     permission_classes = [AllowAny]
 
@@ -238,7 +250,41 @@ class AskingQuestionView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class AppliedCertificates(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request, job_id=None):
+        try:
+            if job_id:
+                # Fetch certificates based on job_id
+                job_cert = appliedcertificates .objects.filter(appliedjob_id=job_id)
+
+                # Check if certificates are found
+                if not job_cert:
+                    return Response(
+                        {'detail': 'No certificates found for this job.'},
+                        status=status.HTTP_404_NOT_FOUND
+                    )
+
+                # Serialize the data
+                job_cert_serialized = AppliedCertificatesSerializer(job_cert, many=True)
+
+                # Return the data
+                return Response({
+                    'job_certificates': job_cert_serialized.data
+                }, status=status.HTTP_200_OK)
+
+            return Response(
+                {'detail': 'Job ID is required.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        except Exception as e:
+            # Handle unexpected errors
+            return Response(
+                {'detail': f'An error occurred: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 class UserRepliedView(APIView):
     permission_classes = [IsAuthenticated]
     parser_classes = (MultiPartParser, FormParser)

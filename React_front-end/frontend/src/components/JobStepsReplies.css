@@ -1,0 +1,70 @@
+.job-steps-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #0077b6;
+    border-radius: 10px;
+    background: #f0f8ff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    text-align: center;
+    color: #0077b6;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .job-steps-list {
+    list-style: none;
+    padding: 0;
+    counter-reset: step-counter;
+  }
+  
+  .job-step-item {
+    counter-increment: step-counter;
+    background: #caf0f8;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #90e0ef;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .job-step-item::before {
+    /* content: counter(step-counter) "."; */
+    font-weight: bold;
+    color: #023e8a;
+    margin-right: 10px;
+  }
+  
+  .step-number {
+    font-size: 1.1rem;
+    color: #03045e;
+  }
+  
+  .timestamp {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .badge {
+    padding: 5px 10px;
+    background: #48cae4;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+  
+  .loading,
+  .error {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #0077b6;
+    margin-top: 20px;
+  }
+  

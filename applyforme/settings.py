@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'applyforjob',
     'crispy_forms',
+    'crispy_bootstrap5',
     "registerme",
     "refferals",
     "rest_framework",
@@ -122,6 +123,7 @@ DATABASES = {
     }
 }
 
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

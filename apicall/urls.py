@@ -23,7 +23,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .views import CurrentJobsListCreateAPIView, CurrentJobsDetailAPIView, PostDetailViewSet,ApplyToJobView,SignupView,AppliedJobsView,JobRegionList, EducationCategoryView
 from .serializers import EmailTokenObtainPairSerializer
-from .views import PersonalCreateView,AddingBalanceAPI,BillingView,JobStepsRepliesView,AskingQuestionView,UserRepliedView
+from .views import PersonalCreateView,AddingBalanceAPI,BillingView,JobStepsRepliesView,AskingQuestionView, AppliedCertificates, UserRepliedView
 from rest_framework_simplejwt.views import TokenVerifyView
 
 
@@ -52,6 +52,7 @@ urlpatterns = [
     path('applied_jobs/', AppliedJobsView.as_view(), name='AppliedJobsView'),
     path('jobstepsreplies/<int:job_id>/', JobStepsRepliesView.as_view(), name='jobstepsreplies_by_job'),
     path('askingquestions/<int:job_id>/', AskingQuestionView.as_view(), name='askingquestions_by_job'),
+    path('applied-certificates/<int:job_id>/', AppliedCertificates.as_view(), name='applied-certificates'),
     path('userreplied/', UserRepliedView.as_view(), name='userreplies'),
 
 
